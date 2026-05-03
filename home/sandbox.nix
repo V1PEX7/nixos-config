@@ -35,7 +35,7 @@ let
   telegram = mkSandbox {
     name = "telegram-desktop";
     package = pkgs.telegram-desktop;
-    binPath = "bin/telegram-desktop";
+    binPath = "bin/Telegram";
     rwPaths = [
       "${home}/.local/share/TelegramDesktop"
       "${home}/.cache/TelegramDesktop"
