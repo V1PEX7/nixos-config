@@ -51,7 +51,7 @@
       globalcolor = "0xb153a7ff";
       overlaycolor = "0x14a57cff";
       maximizescreencolor = "0x89aa61ff";
-      border_radius = 5;
+      border_radius = 0;
       no_radius_when_single = 0;
       no_border_when_single = 0;
       focused_opacity = 1.0;
@@ -77,7 +77,7 @@
       blur_params_contrast = 0.89;
       blur_params_saturation = 1.2;
 
-      animations = 1;
+      animations = 0;
       layer_animations = 1;
       animation_type_open = "slide";
       animation_type_close = "slide";

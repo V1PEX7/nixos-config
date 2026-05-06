@@ -30,7 +30,7 @@
 
       border = {
         width = 1;
-        radius = 8;
+        radius = 0;
       };
 
       dmenu = {
