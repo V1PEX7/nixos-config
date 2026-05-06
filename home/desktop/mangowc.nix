@@ -33,8 +33,11 @@
       cursor_size = 20;
       sloppyfocus = 1;
       warpcursor = 1;
-      accel_profile = 0;
-      accel_speed = 0.0;
+
+      mouse_accel_profile = 0;
+      mouse_accel_speed = 0.0;
+      trackpad_accel_profile = 0;
+      trackpad_accel_speed = 0.0;
 
       gappih = 2;
       gappiv = 2;

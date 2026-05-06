@@ -18,10 +18,8 @@ in
     services.displayManager.enable = false;
 
     services.xserver.upscaleDefaultCursor = false;
-    services.upower.enable = true;
 
     programs.dconf.enable = true;
-    services.gvfs.enable = true;
     services.udisks2.enable = true;
     services.tumbler.enable = true;
 

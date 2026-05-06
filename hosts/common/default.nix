@@ -33,6 +33,7 @@
   documentation.nixos.enable = false;
   documentation.man.enable = false;
   programs.command-not-found.enable = false;
+  systemd.oomd.enable = false;
 
   users.users.xnp = {
     isNormalUser = true;

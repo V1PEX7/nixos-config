@@ -40,7 +40,6 @@ in
       (lib.mkIf cfg.gaming.enable {
         programs.steam = {
           enable = true;
-          gamescopeSession.enable = true;
           extraCompatPackages = with pkgs; [
             proton-ge-bin
           ];
@@ -49,9 +48,9 @@ in
         services.lact.enable = true;
 
         environment.systemPackages = with pkgs; [
-          mangohud
-          goverlay
-          steam-run
+          # mangohud
+          # goverlay
+          # steam-run
         ];
       })
 
