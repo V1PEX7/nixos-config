@@ -11,7 +11,7 @@
               auto_format     "no"
               auto_channels   "no"
             }
-            mixer_type      "none"
+            mixer_type      "software"
     '';
   };
 
