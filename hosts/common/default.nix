@@ -15,6 +15,7 @@
 
   services.printing.enable = false;
   services.speechd.enable = false;
+  services.geoclue2.enable = false;
 
   security.sudo.enable = false;
   security.doas = {
