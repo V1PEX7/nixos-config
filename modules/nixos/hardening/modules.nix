@@ -32,6 +32,10 @@ in
       "spi_nor"
 
       "8250_dw"
+
+      "esp4"
+      "esp6"
+      "rxrpc"
     ];
   };
 }
