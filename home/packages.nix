@@ -27,7 +27,6 @@
         thumbfast
       ];
     })
-    obs-studio
 
     brightnessctl
 
