@@ -17,7 +17,7 @@
     pavucontrol
     file-roller
 
-    bitwarden-desktop
+    keepassx2c
 
     vlc
     (mpv.override {
