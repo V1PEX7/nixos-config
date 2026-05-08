@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
   cfg = config.modules.hardening.modules;
 in
@@ -37,5 +42,11 @@ in
       "esp6"
       "rxrpc"
     ];
+
+    boot.extraModprobeConfig = ''
+      install esp4 ${pkgs.coreutils}/bin/false
+      install esp6 ${pkgs.coreutils}/bin/false
+      install rxrpc ${pkgs.coreutils}/bin/false
+    '';
   };
 }
