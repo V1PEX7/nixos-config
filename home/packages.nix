@@ -17,7 +17,7 @@
     pavucontrol
     file-roller
 
-    keepassx2c
+    keepassxc
 
     vlc
     (mpv.override {
