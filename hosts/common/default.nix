@@ -14,6 +14,7 @@
   boot.tmp.cleanOnBoot = true;
 
   services.printing.enable = false;
+  services.speechd.enable = false;
 
   security.sudo.enable = false;
   security.doas = {
