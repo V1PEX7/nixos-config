@@ -33,15 +33,15 @@ in
       ];
 
       modules-center = [
-        "idle_inhibitor"
+        "privacy"
         "clock"
       ];
 
       modules-right = [
-        "network"
         "tray"
+        "network"
         "backlight"
-        "bluetooth"
+        #"bluetooth"
         "pulseaudio"
         "power-profiles-daemon"
         "memory"
@@ -87,12 +87,22 @@ in
         ];
       };
 
-      idle_inhibitor = {
-        format = "{icon}";
-        format-icons = {
-          activated = "";
-          deactivated = "";
-        };
+      privacy = {
+        icon-spacing = 4;
+        icon-size = 16;
+        transition-duration = 250;
+        modules = [
+          {
+            type = "screenshare";
+            tooltip = true;
+            tooltip-icon-size = 24;
+          }
+          {
+            type = "audio-in";
+            tooltip = true;
+            tooltip-icon-size = 24;
+          }
+        ];
       };
 
       clock = {
@@ -315,7 +325,6 @@ in
       #mpris,
       #network,
       #pulseaudio,
-      #idle_inhibitor,
       #power-profiles-daemon,
       #tray,
       #bluetooth,
@@ -337,7 +346,6 @@ in
       #window,
       #memory,
       #clock,
-      #idle_inhibitor,
       #custom-keyboard {
         background-color: #27272a;
       }
@@ -428,19 +436,6 @@ in
         color: #000;
       }
 
-      #idle_inhibitor {
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
-        color: #e6d8ba;
-      }
-
-      #idle_inhibitor.activated {
-        color: #178b76;
-        animation-name: blink-inhibitor;
-        animation-duration: 1s;
-      }
-
       @keyframes blink-inhibitor {
         to {
           color: @background;
@@ -448,14 +443,10 @@ in
       }
 
       #mpris {
+        background-color: #27272a;
+        color: #e6d8ba;
         font-size: 13px;
         margin: 3px 2px;
-        animation: repeat;
-        animation-name: blink;
-        animation-duration: 3s;
-        animation-timing-function: linear;
-        animation-iteration-count: infinite;
-        animation-direction: alternate;
       }
 
       tooltip {
