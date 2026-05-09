@@ -1,4 +1,7 @@
 { ... }:
+let
+  t = import ../theme.nix;
+in
 {
   programs.fuzzel = {
     enable = true;
@@ -19,13 +22,13 @@
       };
 
       colors = {
-        background = "1e1e2eee";
-        text = "cdd6f4ff";
-        match = "f5c2e7ff";
-        selection = "585b70ff";
-        selection-text = "cdd6f4ff";
-        selection-match = "f5c2e7ff";
-        border = "b4befeff";
+        background = t.fuzzel.bg;
+        text = t.fuzzel.text;
+        match = t.fuzzel.match;
+        selection = t.fuzzel.selection;
+        selection-text = t.fuzzel.selText;
+        selection-match = t.fuzzel.selMatch;
+        border = t.fuzzel.border;
       };
 
       border = {

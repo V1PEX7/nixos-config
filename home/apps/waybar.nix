@@ -1,5 +1,6 @@
 { pkgs, ... }:
 let
+  t = import ../theme.nix;
   kbdLayout = pkgs.writeShellScript "waybar-kbd-layout" ''
     out=""
     if command -v mmsg >/dev/null 2>&1; then
@@ -87,22 +88,12 @@ in
         ];
       };
 
-      privacy = {
-        icon-spacing = 4;
-        icon-size = 16;
-        transition-duration = 250;
-        modules = [
-          {
-            type = "screenshare";
-            tooltip = true;
-            tooltip-icon-size = 24;
-          }
-          {
-            type = "audio-in";
-            tooltip = true;
-            tooltip-icon-size = 24;
-          }
-        ];
+      idle_inhibitor = {
+        format = "{icon}";
+        format-icons = {
+          activated = "";
+          deactivated = "";
+        };
       };
 
       clock = {
@@ -114,9 +105,9 @@ in
           mode-mon-col = 3;
           on-click-right = "mode";
           format = {
-            month = "<span color='#ffead3'><b>{}</b></span>";
-            weekdays = "<span color='#ffcc66'><b>{}</b></span>";
-            today = "<span color='#ff6699'><b>{}</b></span>";
+            month = "<span color='${t.calMonth}'><b>{}</b></span>";
+            weekdays = "<span color='${t.calWeekdays}'><b>{}</b></span>";
+            today = "<span color='${t.calToday}'><b>{}</b></span>";
           };
         };
       };
@@ -265,8 +256,8 @@ in
       }
 
       window#waybar {
-        background-color: #131315;
-        color: #e6d8ba;
+        background-color: ${t.bg};
+        color: ${t.fg};
         border-radius: 10px;
       }
 
@@ -275,13 +266,13 @@ in
         margin: 3px 4px;
         padding: 0 8px;
         border-radius: 5px;
-        background-color: #27272a;
+        background-color: ${t.surface};
       }
 
       #tags {
         margin: 3px 2px;
         padding: 0 1px;
-        background-color: #27272a;
+        background-color: ${t.surface};
         margin-left: 0px;
       }
 
@@ -289,32 +280,32 @@ in
         margin: 0px 0px;
         padding: 0 4px;
         background-color: transparent;
-        color: #e6d8ba;
+        color: ${t.fg};
         border-radius: 5px;
         transition: 0.15s ease-in-out;
       }
 
       #tags button:hover {
-        background: #3f3f46;
-        color: #000;
+        background: ${t.hover};
+        color: ${t.contrast};
       }
 
       #tags button.focused {
-        background-color: #ff9b71;
-        color: #000;
+        background-color: ${t.accent};
+        color: ${t.contrast};
         margin: 0px 0px;
         padding: 0 4px;
       }
 
       #tags button:not(.occupied) {
-        color: alpha(#e6d8ba, 0.4);
+        color: alpha(${t.fg}, ${t.dim});
         opacity: 0.45;
         transition: all 0.15s ease-in-out;
       }
 
       #tags button:not(.occupied).focused {
-        background-color: #e6d8ba;
-        color: #000;
+        background-color: ${t.fg};
+        color: ${t.contrast};
       }
 
       #window,
@@ -331,12 +322,12 @@ in
       #backlight,
       #custom-keyboard {
         padding: 0 8px;
-        color: #e6d8ba;
+        color: ${t.fg};
         margin: 3px 4px 3px 0px;
       }
 
       #tray {
-        background-color: #27272a;
+        background-color: ${t.surface};
       }
 
       #window {
@@ -347,30 +338,30 @@ in
       #memory,
       #clock,
       #custom-keyboard {
-        background-color: #27272a;
+        background-color: ${t.surface};
       }
 
       #battery {
-        background-color: #27272a;
-        color: #e6d8ba;
+        background-color: ${t.surface};
+        color: ${t.fg};
       }
 
       #battery.charging,
       #battery.plugged {
-        color: #e6d8ba;
-        background-color: #27272a;
+        color: ${t.fg};
+        background-color: ${t.surface};
       }
 
       @keyframes blink {
         to {
-          background-color: #e6d8ba;
-          color: #000000;
+          background-color: ${t.fg};
+          color: ${t.contrast};
         }
       }
 
       #battery.critical:not(.charging) {
-        background-color: #f53c3c;
-        color: #e6d8ba;
+        background-color: ${t.red};
+        color: ${t.fg};
         animation-name: blink;
         animation-duration: 0.5s;
         animation-timing-function: steps(12);
@@ -379,61 +370,61 @@ in
       }
 
       #backlight {
-        background-color: #27272a;
-        color: #e6d8ba;
+        background-color: ${t.surface};
+        color: ${t.fg};
       }
 
       #power-profiles-daemon.performance {
-        background-color: #ff9b71;
-        color: #000;
+        background-color: ${t.accent};
+        color: ${t.contrast};
       }
 
       #power-profiles-daemon.balanced {
-        background-color: #27272a;
-        color: #e6d8ba;
+        background-color: ${t.surface};
+        color: ${t.fg};
       }
 
       #power-profiles-daemon.power-saver {
-        background-color: #27272a;
-        color: #e6d8ba;
+        background-color: ${t.surface};
+        color: ${t.fg};
       }
 
       #cpu {
-        background-color: #27272a;
-        color: #e6d8ba;
+        background-color: ${t.surface};
+        color: ${t.fg};
       }
 
       #mpris {
-        background-color: #27272a;
-        color: #e6d8ba;
+        background-color: ${t.surface};
+        color: ${t.fg};
       }
 
       #network {
-        background-color: #27272a;
+        background-color: ${t.surface};
       }
 
       #network.disconnected {
-        background-color: #ff9b71;
-        color: #000;
+        background-color: ${t.accent};
+        color: ${t.contrast};
       }
 
       #bluetooth {
-        background-color: #27272a;
+        background-color: ${t.surface};
       }
 
       #bluetooth.disabled {
-        background-color: #ff9b71;
-        color: #000;
+        background-color: ${t.accent};
+        color: ${t.contrast};
       }
 
       #pulseaudio {
-        background-color: #27272a;
-        color: #e6d8ba;
+        background-color: ${t.surface};
+        color: ${t.fg};
       }
 
       #pulseaudio.muted {
-        background-color: #ff9b71;
-        color: #000;
+        background-color: ${t.accent};
+        color: ${t.contrast};
       }
 
       @keyframes blink-inhibitor {
@@ -443,23 +434,35 @@ in
       }
 
       #mpris {
-        background-color: #27272a;
-        color: #e6d8ba;
         font-size: 13px;
         margin: 3px 2px;
       }
 
+      #privacy {
+        margin: 3px 4px 3px 0px;
+        padding: 0 8px;
+        background-color: ${t.surface};
+      }
+
+      #privacy-item {
+        color: ${t.red};
+      }
+
+      #privacy-item.screenshare {
+        color: ${t.accent};
+      }
+
       tooltip {
         padding: 4px;
-        background: #27272a;
-        border: 1px solid alpha(#e6d8ba, 0.8);
+        background: ${t.surface};
+        border: 1px solid alpha(${t.fg}, 0.8);
         border-radius: 8px;
-        box-shadow: 1px 1px 3px 1px #131313;
+        box-shadow: 1px 1px 3px 1px ${t.shadow};
         font-size: 12px;
       }
 
       tooltip label {
-        color: #e6d8ba;
+        color: ${t.fg};
         font-weight: normal;
       }
     '';

@@ -1,4 +1,7 @@
 { pkgs, ... }:
+let
+  t = import ../theme.nix;
+in
 {
   programs.alacritty = {
     enable = true;
@@ -36,40 +39,40 @@
         draw_bold_text_with_bright_colors = false;
 
         primary = {
-          background = "#141218";
-          foreground = "#e7e0e8";
+          background = t.term.bg;
+          foreground = t.term.fg;
         };
 
         selection = {
-          text = "#e7e0e8";
-          background = "#4e3d75";
+          text = t.term.selText;
+          background = t.term.selBg;
         };
 
         cursor = {
-          text = "#141218";
-          cursor = "#d1bcfd";
+          text = t.term.curText;
+          cursor = t.term.curCursor;
         };
 
         normal = {
-          black = "#141218";
-          red = "#ff728e";
-          green = "#7efd99";
-          yellow = "#ffda72";
-          blue = "#bea6f0";
-          magenta = "#4f3d75";
-          cyan = "#d1bcfd";
-          white = "#f4efff";
+          black = t.term.black;
+          red = t.term.red;
+          green = t.term.green;
+          yellow = t.term.yellow;
+          blue = t.term.blue;
+          magenta = t.term.magenta;
+          cyan = t.term.cyan;
+          white = t.term.white;
         };
 
         bright = {
-          black = "#9c98a4";
-          red = "#ff9fb2";
-          green = "#a5ffb8";
-          yellow = "#ffe7a5";
-          blue = "#d9c7ff";
-          magenta = "#dfd1ff";
-          cyan = "#ebe1ff";
-          white = "#faf8ff";
+          black = t.term.brBlack;
+          red = t.term.brRed;
+          green = t.term.brGreen;
+          yellow = t.term.brYellow;
+          blue = t.term.brBlue;
+          magenta = t.term.brMagenta;
+          cyan = t.term.brCyan;
+          white = t.term.brWhite;
         };
       };
 

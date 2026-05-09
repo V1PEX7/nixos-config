@@ -1,4 +1,7 @@
 { pkgs, ... }:
+let
+  t = import ../theme.nix;
+in
 {
   wayland.windowManager.mango = {
     enable = true;
@@ -44,19 +47,19 @@
       gappoh = 5;
       gappov = 5;
       borderpx = 2;
-      focuscolor = "0xb4befeff";
-      bordercolor = "0x595959aa";
-      urgentcolor = "0x9b0000ff";
-      scratchpadcolor = "0x516c93ff";
-      globalcolor = "0xb153a7ff";
-      overlaycolor = "0x14a57cff";
-      maximizescreencolor = "0x89aa61ff";
+      focuscolor = t.mango.focus;
+      bordercolor = t.mango.border;
+      urgentcolor = t.mango.urgent;
+      scratchpadcolor = t.mango.scratchpad;
+      globalcolor = t.mango.global;
+      overlaycolor = t.mango.overlay;
+      maximizescreencolor = t.mango.maximize;
       border_radius = 5;
       no_radius_when_single = 0;
       no_border_when_single = 0;
       focused_opacity = 1.0;
       unfocused_opacity = 1.0;
-      rootcolor = "0x070722ff";
+      rootcolor = t.mango.root;
 
       shadows = 1;
       shadow_only_floating = 0;
@@ -65,7 +68,7 @@
       shadows_blur = 15;
       shadows_position_x = 0;
       shadows_position_y = 5;
-      shadowscolor = "0x00000077";
+      shadowscolor = t.mango.shadow;
 
       blur = 0;
       blur_layer = 1;
