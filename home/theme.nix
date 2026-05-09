@@ -321,4 +321,4 @@ let
     };
   };
 in
-themes.rosepine
+themes.neon-dusk
