@@ -88,12 +88,10 @@ in
         ];
       };
 
-      idle_inhibitor = {
-        format = "{icon}";
-        format-icons = {
-          activated = "";
-          deactivated = "";
-        };
+      privacy = {
+        icon-spacing = 4;
+        icon-size = 16;
+        transition-duration = 250;
       };
 
       clock = {
