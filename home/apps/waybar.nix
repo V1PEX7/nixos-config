@@ -170,7 +170,7 @@ in
         on-click = "pavucontrol";
         tooltip-format = "Playing at {volume}%";
         scroll-step = 5;
-        format-muted = "";
+        format-muted = "󰝟";
         format-icons.default = [
           ""
           ""
