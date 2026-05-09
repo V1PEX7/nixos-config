@@ -90,7 +90,7 @@
       animation_duration_open = 250;
       animation_duration_close = 200;
       animation_duration_move = 300;
-      animation_duration_tag = 200;
+      animation_duration_tag = 0;
       animation_duration_focus = 100;
       animation_curve_open = "0.46,1.0,0.29,1";
       animation_curve_move = "0.46,1.0,0.29,1";
