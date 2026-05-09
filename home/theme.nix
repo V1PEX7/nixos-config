@@ -321,4 +321,4 @@ let
     };
   };
 in
-themes.omarchy
+themes.rosepine
