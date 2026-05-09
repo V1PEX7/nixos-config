@@ -3,7 +3,7 @@ let
   kbdLayout = pkgs.writeShellScript "waybar-kbd-layout" ''
     out=""
     if command -v mmsg >/dev/null 2>&1; then
-      out=$(mmsg -g -k 2>/dev/null | ${pkgs.gawk}/bin/awk '/kb_layout/ {print $NF; exit}')
+      out=$(mmsg -g -k 2>/dev/null | ${pkgs.gawk}/bin/awk 'NF {print $NF; exit}')
       [ -z "$out" ] && out=$(mmsg --get-kb-layout 2>/dev/null)
     fi
     [ -z "$out" ] && out="??"
@@ -16,31 +16,44 @@ in
     systemd.enable = false;
 
     settings.mainBar = {
-      layer = "top";
+      reload_style_on_change = true;
       position = "top";
-      height = 28;
-      spacing = 10;
+      height = 24;
+      margin-right = 5;
+      margin-left = 5;
+      margin-top = 1;
+      margin-bottom = 3;
+      spacing = 0;
 
       modules-left = [
+        "custom/nix"
         "dwl/tags"
+        "mpris"
         "dwl/window"
       ];
 
       modules-center = [
+        "idle_inhibitor"
         "clock"
       ];
 
       modules-right = [
-        "tray"
-        "privacy"
-        "custom/keyboard"
-        "pulseaudio"
         "network"
-        "battery"
-        "cpu"
-        "temperature"
+        "tray"
+        "backlight"
+        "bluetooth"
+        "pulseaudio"
+        "power-profiles-daemon"
         "memory"
+        "cpu"
+        "custom/keyboard"
+        "battery"
       ];
+
+      "custom/nix" = {
+        format = "";
+        tooltip-format = "NixOS";
+      };
 
       "dwl/tags" = {
         num-tags = 9;
@@ -48,189 +61,415 @@ in
 
       "dwl/window" = {
         format = "{title}";
-        max-length = 60;
-        tooltip = false;
+        max-length = 20;
+        rewrite."^$" = "󰡸 Desktop";
+      };
+
+      mpris = {
+        format = "  {dynamic}";
+        format-paused = " {status_icon} {dynamic}";
+        interval = 1;
+        dynamic-order = [
+          "artist"
+          "position"
+          "length"
+        ];
+        dynamic-importance-order = [
+          "position"
+          "length"
+          "artist"
+        ];
+        tooltip-format = "{player} ({status}):\n{artist} - {title}";
+        status-icons.paused = "󰖛";
+        ignored-players = [
+          "chromium"
+          "librewolf"
+        ];
+      };
+
+      idle_inhibitor = {
+        format = "{icon}";
+        format-icons = {
+          activated = "";
+          deactivated = "";
+        };
       };
 
       clock = {
-        format = "{:%H:%M  %a %d %b}";
-        format-alt = "{:%Y-%m-%d %H:%M:%S}";
-        tooltip-format = "<tt><small>{calendar}</small></tt>";
-        interval = 30;
-      };
-
-      privacy = {
-        icon-spacing = 4;
-        icon-size = 14;
-        transition-duration = 250;
-        modules = [
-          {
-            type = "screenshare";
-            tooltip = true;
-            tooltip-icon-size = 24;
-          }
-          {
-            type = "audio-in";
-            tooltip = true;
-            tooltip-icon-size = 24;
-          }
-        ];
-      };
-
-      pulseaudio = {
-        format = " {volume}%";
-        format-muted = " muted";
-        format-icons.default = [
-          ""
-          ""
-        ];
-        on-click = "pavucontrol";
-        scroll-step = 5;
+        format = "{:%H:%M}";
+        format-alt = "{:%A, %d %B %Y - %H:%M}";
+        tooltip-format = "<span>{calendar}</span>";
+        calendar = {
+          mode = "month";
+          mode-mon-col = 3;
+          on-click-right = "mode";
+          format = {
+            month = "<span color='#ffead3'><b>{}</b></span>";
+            weekdays = "<span color='#ffcc66'><b>{}</b></span>";
+            today = "<span color='#ff6699'><b>{}</b></span>";
+          };
+        };
       };
 
       network = {
-        format-wifi = " {essid} {signalStrength}%";
-        format-ethernet = " eth";
-        format-disconnected = " off";
-        tooltip-format = "{ifname}: {ipaddr}";
+        format-icons = [
+          "󰤯"
+          "󰤟"
+          "󰤢"
+          "󰤥"
+          "󰤨"
+        ];
+        format = "{icon}";
+        format-wifi = "{signalStrength}% {icon}";
+        format-ethernet = " {bandwidthDownBytes}  {bandwidthUpBytes} 󰈀";
+        format-disconnected = "󰤮";
+        tooltip-format-wifi = "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+        tooltip-format-ethernet = "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}";
+        tooltip-format-disconnected = "Disconnected";
+        interval = 3;
+        spacing = 1;
         on-click = "alacritty -e nmtui";
-        interval = 5;
       };
 
-      battery = {
-        states = {
-          warning = 30;
-          critical = 15;
-        };
-        format = "{icon} {capacity}%";
-        format-charging = " {capacity}%";
-        format-plugged = " {capacity}%";
+      tray = {
+        icon-size = 14;
+        spacing = 5;
+        show-passive-items = true;
+      };
+
+      backlight = {
+        format = "{percent}% {icon}";
         format-icons = [
-          ""
-          ""
-          ""
-          ""
-          ""
+          "🌑"
+          "🌘"
+          "🌗"
+          "🌖"
+          "🌕"
         ];
       };
 
-      cpu = {
-        format = " {usage}%";
-        interval = 2;
-        tooltip = false;
+      bluetooth = {
+        format = " {status}";
+        format-disabled = "󰂲";
+        format-connected = "";
+        tooltip-format = "Devices connected: {num_connections}";
       };
 
-      temperature = {
-        thermal-zone = 0;
-        format = " {temperatureC}°C";
-        critical-threshold = 85;
-        interval = 2;
+      pulseaudio = {
+        format = "{icon} {volume}%";
+        on-click = "pavucontrol";
+        tooltip-format = "Playing at {volume}%";
+        scroll-step = 5;
+        format-muted = "";
+        format-icons.default = [
+          ""
+          ""
+          ""
+        ];
+      };
+
+      power-profiles-daemon = {
+        format = "{icon}";
+        tooltip-format = "Power profile: {profile}\nDriver: {driver}";
+        tooltip = true;
+        format-icons = {
+          default = "";
+          performance = "";
+          balanced = "";
+          power-saver = "";
+        };
       };
 
       memory = {
-        format = " {used:0.1f}G";
-        interval = 5;
-        tooltip-format = "{used:0.1f}G / {total:0.1f}G";
+        interval = 2;
+        format = " {used:0.1f}GB";
+        on-click = "alacritty -e btop";
+      };
+
+      cpu = {
+        interval = 2;
+        format = "{usage:02}% 󰍛";
+        on-click = "alacritty -e btop";
       };
 
       "custom/keyboard" = {
         exec = "${kbdLayout}";
         interval = 2;
         return-type = "json";
-        format = " {}";
+        format = " {}";
       };
 
-      tray = {
-        icon-size = 16;
-        spacing = 8;
+      battery = {
+        format = "{capacity}% {icon}";
+        format-discharging = "{capacity}% {icon}";
+        format-charging = "{capacity}% {icon}";
+        format-plugged = "󰂅";
+        format-full = "󰂅";
+        format-icons = {
+          charging = [
+            "󰢜"
+            "󰂆"
+            "󰂇"
+            "󰂈"
+            "󰢝"
+            "󰂉"
+            "󰢞"
+            "󰂊"
+            "󰂋"
+            "󰂅"
+          ];
+          default = [
+            "󰁺"
+            "󰁻"
+            "󰁼"
+            "󰁽"
+            "󰁾"
+            "󰁿"
+            "󰂀"
+            "󰂁"
+            "󰂂"
+            "󰁹"
+          ];
+        };
+        tooltip-format-discharging = "{timeTo}";
+        tooltip-format-charging = "{timeTo}";
+        interval = 5;
+        states = {
+          warning = 20;
+          critical = 10;
+        };
       };
     };
 
     style = ''
       * {
-        font-family: "JetBrains Mono Nerd Font", monospace;
+        font-family: "JetBrainsMono Nerd Font Propo";
         font-size: 12px;
-        min-height: 0;
-        border-radius: 0;
+        font-weight: bold;
+        border-radius: 5px;
+        min-height: 20px;
+      }
+
+      tooltip {
+        opacity: 1;
       }
 
       window#waybar {
-        background-color: rgba(30, 30, 46, 0.94);
-        color: #ffffff;
-        border-bottom: 1px solid rgba(180, 190, 254, 0.4);
+        background-color: #131315;
+        color: #e6d8ba;
+        border-radius: 10px;
+      }
+
+      #custom-nix {
+        font-size: 15px;
+        margin: 3px 4px;
+        padding: 0 8px;
+        border-radius: 5px;
+        background-color: #27272a;
+      }
+
+      #tags {
+        margin: 3px 2px;
+        padding: 0 1px;
+        background-color: #27272a;
+        margin-left: 0px;
       }
 
       #tags button {
-          padding: 0 2px;
-          margin: 0;
-          min-width: 18px;
-          color: #9398a8;
-          background: transparent;
-          border-bottom: 2px solid transparent;
-          border-radius: 0;
+        margin: 0px 0px;
+        padding: 0 4px;
+        background-color: transparent;
+        color: #e6d8ba;
+        border-radius: 5px;
+        transition: 0.15s ease-in-out;
       }
 
-      #tags button.occupied {
-        color: #c5f5ec;
-        border-bottom-color: rgba(180, 190, 254, 0.35);
+      #tags button:hover {
+        background: #3f3f46;
+        color: #000;
       }
 
       #tags button.focused {
-        color: #e8d4ff;
-        border-bottom-color: #b4befe;
+        background-color: #ff9b71;
+        color: #000;
+        margin: 0px 0px;
+        padding: 0 4px;
       }
 
-      #tags button.urgent {
-        color: #ffffff;
-        border-bottom-color: #f38ba8;
+      #tags button:not(.occupied) {
+        color: alpha(#e6d8ba, 0.4);
+        opacity: 0.45;
+        transition: all 0.15s ease-in-out;
+      }
+
+      #tags button:not(.occupied).focused {
+        background-color: #e6d8ba;
+        color: #000;
+      }
+
+      #window,
+      #clock,
+      #battery,
+      #cpu,
+      #memory,
+      #mpris,
+      #network,
+      #pulseaudio,
+      #idle_inhibitor,
+      #power-profiles-daemon,
+      #tray,
+      #bluetooth,
+      #backlight,
+      #custom-keyboard {
+        padding: 0 8px;
+        color: #e6d8ba;
+        margin: 3px 4px 3px 0px;
+      }
+
+      #tray {
+        background-color: #27272a;
       }
 
       #window {
-        padding: 0 6px;
-        color: #e6e9ef;
+        margin: 3px 2px;
       }
 
-      #clock {
-        padding: 0 12px;
-        color: #ffffff;
-        font-weight: bold;
-      }
-
-      #pulseaudio,
-      #network,
-      #battery,
-      #cpu,
-      #temperature,
+      #window,
       #memory,
-      #custom-keyboard,
-      #tray {
-        padding: 0 8px;
-        color: #ffffff;
-      }
-      #privacy {
-        padding: 0 8px;
-        color: #ffffff;
+      #clock,
+      #idle_inhibitor,
+      #custom-keyboard {
+        background-color: #27272a;
       }
 
-      #pulseaudio.muted     { color: #9398a8; }
-      #network.disconnected { color: #f38ba8; }
-      #battery.warning      { color: #f9e2af; }
-      #battery.critical     { color: #f38ba8; }
-      #battery.charging     { color: #a6e3a1; }
-      #temperature.critical { color: #f38ba8; }
-      #cpu                  { color: #cfe0ff; }
-      #memory               { color: #e8d4ff; }
-      #custom-keyboard      { color: #c5f5ec; }
+      #battery {
+        background-color: #27272a;
+        color: #e6d8ba;
+      }
+
+      #battery.charging,
+      #battery.plugged {
+        color: #e6d8ba;
+        background-color: #27272a;
+      }
+
+      @keyframes blink {
+        to {
+          background-color: #e6d8ba;
+          color: #000000;
+        }
+      }
+
+      #battery.critical:not(.charging) {
+        background-color: #f53c3c;
+        color: #e6d8ba;
+        animation-name: blink;
+        animation-duration: 0.5s;
+        animation-timing-function: steps(12);
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
+
+      #backlight {
+        background-color: #27272a;
+        color: #e6d8ba;
+      }
+
+      #power-profiles-daemon.performance {
+        background-color: #ff9b71;
+        color: #000;
+      }
+
+      #power-profiles-daemon.balanced {
+        background-color: #27272a;
+        color: #e6d8ba;
+      }
+
+      #power-profiles-daemon.power-saver {
+        background-color: #27272a;
+        color: #e6d8ba;
+      }
+
+      #cpu {
+        background-color: #27272a;
+        color: #e6d8ba;
+      }
+
+      #mpris {
+        background-color: #27272a;
+        color: #e6d8ba;
+      }
+
+      #network {
+        background-color: #27272a;
+      }
+
+      #network.disconnected {
+        background-color: #ff9b71;
+        color: #000;
+      }
+
+      #bluetooth {
+        background-color: #27272a;
+      }
+
+      #bluetooth.disabled {
+        background-color: #ff9b71;
+        color: #000;
+      }
+
+      #pulseaudio {
+        background-color: #27272a;
+        color: #e6d8ba;
+      }
+
+      #pulseaudio.muted {
+        background-color: #ff9b71;
+        color: #000;
+      }
+
+      #idle_inhibitor {
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+        color: #e6d8ba;
+      }
+
+      #idle_inhibitor.activated {
+        color: #178b76;
+        animation-name: blink-inhibitor;
+        animation-duration: 1s;
+      }
+
+      @keyframes blink-inhibitor {
+        to {
+          color: @background;
+        }
+      }
+
+      #mpris {
+        font-size: 13px;
+        margin: 3px 2px;
+        animation: repeat;
+        animation-name: blink;
+        animation-duration: 3s;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
+      }
 
       tooltip {
-        background-color: rgba(30, 30, 46, 0.97);
-        border: 1px solid #b4befe;
-        border-radius: 0;
+        padding: 4px;
+        background: #27272a;
+        border: 1px solid alpha(#e6d8ba, 0.8);
+        border-radius: 8px;
+        box-shadow: 1px 1px 3px 1px #131313;
+        font-size: 12px;
       }
 
       tooltip label {
-        color: #ffffff;
-        padding: 4px;
+        color: #e6d8ba;
+        font-weight: normal;
       }
     '';
   };
