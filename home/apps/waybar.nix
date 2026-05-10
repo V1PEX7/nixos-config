@@ -29,7 +29,7 @@ in
       modules-left = [
         "custom/nix"
         "dwl/tags"
-        "mpris"
+        #"mpris"
         "dwl/window"
       ];
 
@@ -66,27 +66,27 @@ in
         rewrite."^$" = "󰡸 Desktop";
       };
 
-      mpris = {
-        format = "  {dynamic}";
-        format-paused = " {status_icon} {dynamic}";
-        interval = 1;
-        dynamic-order = [
-          "artist"
-          "position"
-          "length"
-        ];
-        dynamic-importance-order = [
-          "position"
-          "length"
-          "artist"
-        ];
-        tooltip-format = "{player} ({status}):\n{artist} - {title}";
-        status-icons.paused = "󰖛";
-        ignored-players = [
-          "chromium"
-          "librewolf"
-        ];
-      };
+      # mpris = {
+      #   format = "  {dynamic}";
+      #   format-paused = " {status_icon} {dynamic}";
+      #   interval = 1;
+      #   dynamic-order = [
+      #     "artist"
+      #     "position"
+      #     "length"
+      #   ];
+      #   dynamic-importance-order = [
+      #     "position"
+      #     "length"
+      #     "artist"
+      #   ];
+      #   tooltip-format = "{player} ({status}):\n{artist} - {title}";
+      #   status-icons.paused = "󰖛";
+      #   ignored-players = [
+      #     "chromium"
+      #     "librewolf"
+      #   ];
+      # };
 
       privacy = {
         icon-spacing = 4;
