@@ -19,14 +19,7 @@
 
     keepassxc
 
-    vlc
-    (mpv.override {
-      scripts = with pkgs.mpvScripts; [
-        sponsorblock
-        uosc
-        thumbfast
-      ];
-    })
+    mpv
 
     brightnessctl
 
