@@ -70,7 +70,7 @@ in
       shadows_position_y = 5;
       shadowscolor = t.mango.shadow;
 
-      blur = 0;
+      blur = 1;
       blur_layer = 1;
       blur_optimized = 1;
       blur_params_num_passes = 3;
