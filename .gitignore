@@ -1,3 +1,5 @@
 result
 result-*
 .direnv/
+hosts/desktop/hardware-configuration.nix
+hosts/laptop/hardware-configuration.nix
