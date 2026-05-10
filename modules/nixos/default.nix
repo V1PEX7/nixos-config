@@ -7,7 +7,6 @@
     ./desktop
     ./networking.nix
     ./apps.nix
-    ./dms.nix
     ./sandbox.nix
   ];
 }
