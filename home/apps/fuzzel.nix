@@ -33,7 +33,7 @@ in
 
       border = {
         width = 1;
-        radius = 0;
+        radius = 5;
       };
 
       dmenu = {
