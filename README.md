@@ -115,4 +115,5 @@ This config is opinionated and makes choices that will lock you out of things if
 - Bluetooth is off by default
 - Vesktop, telegram, obsidian, and qbittorrent run inside bubblewrap sandboxes with heavy restrictions. They can't see your home directory, can't talk to most of your system, and will refuse to do things you might expect to work
 - Several kernel hardening options are on. Things might not work and you won't know why until you read what `kernel.strict` does
+- No login manager (SDDM, etc.). Autologin on both devices is on by default. If you disable autologin, you will have to login through tty1
 - I mass-delete, rename, and restructure modules without warning. These are my personal dotfiles, not a framework - if you fork this expecting stability you will have a bad time
