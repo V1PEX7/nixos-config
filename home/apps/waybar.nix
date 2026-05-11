@@ -181,7 +181,7 @@ in
 
       memory = {
         interval = 2;
-        format = " {used:0.1f}GB";
+        format = " {used:0.1f}GB";
         on-click = "alacritty -e btop";
       };
 
