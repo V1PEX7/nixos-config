@@ -12,6 +12,7 @@ in
     enable = lib.mkEnableOption "system-level apps";
     gaming.enable = lib.mkEnableOption "Gaming (Steam + gamescope)";
     docker.enable = lib.mkEnableOption "Rootless Docker";
+    vm.enable = lib.mkEnableOption "VM stack (libvirt + virt-manager)";
   };
 
   config = lib.mkIf cfg.enable (
@@ -66,6 +67,17 @@ in
             ];
           };
         };
+      })
+
+      (lib.mkIf cfg.vm.enable {
+        programs.virt-manager.enable = true;
+        virtualisation.libvirtd.enable = true;
+        virtualisation.spiceUSBRedirection.enable = true;
+
+        users.users.xnp.extraGroups = [
+          "libvirtd"
+          "kvm"
+        ];
       })
     ]
   );
