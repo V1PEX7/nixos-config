@@ -2,7 +2,6 @@
 
 My nixos dotfiles. Two machines (desktop + laptop), single user.
 
-I break things constantly. Use at your own risk.
 
 <img width="2558" height="1440" alt="image" src="https://github.com/user-attachments/assets/0bc053c6-85d2-41fa-a75e-cbc1f2ab99e5" />
 
