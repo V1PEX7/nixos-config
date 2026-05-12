@@ -22,7 +22,6 @@
     hardware.audio.enable = true;
     desktop.enable = true;
     desktop.mango.enable = true;
-    dms.enable = false;
     networking.enable = true;
     apps.enable = true;
     sandbox.enable = true;
