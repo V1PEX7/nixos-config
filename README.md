@@ -1,6 +1,6 @@
 # nixos-config
 
-My nixos dotfiles. Two machines (desktop + laptop), single user, wayland-only.
+My nixos dotfiles. Two machines (desktop + laptop), single user.
 
 I break things constantly. Use at your own risk.
 
