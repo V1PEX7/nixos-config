@@ -63,7 +63,7 @@ in
       "dwl/window" = {
         format = "{title}";
         max-length = 20;
-        rewrite."^$" = "󰡸 Desktop";
+        rewrite."^$" = "󰍹 Desktop";
       };
 
       # mpris = {
