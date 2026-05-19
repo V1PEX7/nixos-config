@@ -41,6 +41,12 @@ in
       "esp4"
       "esp6"
       "rxrpc"
+
+      # Intel hardware snitching / corporate bloat
+      "intel_pmc_ssram_telemetry"
+      "pmt_telemetry"
+      "pmt_discovery"
+      "pmt_class"
     ];
 
     boot.extraModprobeConfig = ''
