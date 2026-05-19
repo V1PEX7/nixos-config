@@ -51,7 +51,6 @@ in
         environment.systemPackages = with pkgs; [
           # mangohud
           # goverlay
-          # steam-run
         ];
       })
 
