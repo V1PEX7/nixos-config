@@ -189,6 +189,10 @@ in
         interval = 2;
         format = "{usage:02}% 󰍛";
         on-click = "alacritty -e btop";
+        states = {
+          warning = 60;
+          critical = 90;
+        };
       };
 
       "custom/keyboard" = {
@@ -390,6 +394,21 @@ in
       #cpu {
         background-color: ${t.surface};
         color: ${t.fg};
+      }
+
+      #cpu.warning {
+        background-color: ${t.accent};
+        color: ${t.contrast};
+      }
+
+      #cpu.critical {
+        background-color: ${t.red};
+        color: ${t.fg};
+        animation-name: blink;
+        animation-duration: 0.5s;
+        animation-timing-function: steps(12);
+        animation-iteration-count: infinite;
+        animation-direction: alternate;
       }
 
       #mpris {
