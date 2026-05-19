@@ -1,3 +1,5 @@
 result
 result-*
 .direnv/
+.nix-defexpr/channels_root
+.nix-defexpr/channels
