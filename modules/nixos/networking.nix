@@ -33,7 +33,6 @@ in
       enable = true;
       allowPing = false;
       checkReversePath = "loose";
-      trustedInterfaces = [ "tun0" ];
     };
   };
 }
