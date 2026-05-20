@@ -13,6 +13,9 @@ in
       dns = "systemd-resolved";
     };
 
+    systemd.services.NetworkManager-wait-online.enable = false;
+    networking.modemmanager.enable = false;
+
     services.resolved = {
       enable = true;
       settings.Resolve = {
