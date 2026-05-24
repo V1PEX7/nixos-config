@@ -9,7 +9,7 @@
 
       "browser.privatebrowsing.autostart" = true;
 
-      "network.trr.mode" = 3;
+      "network.trr.mode" = 2;
       "network.trr.uri" = "https://dns.quad9.net/dns-query";
       "network.dns.echconfig.enabled" = true;
       "network.http.speculative-parallel-limit" = 0;
@@ -24,7 +24,7 @@
       "media.peerconnection.enabled" = false;
 
       "privacy.resistFingerprinting" = true;
-      "privacy.resistFingerprinting.letterboxing" = true;
+      "privacy.resistFingerprinting.letterboxing" = false;
       "privacy.trackingprotection.enabled" = true;
       "privacy.trackingprotection.socialtracking.enabled" = true;
       "privacy.trackingprotection.fingerprinting.enabled" = true;
