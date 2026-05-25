@@ -4,8 +4,7 @@ let
   kbdLayout = pkgs.writeShellScript "waybar-kbd-layout" ''
     out=""
     if command -v mmsg >/dev/null 2>&1; then
-      out=$(mmsg -g -k 2>/dev/null | ${pkgs.gawk}/bin/awk 'NF {print $NF; exit}')
-      [ -z "$out" ] && out=$(mmsg --get-kb-layout 2>/dev/null)
+      out=$(mmsg get keyboardlayout 2>/dev/null | ${pkgs.jq}/bin/jq -r '.layout // empty')
     fi
     [ -z "$out" ] && out="??"
     printf '{"text":"%s","tooltip":"Keyboard layout"}\n' "$out"
