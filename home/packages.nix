@@ -10,7 +10,7 @@
 
     python3
     uv
-    vim
+    neovim
 
     ncdu
     btop
