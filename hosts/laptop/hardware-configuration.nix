@@ -4,6 +4,7 @@
 {
   config,
   lib,
+  pkgs,
   modulesPath,
   ...
 }:
@@ -16,20 +17,21 @@
   boot.initrd.availableKernelModules = [
     "xhci_pci"
     "nvme"
-    "uas"
-    "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/5da8d01c-15df-43f0-acad-00f71cd78e34";
+    device = "/dev/mapper/cryptroot";
     fsType = "ext4";
   };
 
+  boot.initrd.luks.devices."cryptroot".device =
+    "/dev/disk/by-uuid/1d28d740-27bd-4ade-b5f7-d2149c3bdffc";
+
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/EBE1-2EEC";
+    device = "/dev/disk/by-uuid/B4A5-DB3A";
     fsType = "vfat";
     options = [
       "fmask=0077"
@@ -37,9 +39,7 @@
     ];
   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/4ed5d3ed-8cac-44c8-a25d-ac8ec0bea27e"; }
-  ];
+  swapDevices = [ { device = "/.swapfile"; } ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
