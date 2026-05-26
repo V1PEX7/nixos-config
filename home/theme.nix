@@ -384,5 +384,6 @@ let
       };
     };
   };
+  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono
 in
 themes.mono
