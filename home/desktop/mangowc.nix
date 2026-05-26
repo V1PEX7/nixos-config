@@ -102,7 +102,7 @@ in
       animation_curve_focus = "0.46,1.0,0.29,1";
       tag_animation_direction = 1;
 
-      scroller_default_proportion = 0.8;
+      scroller_default_proportion = 0.5;
       scroller_default_proportion_single = 1.0;
       scroller_proportion_preset = "0.33,0.5,0.67,0.8,1.0";
       scroller_structs = 20;
