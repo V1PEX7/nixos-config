@@ -319,6 +319,70 @@ let
         border = "c4a7e7ff";
       };
     };
+
+    mono = {
+      bg = "#0c0c0c";
+      surface = "#181818";
+      fg = "#d0d0d0";
+      accent = "#f0f0f0";
+      hover = "#222222";
+      red = "#c04040";
+      green = "#888888";
+      yellow = "#aaaaaa";
+      contrast = "#000";
+      shadow = "#050505";
+      dim = "0.3";
+      calMonth = "#d0d0d0";
+      calWeekdays = "#909090";
+      calToday = "#ffffff";
+
+      mango = {
+        focus = "0xf0f0f0ff";
+        border = "0x303030aa";
+        urgent = "0xc04040ff";
+        scratchpad = "0x707070ff";
+        global = "0x909090ff";
+        overlay = "0x606060ff";
+        maximize = "0x808080ff";
+        root = "0x0c0c0cff";
+        shadow = "0x00000077";
+      };
+
+      term = {
+        bg = "#0c0c0e";
+        fg = "#d0d4de";
+        selText = "#d0d4de";
+        selBg = "#252530";
+        curText = "#0c0c0e";
+        curCursor = "#f0f0f0";
+        black = "#111116";
+        red = "#c4607c";
+        green = "#60b890";
+        yellow = "#c4a858";
+        blue = "#5898d4";
+        magenta = "#a868c8";
+        cyan = "#40b8d8";
+        white = "#d0d4de";
+        brBlack = "#404050";
+        brRed = "#e07090";
+        brGreen = "#78d0a8";
+        brYellow = "#dcc070";
+        brBlue = "#70b0e8";
+        brMagenta = "#c080e0";
+        brCyan = "#58d0ec";
+        brWhite = "#eaeef8";
+      };
+
+      fuzzel = {
+        bg = "0c0c0cee";
+        text = "d0d0d0ff";
+        match = "f0f0f0ff";
+        selection = "222222ff";
+        selText = "d0d0d0ff";
+        selMatch = "f0f0f0ff";
+        border = "f0f0f0ff";
+      };
+    };
   };
 in
-themes.neon-dusk
+themes.mono
