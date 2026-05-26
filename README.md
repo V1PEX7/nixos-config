@@ -59,6 +59,7 @@ themes.tokyo-night   - navy/cyan/purple
 themes.neon-dusk     - near-black/electric cyan/pink
 themes.kanagawa      - indigo/wave blue
 themes.rosepine      - warm dark/iris purple
+themes.mono          - the name speaks for itself
 ```
 
 Rebuild. Everything switches.
