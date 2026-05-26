@@ -19,6 +19,7 @@
 
     keepassxc
 
+    imv
     mpv
 
     brightnessctl
