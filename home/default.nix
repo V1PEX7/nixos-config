@@ -13,6 +13,7 @@
     ./apps/librewolf.nix
     ./apps/rmpc.nix
     ./apps/zsh.nix
+    ./apps/yazi.nix
   ];
 
   home.username = "xnp";
