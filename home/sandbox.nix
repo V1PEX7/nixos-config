@@ -18,19 +18,19 @@ let
     ];
   };
 
-  discord = mkSandbox {
-    name = "discord";
-    package = pkgs.discord.override {
-      withVencord = true;
-      withOpenASAR = true;
-    };
-    binPath = "bin/Discord";
-    rwPaths = [
-      "${home}/.config/discord"
-      "${home}/.config/Vencord"
-      "${home}/Downloads"
-    ];
-  };
+  # discord = mkSandbox {
+  #   name = "discord";
+  #   package = pkgs.discord.override {
+  #     withVencord = true;
+  #     withOpenASAR = true;
+  #   };
+  #   binPath = "bin/Discord";
+  #   rwPaths = [
+  #     "${home}/.config/discord"
+  #     "${home}/.config/Vencord"
+  #     "${home}/Downloads"
+  #   ];
+  # };
 
   telegram = mkSandbox {
     name = "telegram-desktop";
@@ -70,7 +70,7 @@ in
 {
   home.packages = [
     vesktop
-    discord
+    #discord
     telegram
     obsidian
     qbittorrent
