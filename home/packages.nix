@@ -12,7 +12,10 @@
     uv
     neovim
 
+    ffmpeg
+
     ncdu
+    htop
     btop
     pavucontrol
     file-roller
