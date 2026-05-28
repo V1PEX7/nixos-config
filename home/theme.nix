@@ -448,6 +448,6 @@ let
       };
     };
   };
-  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, pepermint
+  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint
 in
 themes.peppermint
