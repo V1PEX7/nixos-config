@@ -37,6 +37,11 @@
   programs.command-not-found.enable = false;
   systemd.oomd.enable = false;
 
+  systemd.settings.Manager = {
+    DefaultTimeoutStopSec = "10s";
+    DefaultTimeoutStartSec = "15s";
+  };
+
   users.users.xnp = {
     isNormalUser = true;
     description = "xnp";
