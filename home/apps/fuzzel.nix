@@ -12,7 +12,7 @@ in
         dpi-aware = "no";
         prompt = "''";
         icon-theme = "Papirus-Dark";
-        terminal = "alacritty -e";
+        terminal = "foot -e";
         layer = "overlay";
         width = 40;
         lines = 12;

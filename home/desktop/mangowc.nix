@@ -185,7 +185,7 @@ in
       ];
 
       bind = [
-        "SUPER,t,spawn,alacritty"
+        "SUPER,t,spawn,foot"
         "SUPER,e,spawn,thunar"
         "SUPER,w,spawn,chromium"
         "SUPER,s,spawn,librewolf"
@@ -297,7 +297,7 @@ in
         "SUPER,BackSpace,view,-1"
 
         "SUPER,a,toggle_scratchpad"
-        "SUPER,Return,toggle_scratchpad,alacritty,none,0.7,0.75,Alacritty"
+        "SUPER,Return,toggle_scratchpad,foot,none,0.7,0.75,foot"
 
         "SUPER+SHIFT,r,switch_proportion_preset"
         "SUPER,minus,set_proportion,-0.05"

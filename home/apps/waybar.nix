@@ -126,7 +126,7 @@ in
         tooltip-format-disconnected = "Disconnected";
         interval = 3;
         spacing = 1;
-        on-click = "alacritty -e nmtui";
+        on-click = "foot -e nmtui";
       };
 
       tray = {
@@ -181,13 +181,13 @@ in
       memory = {
         interval = 2;
         format = " {used:0.1f}GB";
-        on-click = "alacritty -e btop";
+        on-click = "foot -e btop";
       };
 
       cpu = {
         interval = 2;
         format = "{usage:02}% 󰍛";
-        on-click = "alacritty -e btop";
+        on-click = "foot -e btop";
         states = {
           warning = 60;
           critical = 90;

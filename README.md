@@ -2,7 +2,6 @@
 
 My nixos dotfiles. Two machines (desktop + laptop), single user.
 
-
 <img width="2558" height="1440" alt="image" src="https://github.com/user-attachments/assets/0bc053c6-85d2-41fa-a75e-cbc1f2ab99e5" />
 
 ## Stack
@@ -10,7 +9,7 @@ My nixos dotfiles. Two machines (desktop + laptop), single user.
 - **compositor:** [mangowm](https://github.com/mangowm/mango)
 - **bar:** waybar
 - **launcher:** fuzzel
-- **terminal:** alacritty
+- **terminal:** foot
 - **browsers:** ungoogled-chromium, librewolf
 - **shell:** zsh (with carapace completions)
 - **file manager:** thunar
@@ -51,7 +50,7 @@ Four toggleable modules under `modules/nixos/hardening/`:
 
 ## Theme switching
 
-`home/theme.nix` defines color palettes. waybar, fuzzel, alacritty, and mango borders all read from it. Change the last line:
+`home/theme.nix` defines color palettes. waybar, fuzzel, foot, and mango borders all read from it. Change the last line:
 
 ```
 themes.omarchy       - zinc/cream/orange
@@ -102,7 +101,7 @@ home/
   sandbox.nix              bwrap-wrapped apps
   scripts.nix              screenshot helpers, wallpicker
   desktop/mangowc.nix      compositor config + autostart
-  apps/                    alacritty, fastfetch, fuzzel, librewolf, rmpc, waybar, zsh
+  apps/                    foot, fastfetch, fuzzel, librewolf, rmpc, waybar, zsh
 dotfiles/                  mutable configs (zed, etc)
 ```
 
