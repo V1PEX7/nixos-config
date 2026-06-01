@@ -22,7 +22,7 @@
 
     keepassxc
 
-    imv
+    swayimg
     mpv
 
     brightnessctl
