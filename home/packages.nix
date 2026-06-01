@@ -11,6 +11,7 @@
     python3
     uv
     neovim
+    claude-code
 
     ffmpeg
 
