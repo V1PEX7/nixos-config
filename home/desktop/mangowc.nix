@@ -423,7 +423,6 @@ in
   };
 
   xdg.configFile."mango/autostart.sh".source = pkgs.writeShellScript "mango-autostart" ''
-    dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots
     systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
     systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-wlr.service
 
