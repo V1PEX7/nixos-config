@@ -73,9 +73,9 @@ in
       blur = 1;
       blur_layer = 1;
       blur_optimized = 1;
-      blur_params_num_passes = 3;
-      blur_params_radius = 5;
-      blur_params_noise = 0.08;
+      blur_params_num_passes = 5;
+      blur_params_radius = 4;
+      blur_params_noise = 0.02;
       blur_params_brightness = 1;
       blur_params_contrast = 0.89;
       blur_params_saturation = 1.2;
