@@ -43,15 +43,6 @@ let
     ];
   };
 
-  obsidian = mkSandbox {
-    name = "obsidian";
-    package = pkgs.obsidian;
-    rwPaths = [
-      "${home}/.config/obsidian"
-      "${home}/Documents/Obsidian"
-    ];
-  };
-
   qbittorrent = mkSandbox {
     name = "qbittorrent";
     package = pkgs.qbittorrent;
@@ -72,7 +63,6 @@ in
     vesktop
     #discord
     telegram
-    obsidian
     qbittorrent
   ];
 }

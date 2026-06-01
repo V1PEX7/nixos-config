@@ -25,7 +25,7 @@ My nixos dotfiles. Two machines (desktop + laptop), single user.
 
 ## Sandboxing
 
-Some apps run inside bubblewrap sandboxes: vesktop, discord, telegram-desktop, obsidian, qbittorrent. Each gets a tmpfs `$HOME` and can only write to its own config dir + `~/Downloads`. Defined in `home/sandbox.nix`, wrapper logic in `lib/mkSandbox.nix`.
+Some apps run inside bubblewrap sandboxes: vesktop, discord, telegram-desktop, qbittorrent. Each gets a tmpfs `$HOME` and can only write to its own config dir + `~/Downloads`. Defined in `home/sandbox.nix`, wrapper logic in `lib/mkSandbox.nix`.
 
 Apparmor is enabled system-wide on top of that.
 
@@ -112,7 +112,7 @@ This config is opinionated and makes choices that will lock you out of things if
 - `sudo` is fully disabled. If you don't know what `doas` is and you paste my config, you lose root access. Hope you kept a live usb around
 - DNS has no fallback. Quad9 goes down or you hit a captive portal - no internet until you fix it manually
 - Bluetooth is off by default
-- Vesktop, telegram, obsidian, and qbittorrent run inside bubblewrap sandboxes with heavy restrictions. They can't see your home directory, can't talk to most of your system, and will refuse to do things you might expect to work
+- Vesktop, telegram, and qbittorrent run inside bubblewrap sandboxes with heavy restrictions. They can't see your home directory, can't talk to most of your system, and will refuse to do things you might expect to work
 - Several kernel hardening options are on. Things might not work and you won't know why until you read what `kernel.strict` does
 - No login manager (SDDM, etc.). Autologin on both devices is on by default. If you disable autologin, you will have to login through tty1
 - I mass-delete, rename, and restructure modules without warning. These are my personal dotfiles, not a framework - if you fork this expecting stability you will have a bad time
