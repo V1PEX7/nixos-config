@@ -311,7 +311,7 @@ in
         "SUPER+SHIFT,Up,incnmaster,+1"
         "SUPER+SHIFT,Down,incnmaster,-1"
 
-        "SUPER+SHIFT,space,switch_layout"
+        "SUPER+ALT,space,switch_layout"
         "SUPER+CTRL+ALT,s,setlayout,scroller"
         "SUPER+CTRL+ALT,t,setlayout,tile"
         "SUPER+CTRL+ALT,r,setlayout,right_tile"
@@ -362,55 +362,64 @@ in
 
       source = [
       ];
+
+      keymode = {
+        common = {
+          bind = [
+            "SUPER,r,reload_config"
+          ];
+          bindl = [
+            "NONE,XF86AudioRaiseVolume,spawn_shell,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"
+            "NONE,XF86AudioLowerVolume,spawn_shell,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"
+            "NONE,XF86AudioMute,spawn_shell,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+            "NONE,XF86AudioMicMute,spawn_shell,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
+            "NONE,XF86AudioPlay,spawn,playerctl play-pause"
+            "NONE,XF86AudioStop,spawn,playerctl stop"
+            "NONE,XF86AudioPrev,spawn,playerctl previous"
+            "NONE,XF86AudioNext,spawn,playerctl next"
+            "NONE,XF86MonBrightnessUp,spawn_shell,brightnessctl --class=backlight set +10%"
+            "NONE,XF86MonBrightnessDown,spawn_shell,brightnessctl --class=backlight set 10%-"
+          ];
+        };
+
+        resize = {
+          bind = [
+            "NONE,h,resizewin,-40,0"
+            "NONE,l,resizewin,+40,0"
+            "NONE,k,resizewin,0,-40"
+            "NONE,j,resizewin,0,+40"
+            "NONE,Left,resizewin,-40,0"
+            "NONE,Right,resizewin,+40,0"
+            "NONE,Up,resizewin,0,-40"
+            "NONE,Down,resizewin,0,+40"
+            "SHIFT,h,smartresizewin,left"
+            "SHIFT,l,smartresizewin,right"
+            "SHIFT,k,smartresizewin,up"
+            "SHIFT,j,smartresizewin,down"
+            "NONE,Escape,setkeymode,default"
+            "NONE,Return,setkeymode,default"
+            "SUPER+SHIFT,Return,setkeymode,default"
+          ];
+        };
+
+        move = {
+          bind = [
+            "NONE,h,smartmovewin,left"
+            "NONE,l,smartmovewin,right"
+            "NONE,k,smartmovewin,up"
+            "NONE,j,smartmovewin,down"
+            "NONE,Left,movewin,-40,0"
+            "NONE,Right,movewin,+40,0"
+            "NONE,Up,movewin,0,-40"
+            "NONE,Down,movewin,0,+40"
+            "NONE,c,centerwin"
+            "NONE,Escape,setkeymode,default"
+            "NONE,Return,setkeymode,default"
+            "SUPER+CTRL,Return,setkeymode,default"
+          ];
+        };
+      };
     };
-
-    extraConfig = ''
-      keymode=common
-      bind=SUPER,r,reload_config
-      bindl=NONE,XF86AudioRaiseVolume,spawn_shell,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0
-      bindl=NONE,XF86AudioLowerVolume,spawn_shell,wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-
-      bindl=NONE,XF86AudioMute,spawn_shell,wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
-      bindl=NONE,XF86AudioMicMute,spawn_shell,wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
-      bindl=NONE,XF86AudioPlay,spawn,playerctl play-pause
-      bindl=NONE,XF86AudioStop,spawn,playerctl stop
-      bindl=NONE,XF86AudioPrev,spawn,playerctl previous
-      bindl=NONE,XF86AudioNext,spawn,playerctl next
-      bindl=NONE,XF86MonBrightnessUp,spawn_shell,brightnessctl --class=backlight set +10%
-      bindl=NONE,XF86MonBrightnessDown,spawn_shell,brightnessctl --class=backlight set 10%-
-
-      keymode=resize
-      bind=NONE,h,resizewin,-40,0
-      bind=NONE,l,resizewin,+40,0
-      bind=NONE,k,resizewin,0,-40
-      bind=NONE,j,resizewin,0,+40
-      bind=NONE,Left,resizewin,-40,0
-      bind=NONE,Right,resizewin,+40,0
-      bind=NONE,Up,resizewin,0,-40
-      bind=NONE,Down,resizewin,0,+40
-      bind=SHIFT,h,smartresizewin,left
-      bind=SHIFT,l,smartresizewin,right
-      bind=SHIFT,k,smartresizewin,up
-      bind=SHIFT,j,smartresizewin,down
-      bind=NONE,Escape,setkeymode,default
-      bind=NONE,Return,setkeymode,default
-      bind=SUPER+SHIFT,Return,setkeymode,default
-
-      keymode=move
-      bind=NONE,h,smartmovewin,left
-      bind=NONE,l,smartmovewin,right
-      bind=NONE,k,smartmovewin,up
-      bind=NONE,j,smartmovewin,down
-      bind=NONE,Left,movewin,-40,0
-      bind=NONE,Right,movewin,+40,0
-      bind=NONE,Up,movewin,0,-40
-      bind=NONE,Down,movewin,0,+40
-      bind=NONE,c,centerwin
-      bind=NONE,Escape,setkeymode,default
-      bind=NONE,Return,setkeymode,default
-      bind=SUPER+CTRL,Return,setkeymode,default
-
-      keymode=default
-    '';
   };
 
   xdg.configFile."mango/autostart.sh".source = pkgs.writeShellScript "mango-autostart" ''
