@@ -511,7 +511,199 @@ let
         border = "96dcdaff";
       };
     };
+
+    sakura = {
+      bg = "#181115";
+      surface = "#241b20";
+      fg = "#e6d8dd";
+      accent = "#c07898";
+      hover = "#362830";
+      red = "#e0607a";
+      green = "#8dc47a";
+      yellow = "#d4a860";
+      contrast = "#000";
+      shadow = "#100b0e";
+      dim = "0.38";
+      calMonth = "#e6d8dd";
+      calWeekdays = "#d4a860";
+      calToday = "#c07898";
+
+      mango = {
+        focus = "0xc07898ff";
+        border = "0x362830aa";
+        urgent = "0xe0607aff";
+        scratchpad = "0x7e9ec0ff";
+        global = "0xa87ec0ff";
+        overlay = "0x8dc47aff";
+        maximize = "0x78a896ff";
+        root = "0x181115ff";
+        shadow = "0x00000077";
+      };
+
+      term = {
+        bg = "#181115";
+        fg = "#e6d8dd";
+        selText = "#e6d8dd";
+        selBg = "#4a2a36";
+        curText = "#181115";
+        curCursor = "#c07898";
+        black = "#181115";
+        red = "#e0607a";
+        green = "#8dc47a";
+        yellow = "#d4a860";
+        blue = "#7e9ec0";
+        magenta = "#c07898";
+        cyan = "#78a896";
+        white = "#ccc0c4";
+        brBlack = "#6a5058";
+        brRed = "#e88098";
+        brGreen = "#a8d896";
+        brYellow = "#e4c080";
+        brBlue = "#9ab8d8";
+        brMagenta = "#d898b0";
+        brCyan = "#96c0b4";
+        brWhite = "#e6d8dd";
+      };
+
+      fuzzel = {
+        bg = "181115ee";
+        text = "e6d8ddff";
+        match = "c07898ff";
+        selection = "362830ff";
+        selText = "e6d8ddff";
+        selMatch = "c07898ff";
+        border = "c07898ff";
+      };
+    };
+
+    orchid = {
+      bg = "#141214";
+      surface = "#201c20";
+      fg = "#e0d4e0";
+      accent = "#b87eb8";
+      hover = "#2e283e";
+      red = "#d86878";
+      green = "#88c47a";
+      yellow = "#c8a860";
+      contrast = "#000";
+      shadow = "#0c0a0c";
+      dim = "0.38";
+      calMonth = "#e0d4e0";
+      calWeekdays = "#c8a860";
+      calToday = "#b87eb8";
+
+      mango = {
+        focus = "0xb87eb8ff";
+        border = "0x2e283eaa";
+        urgent = "0xd86878ff";
+        scratchpad = "0x7898c8ff";
+        global = "0xb87eb8ff";
+        overlay = "0x88c47aff";
+        maximize = "0x70a898ff";
+        root = "0x141214ff";
+        shadow = "0x00000077";
+      };
+
+      term = {
+        bg = "#141214";
+        fg = "#e0d4e0";
+        selText = "#e0d4e0";
+        selBg = "#3c2a48";
+        curText = "#141214";
+        curCursor = "#b87eb8";
+        black = "#141214";
+        red = "#d86878";
+        green = "#88c47a";
+        yellow = "#c8a860";
+        blue = "#7898c8";
+        magenta = "#b87eb8";
+        cyan = "#70a898";
+        white = "#c0b4c0";
+        brBlack = "#604858";
+        brRed = "#e88898";
+        brGreen = "#a4d898";
+        brYellow = "#dcc080";
+        brBlue = "#98b4e0";
+        brMagenta = "#d0a0d0";
+        brCyan = "#90c0b0";
+        brWhite = "#e0d4e0";
+      };
+
+      fuzzel = {
+        bg = "141214ee";
+        text = "e0d4e0ff";
+        match = "b87eb8ff";
+        selection = "2e283eff";
+        selText = "e0d4e0ff";
+        selMatch = "b87eb8ff";
+        border = "b87eb8ff";
+      };
+    };
+
+    mochi = {
+      bg = "#131118";
+      surface = "#1e1924";
+      fg = "#e4d8e8";
+      accent = "#d07a9a";
+      hover = "#2a2236";
+      red = "#e06070";
+      green = "#88c480";
+      yellow = "#d0a858";
+      contrast = "#000";
+      shadow = "#0d0b10";
+      dim = "0.38";
+      calMonth = "#e4d8e8";
+      calWeekdays = "#d0a858";
+      calToday = "#d07a9a";
+
+      mango = {
+        focus = "0xd07a9aff";
+        border = "0x2a2236aa";
+        urgent = "0xe06070ff";
+        scratchpad = "0x7888c8ff";
+        global = "0xa880c8ff";
+        overlay = "0x88c480ff";
+        maximize = "0x6898a0ff";
+        root = "0x131118ff";
+        shadow = "0x00000077";
+      };
+
+      term = {
+        bg = "#131118";
+        fg = "#e4d8e8";
+        selText = "#e4d8e8";
+        selBg = "#44283e";
+        curText = "#131118";
+        curCursor = "#d07a9a";
+        black = "#131118";
+        red = "#e06070";
+        green = "#88c480";
+        yellow = "#d0a858";
+        blue = "#7888c8";
+        magenta = "#d07a9a";
+        cyan = "#6898a0";
+        white = "#c4b8cc";
+        brBlack = "#5e4868";
+        brRed = "#e88898";
+        brGreen = "#a4d898";
+        brYellow = "#dcc078";
+        brBlue = "#98a8e0";
+        brMagenta = "#e098b8";
+        brCyan = "#88b8c0";
+        brWhite = "#e4d8e8";
+      };
+
+      fuzzel = {
+        bg = "131118ee";
+        text = "e4d8e8ff";
+        match = "d07a9aff";
+        selection = "2a2236ff";
+        selText = "e4d8e8ff";
+        selMatch = "d07a9aff";
+        border = "d07a9aff";
+      };
+    };
   };
-  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, catppuccin
+  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi
 in
-themes.neon-dusk
+themes.mochi
