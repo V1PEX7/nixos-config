@@ -703,7 +703,135 @@ let
         border = "d07a9aff";
       };
     };
+
+    nightowl = {
+      bg = "#131318";
+      surface = "#1f1f25";
+      fg = "#e4e1e9";
+      accent = "#bec2ff";
+      hover = "#34343a";
+      red = "#ffb4ab";
+      green = "#a8c47a";
+      yellow = "#e8c08e";
+      contrast = "#000";
+      shadow = "#0c0c10";
+      dim = "0.4";
+      calMonth = "#e4e1e9";
+      calWeekdays = "#e8c08e";
+      calToday = "#ffb2b8";
+
+      mango = {
+        focus = "0xbec2ffff";
+        border = "0x34343aaa";
+        urgent = "0xffb4abff";
+        scratchpad = "0x9da4ffff";
+        global = "0xe8b9d5ff";
+        overlay = "0xe8c08eff";
+        maximize = "0xa8c47aff";
+        root = "0x131318ff";
+        shadow = "0x00000077";
+      };
+
+      term = {
+        bg = "#131318";
+        fg = "#e4e1e9";
+        selText = "#e4e1e9";
+        selBg = "#2a292f";
+        curText = "#131318";
+        curCursor = "#bec2ff";
+        black = "#1f1f25";
+        red = "#ffb2b8";
+        green = "#a8c47a";
+        yellow = "#e8c08e";
+        blue = "#bec2ff";
+        magenta = "#e8b9d5";
+        cyan = "#c5c4dd";
+        white = "#c7c5d0";
+        brBlack = "#46464f";
+        brRed = "#ffdadb";
+        brGreen = "#c2dba0";
+        brYellow = "#ffddb4";
+        brBlue = "#e0e0ff";
+        brMagenta = "#ffd8ee";
+        brCyan = "#e1e0f9";
+        brWhite = "#f0eef7";
+      };
+
+      fuzzel = {
+        bg = "131318ee";
+        text = "e4e1e9ff";
+        match = "bec2ffff";
+        selection = "2a292fff";
+        selText = "e4e1e9ff";
+        selMatch = "bec2ffff";
+        border = "bec2ffff";
+      };
+    };
+
+    rosewood = {
+      bg = "#1a1112";
+      surface = "#271d1e";
+      fg = "#f0dedf";
+      accent = "#ffb2b8";
+      hover = "#3d3233";
+      red = "#ffb4ab";
+      green = "#9ec48a";
+      yellow = "#e8c08e";
+      contrast = "#000";
+      shadow = "#100a0b";
+      dim = "0.4";
+      calMonth = "#f0dedf";
+      calWeekdays = "#e8c08e";
+      calToday = "#ffb2b8";
+
+      mango = {
+        focus = "0xffb2b8ff";
+        border = "0x3d3233aa";
+        urgent = "0xffb4abff";
+        scratchpad = "0x9ab8d8ff";
+        global = "0xe6bdbfff";
+        overlay = "0xe8c08eff";
+        maximize = "0x9ec48aff";
+        root = "0x1a1112ff";
+        shadow = "0x00000077";
+      };
+
+      term = {
+        bg = "#1a1112";
+        fg = "#f0dedf";
+        selText = "#f0dedf";
+        selBg = "#312828";
+        curText = "#1a1112";
+        curCursor = "#ffb2b8";
+        black = "#271d1e";
+        red = "#ffb2b8";
+        green = "#9ec48a";
+        yellow = "#e8c08e";
+        blue = "#9ab8d8";
+        magenta = "#e6bdbf";
+        cyan = "#a8c4bf";
+        white = "#d7c1c2";
+        brBlack = "#524344";
+        brRed = "#ffdadb";
+        brGreen = "#bcd9a8";
+        brYellow = "#ffddb4";
+        brBlue = "#bcd2e8";
+        brMagenta = "#f4ddde";
+        brCyan = "#c8e0db";
+        brWhite = "#fff8f7";
+      };
+
+      fuzzel = {
+        bg = "1a1112ee";
+        text = "f0dedfff";
+        match = "ffb2b8ff";
+        selection = "312828ff";
+        selText = "f0dedfff";
+        selMatch = "ffb2b8ff";
+        border = "ffb2b8ff";
+      };
+    };
   };
-  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi
+  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi, nightowl, rosewood
 in
-themes.mochi
+themes.nightowl
