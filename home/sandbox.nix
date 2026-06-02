@@ -11,6 +11,8 @@ let
   vesktop = mkSandbox {
     name = "vesktop";
     package = pkgs.vesktop;
+    preset = "gui-av";
+    network = true;
     rwPaths = [
       "${home}/.config/vesktop"
       "${home}/.config/Vencord"
@@ -25,6 +27,8 @@ let
   #     withOpenASAR = true;
   #   };
   #   binPath = "bin/Discord";
+  #   preset = "gui-av";
+  #   network = true;
   #   rwPaths = [
   #     "${home}/.config/discord"
   #     "${home}/.config/Vencord"
@@ -36,6 +40,8 @@ let
     name = "telegram-desktop";
     package = pkgs.telegram-desktop;
     binPath = "bin/Telegram";
+    preset = "gui-av";
+    network = true;
     rwPaths = [
       "${home}/.local/share/TelegramDesktop"
       "${home}/.cache/TelegramDesktop"
@@ -46,15 +52,12 @@ let
   qbittorrent = mkSandbox {
     name = "qbittorrent";
     package = pkgs.qbittorrent;
+    preset = "gui";
+    network = true;
     rwPaths = [
       "${home}/.config/qBittorrent"
       "${home}/.local/share/qBittorrent"
       "${home}/Downloads"
-    ];
-    roPaths = [
-      "${home}/.config/gtk-3.0"
-      "${home}/.config/gtk-4.0"
-      "${home}/.config/dconf"
     ];
   };
 in

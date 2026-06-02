@@ -7,16 +7,28 @@
   name,
   package,
   binPath ? "bin/${name}",
+
+  # Capability preset. Deny-by-default: a preset grants a bundle of capabilities
+  # cli       - no display/audio/bus (headless)
+  # gui       - wayland + gpu + theme + session bus
+  # gui-audio - gui + pulse
+  # gui-av    - gui + pulse + pipewire (calls, screen-share media)
+  preset ? "gui",
+
   rwPaths ? [ ],
   roPaths ? [ ],
   extraArgs ? [ ],
-  network ? true,
-  gpu ? true,
-  wayland ? true,
-  pipewire ? true,
-  pulse ? true,
-  dbusSession ? true,
-  dbusSystem ? false,
+
+  # Per-capability overrides. null inherits the preset
+  network ? null,
+  gpu ? null,
+  wayland ? null,
+  pipewire ? null,
+  pulse ? null,
+  dbusSession ? null,
+  dbusSystem ? null,
+  theme ? null,
+
   unsetVars ? [
     "SSH_AUTH_SOCK"
     "SSH_AGENT_PID"
@@ -29,10 +41,56 @@
 let
   bwrap = "${pkgs.bubblewrap}/bin/bwrap";
 
+  guiCaps = {
+    wayland = true;
+    gpu = true;
+    theme = true;
+    dbusSession = true;
+  };
+  presets = {
+    cli = { };
+    gui = guiCaps;
+    gui-audio = guiCaps // {
+      pulse = true;
+    };
+    gui-av = guiCaps // {
+      pulse = true;
+      pipewire = true;
+    };
+  };
+
+  baseCaps = {
+    network = false;
+    gpu = false;
+    wayland = false;
+    pipewire = false;
+    pulse = false;
+    dbusSession = false;
+    dbusSystem = false;
+    theme = false;
+  };
+
+  presetCaps = presets.${preset} or (throw ''mkSandbox: unknown preset "${preset}"'');
+
+  overrides = lib.filterAttrs (_: v: v != null) {
+    inherit
+      network
+      gpu
+      wayland
+      pipewire
+      pulse
+      dbusSession
+      dbusSystem
+      theme
+      ;
+  };
+
+  caps = baseCaps // presetCaps // overrides;
+
   baseArgs = [
     "--unshare-all"
   ]
-  ++ lib.optional network "--share-net"
+  ++ lib.optional caps.network "--share-net"
   ++ [
     "--die-with-parent"
     "--new-session"
@@ -54,7 +112,7 @@ let
     "--dev /dev"
     "--tmpfs /tmp"
   ]
-  ++ lib.optionals gpu [
+  ++ lib.optionals caps.gpu [
     "--dev-bind /dev/dri /dev/dri"
     "--ro-bind-try /run/opengl-driver /run/opengl-driver"
     "--ro-bind-try /run/opengl-driver-32 /run/opengl-driver-32"
@@ -68,33 +126,49 @@ let
     ''--chdir "$HOME"''
   ];
 
+  themeArgs = lib.optionals caps.theme [
+    "--ro-bind-try /etc/profiles /etc/profiles"
+    ''--ro-bind-try "$HOME/.config/gtk-3.0" "$HOME/.config/gtk-3.0"''
+    ''--ro-bind-try "$HOME/.config/gtk-4.0" "$HOME/.config/gtk-4.0"''
+    ''--ro-bind-try "$HOME/.config/dconf" "$HOME/.config/dconf"''
+    ''--ro-bind-try "$HOME/.config/qt5ct" "$HOME/.config/qt5ct"''
+    ''--ro-bind-try "$HOME/.config/qt6ct" "$HOME/.config/qt6ct"''
+    ''--ro-bind-try "$HOME/.config/kdeglobals" "$HOME/.config/kdeglobals"''
+    ''--ro-bind-try "$HOME/.gtkrc-2.0" "$HOME/.gtkrc-2.0"''
+    ''--ro-bind-try "$HOME/.icons" "$HOME/.icons"''
+    ''--ro-bind-try "$HOME/.local/share/icons" "$HOME/.local/share/icons"''
+    ''--ro-bind-try "$HOME/.themes" "$HOME/.themes"''
+    ''--ro-bind-try "$HOME/.local/share/themes" "$HOME/.local/share/themes"''
+  ];
+
   bindRw = path: ''--bind-try "${path}" "${path}"'';
   bindRo = path: ''--ro-bind-try "${path}" "${path}"'';
   rwArgs = map bindRw rwPaths;
   roArgs = map bindRo roPaths;
 
   runtimeArgs =
-    lib.optionals wayland [
+    lib.optionals caps.wayland [
       ''--bind-try "$XDG_RUNTIME_DIR/wayland-0" "$XDG_RUNTIME_DIR/wayland-0"''
       ''--bind-try "$XDG_RUNTIME_DIR/wayland-1" "$XDG_RUNTIME_DIR/wayland-1"''
     ]
-    ++ lib.optionals pipewire [
+    ++ lib.optionals caps.pipewire [
       ''--bind-try "$XDG_RUNTIME_DIR/pipewire-0" "$XDG_RUNTIME_DIR/pipewire-0"''
       ''--bind-try "$XDG_RUNTIME_DIR/pipewire-0-manager" "$XDG_RUNTIME_DIR/pipewire-0-manager"''
     ]
-    ++ lib.optionals pulse [
+    ++ lib.optionals caps.pulse [
       ''--bind-try "$XDG_RUNTIME_DIR/pulse" "$XDG_RUNTIME_DIR/pulse"''
     ]
-    ++ lib.optionals dbusSession [
+    ++ lib.optionals caps.dbusSession [
       ''--bind-try "$XDG_RUNTIME_DIR/bus" "$XDG_RUNTIME_DIR/bus"''
     ]
-    ++ lib.optionals dbusSystem [
+    ++ lib.optionals caps.dbusSystem [
       "--ro-bind-try /run/dbus/system_bus_socket /run/dbus/system_bus_socket"
     ];
 
   unsetArgs = map (v: "--unsetenv ${v}") unsetVars;
 
-  allArgs = baseArgs ++ homeArgs ++ rwArgs ++ roArgs ++ runtimeArgs ++ unsetArgs ++ extraArgs;
+  allArgs =
+    baseArgs ++ homeArgs ++ themeArgs ++ rwArgs ++ roArgs ++ runtimeArgs ++ unsetArgs ++ extraArgs;
   argsLines = lib.concatStringsSep " \\\n  " allArgs;
 
   rwPathsBash = lib.concatMapStringsSep " " (p: ''"${p}"'') rwPaths;
