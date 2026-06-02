@@ -30,7 +30,7 @@ in
       };
 
       "colors-dark" = {
-        alpha = "0.78";
+        alpha = "0.9";
         background = builtins.substring 1 6 t.term.bg;
         foreground = builtins.substring 1 6 t.term.fg;
 
