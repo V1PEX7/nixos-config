@@ -51,7 +51,7 @@
 
   programs.zsh.profileExtra = ''
     if [ -z "$WAYLAND_DISPLAY" ] && [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-      exec mango
+      exec start-hyprland
     fi
   '';
 

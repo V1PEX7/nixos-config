@@ -1,14 +1,6 @@
-{ pkgs, ... }:
+{ ... }:
 let
   t = import ../theme.nix;
-  kbdLayout = pkgs.writeShellScript "waybar-kbd-layout" ''
-    out=""
-    if command -v mmsg >/dev/null 2>&1; then
-      out=$(mmsg get keyboardlayout 2>/dev/null | ${pkgs.jq}/bin/jq -r '.layout // empty')
-    fi
-    [ -z "$out" ] && out="??"
-    printf '{"text":"%s","tooltip":"Keyboard layout"}\n' "$out"
-  '';
 in
 {
   programs.waybar = {
@@ -27,9 +19,9 @@ in
 
       modules-left = [
         "custom/nix"
-        "dwl/tags"
+        "hyprland/workspaces"
         #"mpris"
-        "dwl/window"
+        "hyprland/window"
       ];
 
       modules-center = [
@@ -46,7 +38,7 @@ in
         "power-profiles-daemon"
         "memory"
         "cpu"
-        "custom/keyboard"
+        "hyprland/language"
         "battery"
       ];
 
@@ -55,11 +47,13 @@ in
         tooltip-format = "NixOS";
       };
 
-      "dwl/tags" = {
-        num-tags = 9;
+      "hyprland/workspaces" = {
+        format = "{id}";
+        on-click = "activate";
+        persistent-workspaces."*" = 9;
       };
 
-      "dwl/window" = {
+      "hyprland/window" = {
         format = "{title}";
         max-length = 20;
         rewrite."^$" = "󰍹 Desktop";
@@ -194,11 +188,9 @@ in
         };
       };
 
-      "custom/keyboard" = {
-        exec = "${kbdLayout}";
-        interval = 2;
-        return-type = "json";
-        format = " {}";
+      "hyprland/language" = {
+        tooltip-format = "Keyboard layout";
+        format = " {short}";
       };
 
       battery = {
@@ -270,14 +262,14 @@ in
         background-color: ${t.surface};
       }
 
-      #tags {
+      #workspaces {
         margin: 3px 2px;
         padding: 0 1px;
         background-color: ${t.surface};
         margin-left: 0px;
       }
 
-      #tags button {
+      #workspaces button {
         margin: 0px 0px;
         padding: 0 4px;
         background-color: transparent;
@@ -286,25 +278,25 @@ in
         transition: 0.15s ease-in-out;
       }
 
-      #tags button:hover {
+      #workspaces button:hover {
         background: ${t.hover};
         color: ${t.contrast};
       }
 
-      #tags button.focused {
+      #workspaces button.active {
         background-color: ${t.accent};
         color: ${t.contrast};
         margin: 0px 0px;
         padding: 0 4px;
       }
 
-      #tags button:not(.occupied) {
+      #workspaces button:not(.occupied) {
         color: alpha(${t.fg}, ${t.dim});
         opacity: 0.45;
         transition: all 0.15s ease-in-out;
       }
 
-      #tags button:not(.occupied).focused {
+      #workspaces button:not(.occupied).focused {
         background-color: ${t.fg};
         color: ${t.contrast};
       }
@@ -321,7 +313,7 @@ in
       #tray,
       #bluetooth,
       #backlight,
-      #custom-keyboard {
+      #language {
         padding: 0 8px;
         color: ${t.fg};
         margin: 3px 4px 3px 0px;
@@ -338,7 +330,7 @@ in
       #window,
       #memory,
       #clock,
-      #custom-keyboard {
+      #language {
         background-color: ${t.surface};
       }
 

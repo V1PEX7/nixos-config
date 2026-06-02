@@ -15,8 +15,6 @@
         ../hosts/common
         ../hosts/${hostname}
 
-        inputs.mango.nixosModules.mango
-
         inputs.home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -29,7 +27,6 @@
           home-manager.users.xnp = {
             imports = [
               ../home
-              inputs.mango.hmModules.mango
             ];
           };
         }

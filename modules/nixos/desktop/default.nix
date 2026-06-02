@@ -9,7 +9,7 @@ let
 in
 {
   imports = [
-    ./mango.nix
+    ./hyprland.nix
   ];
 
   options.modules.desktop.enable = lib.mkEnableOption "Shared desktop environment";
@@ -58,9 +58,11 @@ in
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
-        xdg-desktop-portal-wlr
       ];
-      config.common.default = [ "gtk" ];
+      config.common.default = [
+        "hyprland"
+        "gtk"
+      ];
     };
 
     environment.systemPackages = with pkgs; [

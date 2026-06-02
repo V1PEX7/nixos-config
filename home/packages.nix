@@ -40,5 +40,7 @@
     wayfreeze
     tesseract
     imagemagick
+
+    xdg-desktop-portal-gtk
   ];
 }

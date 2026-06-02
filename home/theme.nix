@@ -16,16 +16,10 @@ let
       calWeekdays = "#ffcc66";
       calToday = "#ff6699";
 
-      mango = {
-        focus = "0xff9b71ff";
-        border = "0x595959aa";
-        urgent = "0xf53c3cff";
-        scratchpad = "0x516c93ff";
-        global = "0xb153a7ff";
-        overlay = "0x14a57cff";
-        maximize = "0x89aa61ff";
-        root = "0x131315ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(ff9b71ff)";
+        inactive_border = "rgba(595959aa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -80,16 +74,10 @@ let
       calWeekdays = "#e0af68";
       calToday = "#ff007c";
 
-      mango = {
-        focus = "0x7dcfffff";
-        border = "0x3b3f5caa";
-        urgent = "0xf7768eff";
-        scratchpad = "0x7aa2f7ff";
-        global = "0xbb9af7ff";
-        overlay = "0x9ece6aff";
-        maximize = "0x73dacaff";
-        root = "0x1a1b26ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(7dcfffff)";
+        inactive_border = "rgba(3b3f5caa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -144,16 +132,10 @@ let
       calWeekdays = "#ffd580";
       calToday = "#ff2d8a";
 
-      mango = {
-        focus = "0x00e5ffff";
-        border = "0x2a2a3aaa";
-        urgent = "0xff2d8aff";
-        scratchpad = "0x82aaffff";
-        global = "0xc792eaff";
-        overlay = "0x62d196ff";
-        maximize = "0x62d196ff";
-        root = "0x0e0e14ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(00e5ffff)";
+        inactive_border = "rgba(2a2a3aaa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -208,16 +190,10 @@ let
       calWeekdays = "#e6c384";
       calToday = "#d27e99";
 
-      mango = {
-        focus = "0x7e9cd8ff";
-        border = "0x363646aa";
-        urgent = "0xe82424ff";
-        scratchpad = "0x7fb4caff";
-        global = "0x957fb8ff";
-        overlay = "0x98bb6cff";
-        maximize = "0x6a9589ff";
-        root = "0x1f1f28ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(7e9cd8ff)";
+        inactive_border = "rgba(363646aa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -272,16 +248,10 @@ let
       calWeekdays = "#f6c177";
       calToday = "#eb6f92";
 
-      mango = {
-        focus = "0xc4a7e7ff";
-        border = "0x26233aaa";
-        urgent = "0xeb6f92ff";
-        scratchpad = "0x9ccfd8ff";
-        global = "0xc4a7e7ff";
-        overlay = "0x31748fff";
-        maximize = "0x9ccfd8ff";
-        root = "0x191724ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(c4a7e7ff)";
+        inactive_border = "rgba(26233aaa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -336,16 +306,10 @@ let
       calWeekdays = "#909090";
       calToday = "#ffffff";
 
-      mango = {
-        focus = "0xf0f0f0ff";
-        border = "0x303030aa";
-        urgent = "0xc04040ff";
-        scratchpad = "0x707070ff";
-        global = "0x909090ff";
-        overlay = "0x606060ff";
-        maximize = "0x808080ff";
-        root = "0x0c0c0cff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(f0f0f0ff)";
+        inactive_border = "rgba(303030aa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -400,16 +364,10 @@ let
       calWeekdays = "#f9e2af";
       calToday = "#f5c2e7";
 
-      mango = {
-        focus = "0x6c7086ff";
-        border = "0x45475aaa";
-        urgent = "0xf38ba8ff";
-        scratchpad = "0x89b4faff";
-        global = "0xf5c2e7ff";
-        overlay = "0xa6e3a1ff";
-        maximize = "0x94e2d5ff";
-        root = "0x1e1e2eff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(6c7086ff)";
+        inactive_border = "rgba(45475aaa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -464,16 +422,10 @@ let
       calWeekdays = "#dab752";
       calToday = "#e64569";
 
-      mango = {
-        focus = "0x96dcdaff";
-        border = "0x1e1e1eaa";
-        urgent = "0xe64569ff";
-        scratchpad = "0x439ecfff";
-        global = "0xd961dcff";
-        overlay = "0x89d287ff";
-        maximize = "0x64aaafff";
-        root = "0x0c0c0cff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(96dcdaff)";
+        inactive_border = "rgba(1e1e1eaa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -528,16 +480,10 @@ let
       calWeekdays = "#d4a860";
       calToday = "#c07898";
 
-      mango = {
-        focus = "0xc07898ff";
-        border = "0x362830aa";
-        urgent = "0xe0607aff";
-        scratchpad = "0x7e9ec0ff";
-        global = "0xa87ec0ff";
-        overlay = "0x8dc47aff";
-        maximize = "0x78a896ff";
-        root = "0x181115ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(c07898ff)";
+        inactive_border = "rgba(362830aa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -592,16 +538,10 @@ let
       calWeekdays = "#c8a860";
       calToday = "#b87eb8";
 
-      mango = {
-        focus = "0xb87eb8ff";
-        border = "0x2e283eaa";
-        urgent = "0xd86878ff";
-        scratchpad = "0x7898c8ff";
-        global = "0xb87eb8ff";
-        overlay = "0x88c47aff";
-        maximize = "0x70a898ff";
-        root = "0x141214ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(b87eb8ff)";
+        inactive_border = "rgba(2e283eaa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -656,16 +596,10 @@ let
       calWeekdays = "#d0a858";
       calToday = "#d07a9a";
 
-      mango = {
-        focus = "0xd07a9aff";
-        border = "0x2a2236aa";
-        urgent = "0xe06070ff";
-        scratchpad = "0x7888c8ff";
-        global = "0xa880c8ff";
-        overlay = "0x88c480ff";
-        maximize = "0x6898a0ff";
-        root = "0x131118ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(d07a9aff)";
+        inactive_border = "rgba(2a2236aa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -720,16 +654,10 @@ let
       calWeekdays = "#e8c08e";
       calToday = "#ffb2b8";
 
-      mango = {
-        focus = "0xbec2ffff";
-        border = "0x34343aaa";
-        urgent = "0xffb4abff";
-        scratchpad = "0x9da4ffff";
-        global = "0xe8b9d5ff";
-        overlay = "0xe8c08eff";
-        maximize = "0xa8c47aff";
-        root = "0x131318ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(bec2ffff)";
+        inactive_border = "rgba(34343aaa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
@@ -784,16 +712,10 @@ let
       calWeekdays = "#e8c08e";
       calToday = "#ffb2b8";
 
-      mango = {
-        focus = "0xffb2b8ff";
-        border = "0x3d3233aa";
-        urgent = "0xffb4abff";
-        scratchpad = "0x9ab8d8ff";
-        global = "0xe6bdbfff";
-        overlay = "0xe8c08eff";
-        maximize = "0x9ec48aff";
-        root = "0x1a1112ff";
-        shadow = "0x00000077";
+      hypr = {
+        active_border = "rgba(ffb2b8ff)";
+        inactive_border = "rgba(3d3233aa)";
+        shadow = "rgba(00000077)";
       };
 
       term = {
