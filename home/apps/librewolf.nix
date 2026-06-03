@@ -6,6 +6,7 @@
     settings = {
       "browser.startup.homepage" = "about:blank";
       "browser.newtabpage.enabled" = false;
+      "browser.tabs.inTitlebar" = 1;
 
       "browser.privatebrowsing.autostart" = true;
 

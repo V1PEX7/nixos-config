@@ -56,7 +56,10 @@ in
       "hyprland/window" = {
         format = "{title}";
         max-length = 20;
-        rewrite."^$" = "󰍹 Desktop";
+        rewrite = {
+          "^$" = "󰍹 Desktop";
+          ".*LibreWolf.*" = "󰈹 LibreWolf";
+        };
       };
 
       # mpris = {
