@@ -283,22 +283,18 @@ in
         color: ${t.contrast};
       }
 
-      #workspaces button.active {
-        background-color: ${t.accent};
-        color: ${t.contrast};
-        margin: 0px 0px;
-        padding: 0 4px;
-      }
-
-      #workspaces button:not(.occupied) {
+      #workspaces button.empty {
         color: alpha(${t.fg}, ${t.dim});
         opacity: 0.45;
         transition: all 0.15s ease-in-out;
       }
 
-      #workspaces button:not(.occupied).focused {
-        background-color: ${t.fg};
+      #workspaces button.active {
+        background-color: ${t.accent};
         color: ${t.contrast};
+        opacity: 1;
+        margin: 0px 0px;
+        padding: 0 4px;
       }
 
       #window,
