@@ -6,7 +6,7 @@ My nixos dotfiles. Two machines (desktop + laptop), single user.
 
 ## Stack
 
-- **compositor:** [mangowm](https://github.com/mangowm/mango)
+- **compositor:** [hyprland](https://github.com/hyprwm/Hyprland)
 - **bar:** waybar
 - **launcher:** fuzzel
 - **terminal:** foot
@@ -39,6 +39,10 @@ myapp = mkSandbox {
 };
 ```
 
+## Screen capture
+
+Hyprland's permission system is enforced (`ecosystem.enforce_permissions`). Only explicitly whitelisted binaries can grab the screen via `screencopy` - grim, wayfreeze, and the hyprland portal. Anything else (including a compromised browser or a random Wayland client) is blocked at the compositor. LibreWolf additionally carries a `no_screen_share` rule so it never shows up in a screenshare picker.
+
 ## Hardening
 
 Four toggleable modules under `modules/nixos/hardening/`:
@@ -50,7 +54,7 @@ Four toggleable modules under `modules/nixos/hardening/`:
 
 ## Theme switching
 
-`home/theme.nix` defines color palettes. waybar, fuzzel, foot, and mango borders all read from it. Change the last line:
+`home/theme.nix` defines color palettes. waybar, fuzzel, foot, and hyprland borders all read from it. Change the last line:
 
 ```
 themes.omarchy       - zinc/cream/orange
@@ -65,7 +69,7 @@ Rebuild. Everything switches.
 
 ## Gaming
 
-Desktop has steam + proton-ge + lact (amd gpu tuning). `kernel.strict` is off so anti-cheats don't complain. Games on tag 6 get `force_tearing:1`.
+Desktop has steam + proton-ge + lact (amd gpu tuning). `kernel.strict` is off so anti-cheats don't complain. `allow_tearing` is on globally; Steam apps land on workspace 6 with `immediate` (tearing) enabled.
 
 ## Hardware
 
@@ -79,7 +83,7 @@ GPU modules for amd and nvidia exist separately under `modules/nixos/hardware/`.
 ## Layout
 
 ```
-flake.nix                  three inputs: nixpkgs, home-manager, mango
+flake.nix                  two inputs: nixpkgs, home-manager
 lib/
   default.nix              mkHost factory
   mkSandbox.nix            bwrap wrapper
@@ -90,7 +94,7 @@ hosts/
 modules/nixos/
   hardening/               kernel.basic, kernel.strict, network, modules
   hardware/                amd, nvidia, audio
-  desktop/                 fonts, portals, thunar, mango
+  desktop/                 fonts, portals, thunar, hyprland
   networking.nix           quad9 dot, firewall, no bluetooth default
   apps.nix                 zsh, git, throne, localsend, steam, docker
   sandbox.nix              apparmor + bwrap
@@ -100,7 +104,7 @@ home/
   packages.nix             unsandboxed apps
   sandbox.nix              bwrap-wrapped apps
   scripts.nix              screenshot helpers, wallpicker
-  desktop/mangowc.nix      compositor config + autostart
+  desktop/hyprland.nix     compositor config + autostart
   apps/                    foot, fastfetch, fuzzel, librewolf, rmpc, waybar, zsh
 dotfiles/                  mutable configs (zed, etc)
 ```
