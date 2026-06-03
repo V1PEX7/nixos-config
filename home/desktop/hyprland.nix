@@ -28,7 +28,7 @@ in
       monitor = [
         "DP-1,2560x1440@180,0x0,1,vrr,1"
         "DP-2,1920x1080@240,-1920x360,1"
-        "eDP-1,1920x1080@240,auto,1"
+        "eDP-1,2160x1440@240,auto,1"
       ];
 
       general = {
@@ -70,17 +70,16 @@ in
         enabled = true;
 
         bezier = [
-          "myBezier, 0.46, 1.0, 0.29, 1"
-          "closeBezier, 0.08, 0.92, 0, 1"
+          "snap, 0.25, 1, 0.3, 1"
         ];
 
         animation = [
-          "windows, 1, 4, myBezier, slide"
-          "windowsOut, 1, 3, closeBezier, slide"
-          "border, 1, 10, default"
-          "fade, 1, 3, default"
-          "workspaces, 0, 6, default"
-          "layers, 1, 3, default, fade"
+          "windows, 1, 3, snap, popin 80%"
+          "windowsOut, 1, 3, snap, popin 80%"
+          "fade, 1, 2.5, snap"
+          "workspaces, 1, 3, snap, slide"
+          "border, 1, 8, default"
+          "layers, 1, 2.5, snap, fade"
         ];
       };
 
