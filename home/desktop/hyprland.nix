@@ -28,6 +28,7 @@ in
       monitor = [
         "DP-1,2560x1440@180,0x0,1,vrr,1"
         "DP-2,1920x1080@240,-1920x360,1"
+        "eDP-1,1920x1080@240,auto,1"
       ];
 
       general = {
@@ -105,7 +106,7 @@ in
 
       master = {
         new_status = "slave";
-        mfact = "0.55";
+        mfact = "0.5";
       };
 
       misc = {
