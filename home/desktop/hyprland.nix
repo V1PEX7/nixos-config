@@ -77,7 +77,7 @@ in
           "windows, 1, 3, snap, popin 80%"
           "windowsOut, 1, 3, snap, popin 80%"
           "fade, 1, 2.5, snap"
-          "workspaces, 1, 3, snap, slide"
+          "workspaces, 1, 2, snap, fade"
           "border, 1, 8, default"
           "layers, 1, 2.5, snap, fade"
         ];
@@ -372,9 +372,6 @@ in
   };
 
   xdg.configFile."hypr/autostart.sh".source = pkgs.writeShellScript "hypr-autostart" ''
-    systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-    systemctl --user restart xdg-desktop-portal.service xdg-desktop-portal-hyprland.service
-
     waybar &
 
     if [ -f "$HOME/.config/wallpaper" ]; then
