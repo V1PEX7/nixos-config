@@ -19,7 +19,7 @@ My nixos dotfiles. Two machines (desktop + laptop), single user.
 - **screenshots:** grim + slurp + satty + wayfreeze, ocr via tesseract
 - **clipboard:** cliphist + wl-clip-persist, fuzzel as picker
 - **wallpaper:** swaybg, fuzzel as picker
-- **vpn:** throne (tun mode)
+- **vpn:** xray (tun mode)
 - **auth:** doas (sudo is disabled)
 - **dns:** quad9 over tls, dnssec, no fallback
 
@@ -96,7 +96,8 @@ modules/nixos/
   hardware/                amd, nvidia, audio
   desktop/                 fonts, portals, thunar, hyprland
   networking.nix           quad9 dot, firewall, no bluetooth default
-  apps.nix                 zsh, git, throne, localsend, steam, docker
+  vpn.nix                  xray tun service + routing
+  apps.nix                 zsh, git, localsend, steam, docker
   sandbox.nix              apparmor + bwrap
 home/
   theme.nix                color palettes
