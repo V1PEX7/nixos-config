@@ -35,6 +35,8 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.xray ];
 
+    boot.kernelModules = [ "tun" ];
+
     # Secret config lives out-of-store at /etc/xray/config.json
     systemd.services.xray = {
       description = "Xray VPN (tun)";
@@ -42,14 +44,29 @@ in
       after = [ "network-online.target" ];
       wants = [ "network-online.target" ];
       serviceConfig = {
+        DynamicUser = true;
+        LoadCredential = "config.json:/etc/xray/config.json";
         ExecStartPre = "+${routeDown}"; # clear any leftovers from a crashed run
-        ExecStart = "${pkgs.xray}/bin/xray run -c /etc/xray/config.json";
+        ExecStart = "${pkgs.xray}/bin/xray run -c %d/config.json";
         ExecStartPost = "+${routeUp}";
         ExecStopPost = "+${routeDown}";
         AmbientCapabilities = [ "CAP_NET_ADMIN" ];
         CapabilityBoundingSet = [ "CAP_NET_ADMIN" ];
         Restart = "on-failure";
         RestartSec = 3;
+
+        ProtectSystem = "strict";
+        ProtectHome = true;
+        ProtectKernelModules = true;
+        RestrictAddressFamilies = [
+          "AF_UNIX"
+          "AF_INET"
+          "AF_INET6"
+          "AF_NETLINK"
+        ];
+        SystemCallFilter = [ "@system-service" ];
+        DevicePolicy = "closed";
+        DeviceAllow = [ "/dev/net/tun rw" ];
       };
     };
   };
