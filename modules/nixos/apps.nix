@@ -31,11 +31,6 @@ in
           enable = true;
           openFirewall = true;
         };
-
-        programs.throne = {
-          enable = true;
-          tunMode.enable = true;
-        };
       }
 
       (lib.mkIf cfg.gaming.enable {

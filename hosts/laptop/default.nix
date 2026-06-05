@@ -17,6 +17,7 @@
     desktop.enable = true;
     desktop.hyprland.enable = true;
     networking.enable = true;
+    vpn.enable = true;
     apps.enable = true;
     #apps.vm.enable = true;
     sandbox.enable = true;

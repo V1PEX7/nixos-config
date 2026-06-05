@@ -6,6 +6,7 @@
     ./hardware/audio.nix
     ./desktop
     ./networking.nix
+    ./vpn.nix
     ./apps.nix
     ./sandbox.nix
   ];
