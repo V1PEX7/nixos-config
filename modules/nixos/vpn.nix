@@ -20,8 +20,6 @@ let
     ${ip} rule add fwmark ${mark} lookup main priority 100
     ${ip} rule add lookup ${table} priority 200
     ${ip} route replace default dev xray0 table ${table}
-    # If LAN breaks, uncomment to honor connected routes:
-    # ${ip} rule add lookup main suppress_prefixlength 0 priority 150
   '';
 
   routeDown = pkgs.writeShellScript "xray-route-down" ''
@@ -37,7 +35,7 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.xray ];
 
-    # Secret config lives out-of-store at /etc/xray/config.json (root:root 0600),
+    # Secret config lives out-of-store at /etc/xray/config.json
     systemd.services.xray = {
       description = "Xray VPN (tun)";
       wantedBy = [ "multi-user.target" ];
