@@ -9,6 +9,7 @@
         show_hidden = true;
         sort_by = "natural";
         sort_dir_first = true;
+        linemode = "size";
       };
       preview = {
         image_filter = "lanczos3";
