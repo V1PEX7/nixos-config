@@ -10,6 +10,8 @@
 
       "browser.privatebrowsing.autostart" = true;
 
+      "media.ffmpeg.vaapi.enabled" = true;
+
       "network.trr.mode" = 2;
       "network.trr.uri" = "https://dns.quad9.net/dns-query";
       "network.dns.echconfig.enabled" = true;
