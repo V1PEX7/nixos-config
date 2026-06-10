@@ -38,7 +38,7 @@ in
         "col.active_border" = t.hypr.active_border;
         "col.inactive_border" = t.hypr.inactive_border;
         allow_tearing = true;
-        layout = "master";
+        layout = "dwindle";
       };
 
       decoration = {
