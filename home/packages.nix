@@ -38,7 +38,12 @@
     swaybg
     wlr-randr
     wayfreeze
-    tesseract
+    (tesseract5.override {
+      enableLanguages = [
+        "eng"
+        "rus"
+      ];
+    })
     imagemagick
 
     xdg-desktop-portal-gtk
