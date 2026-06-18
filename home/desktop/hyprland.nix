@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, osConfig, ... }:
 let
   t = import ../theme.nix;
 in
@@ -126,7 +126,7 @@ in
       permission = [
         "${pkgs.grim}/bin/grim, screencopy, allow"
         "${pkgs.wayfreeze}/bin/wayfreeze, screencopy, allow"
-        "${pkgs.xdg-desktop-portal-hyprland}/libexec/.*, screencopy, allow"
+        "${osConfig.programs.hyprland.portalPackage}/libexec/.*, screencopy, allow"
       ];
 
       bind = [
