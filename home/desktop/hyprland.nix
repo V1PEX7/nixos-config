@@ -133,7 +133,7 @@ in
         "SUPER, t, exec, foot"
         "SUPER, e, exec, thunar"
         "SUPER, w, exec, chromium"
-        "SUPER, s, exec, librewolf"
+        "SUPER, s, exec, firefox"
         "SUPER, space, exec, fuzzel"
         "SUPER, v, exec, bash -c 'cliphist list | fuzzel --dmenu | cliphist decode | wl-copy'"
 
@@ -267,8 +267,9 @@ in
 
     extraConfig = ''
       windowrule {
-        name = librewolf-noscreenshare
-        match:class = ^(librewolf)$
+        name = firefox-private-noscreenshare
+        match:class = ^(firefox)$
+        match:title = .*Private Browsing.*
         no_screen_share = true
       }
       windowrule {
@@ -304,8 +305,8 @@ in
         pin = true
       }
       windowrule {
-        name = librewolf-pip
-        match:class = ^(librewolf)$
+        name = firefox-pip
+        match:class = ^(firefox)$
         match:title = ^(Picture-in-Picture)$
         float = true
         pin = true

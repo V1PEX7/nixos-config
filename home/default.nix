@@ -10,7 +10,7 @@
     ./apps/fuzzel.nix
     ./apps/waybar.nix
     ./apps/fastfetch.nix
-    ./apps/librewolf.nix
+    ./apps/firefox.nix
     ./apps/rmpc.nix
     ./apps/zsh.nix
     ./apps/yazi.nix
