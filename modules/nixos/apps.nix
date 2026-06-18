@@ -46,6 +46,8 @@ in
           ];
         };
 
+        programs.gamescope.enable = true;
+
         services.lact.enable = true;
 
         environment.systemPackages = with pkgs; [
