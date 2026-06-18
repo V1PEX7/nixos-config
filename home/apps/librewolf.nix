@@ -1,7 +1,7 @@
 { ... }:
 {
   programs.librewolf = {
-    enable = true;
+    enable = false;
 
     settings = {
       "browser.startup.homepage" = "about:blank";
