@@ -11,10 +11,10 @@ in
       reload_style_on_change = true;
       position = "top";
       height = 24;
-      margin-right = 5;
-      margin-left = 5;
-      margin-top = 1;
-      margin-bottom = 3;
+      margin-right = 0;
+      margin-left = 0;
+      margin-top = 0;
+      margin-bottom = 2;
       spacing = 0;
 
       modules-left = [
@@ -254,7 +254,7 @@ in
       window#waybar {
         background-color: ${t.bg};
         color: ${t.fg};
-        border-radius: 10px;
+        border-radius: 0;
       }
 
       #custom-nix {
