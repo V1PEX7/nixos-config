@@ -58,7 +58,7 @@ in
         max-length = 20;
         rewrite = {
           "^$" = "󰍹 Desktop";
-          ".*LibreWolf.*" = "󰈹 LibreWolf";
+          ".*Private Browsing.*" = "󰈹 Firefox";
         };
       };
 
