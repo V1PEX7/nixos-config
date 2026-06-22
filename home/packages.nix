@@ -8,7 +8,9 @@
     nil
     nixfmt
 
-    python3
+    (python3.withPackages (ps: with ps; [
+      pyyaml
+    ]))
     uv
     neovim
     claude-code
