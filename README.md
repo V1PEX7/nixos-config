@@ -10,7 +10,7 @@ My nixos dotfiles. Two machines (desktop + laptop), single user.
 - **bar:** waybar
 - **launcher:** fuzzel
 - **terminal:** foot
-- **browsers:** ungoogled-chromium, librewolf
+- **browsers:** ungoogled-chromium, firefox
 - **shell:** zsh (with carapace completions)
 - **file manager:** thunar
 - **editor:** zed
@@ -22,6 +22,7 @@ My nixos dotfiles. Two machines (desktop + laptop), single user.
 - **vpn:** throne (tun mode)
 - **auth:** doas (sudo is disabled)
 - **dns:** quad9 over tls, dnssec, no fallback
+- **rebuilds:** nh
 
 ## Sandboxing
 
@@ -41,7 +42,7 @@ myapp = mkSandbox {
 
 ## Screen capture
 
-Hyprland's permission system is enforced (`ecosystem.enforce_permissions`). Only explicitly whitelisted binaries can grab the screen via `screencopy` - grim, wayfreeze, and the hyprland portal. Anything else (including a compromised browser or a random Wayland client) is blocked at the compositor. LibreWolf additionally carries a `no_screen_share` rule so it never shows up in a screenshare picker.
+Hyprland's permission system is enforced (`ecosystem.enforce_permissions`). Only explicitly whitelisted binaries can grab the screen via `screencopy` - grim, wayfreeze, and the hyprland portal. Anything else (including a compromised browser or a random Wayland client) is blocked at the compositor. Firefox private windows additionally carry a `no_screen_share` rule so they never show up in a screenshare picker.
 
 ## Hardening
 
@@ -105,7 +106,7 @@ home/
   sandbox.nix              bwrap-wrapped apps
   scripts.nix              screenshot helpers, wallpicker
   desktop/hyprland.nix     compositor config + autostart
-  apps/                    foot, fastfetch, fuzzel, librewolf, rmpc, waybar, zsh
+  apps/                    foot, fastfetch, fuzzel, firefox, rmpc, waybar, yazi, zsh
 dotfiles/                  mutable configs (zed, etc)
 ```
 
