@@ -25,10 +25,7 @@
     '';
 
     shellAliases = {
-      rebuild-laptop = "doas nixos-rebuild switch --flake ~/nixos-config#laptop";
-      rebuild-desktop = "doas nixos-rebuild switch --flake ~/nixos-config#desktop";
-      gc = "doas nix-collect-garbage -d && doas nix profile wipe-history --profile /nix/var/nix/profiles/system";
-      flake-update = "cd ~/nixos-config && nix flake update && cd -";
+
     };
 
     initContent = ''
