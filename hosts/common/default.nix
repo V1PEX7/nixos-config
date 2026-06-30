@@ -31,9 +31,6 @@
 
   security.protectKernelImage = true;
 
-  documentation.enable = false;
-  documentation.nixos.enable = false;
-  documentation.man.enable = true;
   programs.command-not-found.enable = false;
   systemd.oomd.enable = false;
 
