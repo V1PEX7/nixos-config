@@ -60,6 +60,25 @@ let
       "${home}/Downloads"
     ];
   };
+
+  codeShell = mkSandbox {
+    name = "code-shell";
+    package = pkgs.zsh;
+    binPath = "bin/zsh";
+    preset = "cli";
+    network = true;
+    rwPaths = [ "${home}/Code" ];
+    roPaths = [
+      "${home}/.zshrc"
+      "${home}/.zshenv"
+      "${home}/.zprofile"
+    ];
+    extraArgs = [
+      "--setenv PATH ${pkgs.nodejs}/bin:/run/current-system/sw/bin"
+      "--setenv IN_CODE_SHELL 1"
+      ''--chdir "${home}/Code"''
+    ];
+  };
 in
 {
   home.packages = [
@@ -67,5 +86,6 @@ in
     #discord
     telegram
     qbittorrent
+    codeShell
   ];
 }

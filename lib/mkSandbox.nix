@@ -195,6 +195,9 @@ pkgs.runCommand "${name}-sandboxed-${package.version or "0"}"
     meta = (package.meta or { }) // {
       mainProgram = name;
       description = "${name} (sandboxed via bubblewrap)";
+      # The wrapper is single-output; drop any multi-output install list
+      # inherited from the wrapped package (e.g. bash's "man").
+      outputsToInstall = [ "out" ];
     };
   }
   ''
