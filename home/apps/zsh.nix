@@ -29,7 +29,14 @@
     };
 
     initContent = ''
-      PROMPT='%F{green}➜ %F{cyan}%~%f '
+      if [[ -n "$IN_CODE_SHELL" ]]; then
+        _shell_tag='%F{red}(code-shell)%f '
+      elif [[ -n "$IN_NIX_SHELL" ]]; then
+        _shell_tag='%F{yellow}(nix-shell)%f '
+      else
+        _shell_tag=""
+      fi
+      PROMPT="''${_shell_tag}%F{green}➜ %F{cyan}%~%f "
 
       source ${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
       bindkey '^[[A' history-substring-search-up
