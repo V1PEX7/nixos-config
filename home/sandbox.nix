@@ -67,7 +67,7 @@ let
     binPath = "bin/zsh";
     preset = "cli";
     network = true;
-    rwPaths = [ "${home}/Code" ];
+    workdirArg = "${home}/Code";
     roPaths = [
       "${home}/.zshrc"
       "${home}/.zshenv"
@@ -76,7 +76,6 @@ let
     extraArgs = [
       "--setenv PATH ${pkgs.nodejs}/bin:/run/current-system/sw/bin"
       "--setenv IN_CODE_SHELL 1"
-      ''--chdir "${home}/Code"''
     ];
   };
 in

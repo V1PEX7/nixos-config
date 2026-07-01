@@ -19,6 +19,8 @@
   roPaths ? [ ],
   extraArgs ? [ ],
 
+  workdirArg ? null,
+
   # Per-capability overrides. null inherits the preset
   network ? null,
   gpu ? null,
@@ -123,8 +125,8 @@ let
   homeArgs = [
     ''--tmpfs "$HOME"''
     ''--tmpfs "$XDG_RUNTIME_DIR"''
-    ''--chdir "$HOME"''
-  ];
+  ]
+  ++ lib.optional (workdirArg == null) ''--chdir "$HOME"'';
 
   themeArgs = lib.optionals caps.theme [
     "--ro-bind-try /etc/profiles /etc/profiles"
@@ -167,8 +169,21 @@ let
 
   unsetArgs = map (v: "--unsetenv ${v}") unsetVars;
 
+  workdirArgs = lib.optionals (workdirArg != null) [
+    ''--bind-try "$WORKDIR" "$WORKDIR"''
+    ''--chdir "$WORKDIR"''
+  ];
+
   allArgs =
-    baseArgs ++ homeArgs ++ themeArgs ++ rwArgs ++ roArgs ++ runtimeArgs ++ unsetArgs ++ extraArgs;
+    baseArgs
+    ++ homeArgs
+    ++ themeArgs
+    ++ rwArgs
+    ++ roArgs
+    ++ runtimeArgs
+    ++ unsetArgs
+    ++ workdirArgs
+    ++ extraArgs;
   argsLines = lib.concatStringsSep " \\\n  " allArgs;
 
   rwPathsBash = lib.concatMapStringsSep " " (p: ''"${p}"'') rwPaths;
@@ -182,7 +197,12 @@ let
     for d in ${rwPathsBash}; do
       ${pkgs.coreutils}/bin/mkdir -p "$d"
     done
-
+${lib.optionalString (workdirArg != null) ''
+    WORKDIR="''${1:-${workdirArg}}"
+    [ "$#" -gt 0 ] && shift || true
+    WORKDIR="$(${pkgs.coreutils}/bin/realpath -m "$WORKDIR")"
+    ${pkgs.coreutils}/bin/mkdir -p "$WORKDIR"
+''}
     exec ${bwrap} \
       ${argsLines} \
       -- ${package}/${binPath} "$@"
