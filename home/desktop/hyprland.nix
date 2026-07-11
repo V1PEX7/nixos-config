@@ -34,7 +34,7 @@ in
       general = {
         gaps_in = 2;
         gaps_out = 5;
-        border_size = 2;
+        border_size = 1;
         "col.active_border" = t.hypr.active_border;
         "col.inactive_border" = t.hypr.inactive_border;
         allow_tearing = true;
@@ -42,7 +42,7 @@ in
       };
 
       decoration = {
-        rounding = 5;
+        rounding = 0;
         active_opacity = 1.0;
         inactive_opacity = 1.0;
 
@@ -67,7 +67,7 @@ in
       };
 
       animations = {
-        enabled = true;
+        enabled = false;
 
         bezier = [
           "snap, 0.25, 1, 0.3, 1"
