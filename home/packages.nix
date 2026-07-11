@@ -8,14 +8,17 @@
     nil
     nixfmt
 
-    (python3.withPackages (ps: with ps; [
-      pyyaml
-    ]))
+    (python3.withPackages (
+      ps: with ps; [
+        pyyaml
+      ]
+    ))
     uv
     neovim
     claude-code
 
     ffmpeg
+    yt-dlp
 
     ncdu
     htop
