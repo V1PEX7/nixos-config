@@ -13,11 +13,12 @@ let
     source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${name}";
   };
 
-  GTK_THEME_NAME = "catppuccin-mocha-mauve-standard+rimless";
+  GTK_THEME_NAME = "Graphite-Dark";
   GTK_CURSOR_NAME = "Bibata-Modern-Classic";
 in
 {
   home.pointerCursor = {
+    enable = true;
     name = GTK_CURSOR_NAME;
     gtk.enable = true;
     package = pkgs.bibata-cursors;
@@ -34,20 +35,26 @@ in
     enable = true;
     theme = {
       name = GTK_THEME_NAME;
-      package = pkgs.catppuccin-gtk.override {
-        accents = [ "mauve" ];
-        size = "standard";
-        tweaks = [ "rimless" ];
-        variant = "mocha";
+      package = pkgs.graphite-gtk-theme.override {
+        themeVariants = [ ];
+        colorVariants = [ "dark" ];
+        sizeVariants = [ "standard" ];
+        tweaks = [
+          "rimless"
+          "darker"
+        ];
       };
     };
     gtk4.theme = {
       name = GTK_THEME_NAME;
-      package = pkgs.catppuccin-gtk.override {
-        accents = [ "mauve" ];
-        size = "standard";
-        tweaks = [ "rimless" ];
-        variant = "mocha";
+      package = pkgs.graphite-gtk-theme.override {
+        themeVariants = [ ];
+        colorVariants = [ "dark" ];
+        sizeVariants = [ "standard" ];
+        tweaks = [
+          "rimless"
+          "darker"
+        ];
       };
     };
     gtk3.extraConfig = {
