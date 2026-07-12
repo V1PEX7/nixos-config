@@ -14,7 +14,7 @@ in
       margin-right = 0;
       margin-left = 0;
       margin-top = 0;
-      margin-bottom = 2;
+      margin-bottom = 0;
       spacing = 0;
 
       modules-left = [
