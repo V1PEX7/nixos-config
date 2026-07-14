@@ -15,7 +15,7 @@
   modules = {
     hardware.audio.enable = true;
     desktop.enable = true;
-    desktop.hyprland.enable = true;
+    desktop.niri.enable = true;
     networking.enable = true;
     apps.enable = true;
     #apps.vm.enable = true;

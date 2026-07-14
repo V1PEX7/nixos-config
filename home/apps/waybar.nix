@@ -19,9 +19,9 @@ in
 
       modules-left = [
         "custom/nix"
-        "hyprland/workspaces"
+        "niri/workspaces"
         #"mpris"
-        "hyprland/window"
+        "niri/window"
       ];
 
       modules-center = [
@@ -38,7 +38,7 @@ in
         "power-profiles-daemon"
         "memory"
         "cpu"
-        "hyprland/language"
+        "niri/language"
         "battery"
       ];
 
@@ -47,15 +47,14 @@ in
         tooltip-format = "NixOS";
       };
 
-      "hyprland/workspaces" = {
-        format = "{id}";
-        on-click = "activate";
-        persistent-workspaces."*" = 9;
+      "niri/workspaces" = {
+        format = "{index}";
       };
 
-      "hyprland/window" = {
+      "niri/window" = {
         format = "{title}";
         max-length = 20;
+        show-empty = true;
         rewrite = {
           "^$" = "󰍹 Desktop";
           ".*Private Browsing.*" = "󰈹 Firefox";
@@ -191,7 +190,7 @@ in
         };
       };
 
-      "hyprland/language" = {
+      "niri/language" = {
         tooltip-format = "Keyboard layout";
         format = " {short}";
       };

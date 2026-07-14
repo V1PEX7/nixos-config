@@ -55,7 +55,7 @@
 
   programs.zsh.profileExtra = ''
     if [ -z "$WAYLAND_DISPLAY" ] && [ -z "$DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
-      exec start-hyprland
+      exec niri-session
     fi
   '';
 

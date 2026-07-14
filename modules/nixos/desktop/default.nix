@@ -10,6 +10,7 @@ in
 {
   imports = [
     ./hyprland.nix
+    ./niri.nix
   ];
 
   options.modules.desktop.enable = lib.mkEnableOption "Shared desktop environment";

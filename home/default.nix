@@ -5,7 +5,7 @@
     ./packages.nix
     ./scripts.nix
     ./sandbox.nix
-    ./desktop/hyprland.nix
+    ./desktop/niri.nix
     ./apps/foot.nix
     ./apps/fuzzel.nix
     ./apps/waybar.nix
