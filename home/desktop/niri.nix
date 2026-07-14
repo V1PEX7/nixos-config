@@ -125,13 +125,6 @@ in
         }
     }
 
-    blur {
-        passes 3
-        offset 3.0
-        noise 0.02
-        saturation 1.5
-    }
-
     spawn-at-startup "waybar"
     spawn-sh-at-startup "test -f \"$HOME/.config/wallpaper\" && swaybg -i \"$HOME/.config/wallpaper\" -m fill"
     spawn-at-startup "cliphist" "wipe"
@@ -203,26 +196,6 @@ in
         open-floating false
     }
 
-    window-rule {
-        match app-id=r#"^steam_app_"#
-        open-on-workspace "6"
-    }
-
-    window-rule {
-        match app-id=r#"^foot$"#
-
-        background-effect {
-            blur true
-        }
-    }
-
-    layer-rule {
-        match namespace=r#"^launcher$"#
-
-        background-effect {
-            blur true
-        }
-    }
 
     binds {
         Mod+Shift+Slash { show-hotkey-overlay; }
