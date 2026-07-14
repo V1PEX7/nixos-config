@@ -75,8 +75,8 @@ in
     layout {
         gaps 5
 
-        center-focused-column "on-overflow"
-        always-center-single-column
+        //center-focused-column "on-overflow"
+        //always-center-single-column
 
         preset-column-widths {
             proportion 0.5
@@ -84,7 +84,7 @@ in
             proportion 0.66667
         }
 
-        default-column-width {}
+        default-column-width { proportion 0.5; }
 
         focus-ring {
             off
@@ -142,10 +142,6 @@ in
     spawn-sh-at-startup "QT_QPA_PLATFORM=wayland Throne"
 
     window-rule {
-            open-maximized true
-        }
-
-    window-rule {
         geometry-corner-radius 5
         clip-to-geometry true
     }
@@ -187,11 +183,6 @@ in
 
     window-rule {
         match app-id=r#"^firefox$"# title=r#"^(Picture-in-Picture)$"#
-        open-floating true
-    }
-
-    window-rule {
-        match app-id=r#"(?i)thunar$"#
         open-floating true
     }
 
@@ -315,20 +306,20 @@ in
         Mod+A { focus-workspace "chat"; }
         Mod+Shift+A { move-column-to-workspace "chat"; }
 
-        Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
-        Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
-        Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
-        Mod+Ctrl+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
+        Mod+Shift+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
+        Mod+Shift+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
+        Mod+Ctrl+Shift+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
+        Mod+Ctrl+Shift+WheelScrollUp   cooldown-ms=150 { move-column-to-workspace-up; }
 
         Mod+WheelScrollRight      { focus-column-right; }
         Mod+WheelScrollLeft       { focus-column-left; }
         Mod+Ctrl+WheelScrollRight { move-column-right; }
         Mod+Ctrl+WheelScrollLeft  { move-column-left; }
 
-        Mod+Shift+WheelScrollDown      { focus-column-left; }
-        Mod+Shift+WheelScrollUp        { focus-column-right; }
-        Mod+Ctrl+Shift+WheelScrollDown { move-column-right; }
-        Mod+Ctrl+Shift+WheelScrollUp   { move-column-left; }
+        Mod+WheelScrollDown      { focus-column-left; }
+        Mod+WheelScrollUp        { focus-column-right; }
+        Mod+Ctrl+WheelScrollDown { move-column-right; }
+        Mod+Ctrl+WheelScrollUp   { move-column-left; }
 
         Mod+BracketLeft  { consume-or-expel-window-left; }
         Mod+BracketRight { consume-or-expel-window-right; }
