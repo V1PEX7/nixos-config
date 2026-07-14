@@ -219,8 +219,8 @@ in
 
         Print { spawn-sh "grim -g \"$(slurp)\" -t ppm - | satty -f -"; }
         Ctrl+Print { spawn-sh "grim - | satty -f -"; }
-        Mod+Shift+S { spawn "freeze-screenshot"; }
-        Mod+Shift+T { spawn-sh "grim -g \"$(slurp)\" -t png - | convert - -resize 300% -sharpen 0x1 png:- | tesseract -l eng+rus stdin stdout | wl-copy && notify-send OCR Скопировано"; }
+        Mod+Shift+S { screenshot; }
+        Mod+Shift+T { spawn-sh "grim -g \"$(slurp)\" -t png - | convert - -resize 300% -sharpen 0x1 png:- | tesseract -l eng+rus stdin stdout | wl-copy"; }
         Mod+Shift+W { spawn "wallpicker"; }
 
         Mod+Tab repeat=false { toggle-overview; }
