@@ -272,8 +272,9 @@ in
       }
 
       #workspaces button {
+        min-width: 0;
         margin: 0px 0px;
-        padding: 0 4px;
+        padding: 0 8px;
         background-color: transparent;
         color: ${t.fg};
         border-radius: 5px;
@@ -296,7 +297,7 @@ in
         color: ${t.contrast};
         opacity: 1;
         margin: 0px 0px;
-        padding: 0 4px;
+        padding: 0 8px;
       }
 
       #window,
