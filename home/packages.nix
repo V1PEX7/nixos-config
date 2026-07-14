@@ -50,7 +50,5 @@
       ];
     })
     imagemagick
-
-    xdg-desktop-portal-gtk
   ];
 }
