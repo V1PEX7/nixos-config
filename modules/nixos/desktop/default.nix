@@ -58,8 +58,20 @@ in
     xdg.portal = {
       enable = true;
       extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
         xdg-desktop-portal-gnome
       ];
+      config = {
+        common.default = [ "gtk" ];
+        hyprland.default = [
+          "hyprland"
+          "gtk"
+        ];
+        niri.default = [
+          "gnome"
+          "gtk"
+        ];
+      };
     };
 
     environment.systemPackages = with pkgs; [

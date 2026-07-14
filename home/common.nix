@@ -29,6 +29,11 @@ in
   home.sessionVariables = {
     GTK_THEME = GTK_THEME_NAME;
     XDG_DATA_DIRS = "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}:$XDG_DATA_DIRS";
+    QT_QPA_PLATFORMTHEME = "gtk3";
+    QT_QPA_PLATFORM = "wayland";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    XDG_THEME_DESKTOP_SCHEME = "prefer-dark";
+    NIXOS_OZONE_WL = "1";
   };
 
   gtk = {
