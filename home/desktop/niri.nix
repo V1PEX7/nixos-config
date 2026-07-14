@@ -106,6 +106,15 @@ in
 
         struts {
         }
+
+        tab-indicator {
+            on
+            place-within-column
+            gap 5
+            width 4
+            active-color "${activeBorder}"
+            inactive-color "${inactiveBorder}"
+        }
     }
 
     overview {
@@ -225,6 +234,8 @@ in
         Mod+C { toggle-window-floating; }
         Mod+Ctrl+C { center-visible-columns; }
         Mod+Shift+V { switch-focus-between-floating-and-tiling; }
+
+        Mod+G { toggle-column-tabbed-display; }
 
         Mod+Left  { focus-column-left; }
         Mod+Down  { focus-window-down; }
