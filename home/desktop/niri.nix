@@ -62,7 +62,7 @@ in
     }
 
     output "DP-2" {
-        mode "1920x1080@240.000"
+        mode "1920x1080@239.964"
         position x=-1920 y=360
         scale 1
     }
