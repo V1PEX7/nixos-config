@@ -756,4 +756,4 @@ let
   };
   # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi, nightowl, rosewood
 in
-themes.tokyo-night
+themes.mono
