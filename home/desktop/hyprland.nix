@@ -1,6 +1,12 @@
-{ pkgs, osConfig, ... }:
+{
+  pkgs,
+  osConfig,
+  lib,
+  ...
+}:
 let
   t = import ../theme.nix;
+  isDesktop = osConfig.networking.hostName == "desktop";
 in
 {
   wayland.windowManager.hyprland = {
@@ -29,6 +35,18 @@ in
         "DP-1,2560x1440@180,0x0,1,vrr,1"
         "DP-2,1920x1080@240,-1920x360,1"
         "eDP-1,2160x1440@60,auto,1"
+      ];
+
+      workspace = lib.optionals isDesktop [
+        "1, monitor:DP-1"
+        "2, monitor:DP-1"
+        "3, monitor:DP-1"
+        "4, monitor:DP-1"
+        "5, monitor:DP-1"
+        "6, monitor:DP-1"
+        "7, monitor:DP-2"
+        "8, monitor:DP-2"
+        "9, monitor:DP-2"
       ];
 
       general = {
