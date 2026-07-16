@@ -7,386 +7,561 @@
 let
   t = import ../theme.nix;
   isDesktop = osConfig.networking.hostName == "desktop";
+
+  # Helper functions to keep our declarative bindings completely concise
+  # Home Manager natively translates `_args` lists into multi-argument Lua function calls.
+  mkBind = key: action: {
+    _args = [
+      key
+      (lib.generators.mkLuaInline action)
+    ];
+  };
+  mkBindOpt = key: action: opts: {
+    _args = [
+      key
+      (lib.generators.mkLuaInline action)
+      opts
+    ];
+  };
+  mkEnv = k: v: {
+    _args = [
+      k
+      v
+    ];
+  };
 in
 {
   wayland.windowManager.hyprland = {
     enable = true;
-    configType = "hyprlang";
+
+    configType = "lua";
 
     settings = {
-      "exec-once" = [
-        "bash ~/.config/hypr/autostart.sh"
-        "[workspace special:term silent] foot"
+      curve = [
+        {
+          _args = [
+            "snap"
+            {
+              type = "bezier";
+              points = [
+                [
+                  0.25
+                  1
+                ]
+                [
+                  0.3
+                  1
+                ]
+              ];
+            }
+          ];
+        }
       ];
 
-      env = [
-        "XCURSOR_THEME,Bibata-Modern-Classic"
-        "XCURSOR_SIZE,20"
-        "QT_AUTO_SCREEN_SCALE_FACTOR,1"
-        "QT_QPA_PLATFORMTHEME,gtk3"
-        "QT_QPA_PLATFORM,wayland"
-        "GDK_BACKEND,wayland"
-        "XDG_THEME_DESKTOP_SCHEME,prefer-dark"
-        "XDG_CURRENT_DESKTOP,Hyprland"
-        "NIXOS_OZONE_WL,1"
+      animation = [
+        {
+          leaf = "windows";
+          enabled = true;
+          speed = 3;
+          bezier = "snap";
+          style = "popin 80%";
+        }
+        {
+          leaf = "windowsOut";
+          enabled = true;
+          speed = 3;
+          bezier = "snap";
+          style = "popin 80%";
+        }
+        {
+          leaf = "fade";
+          enabled = true;
+          speed = 2.5;
+          bezier = "snap";
+        }
+        {
+          leaf = "workspaces";
+          enabled = true;
+          speed = 2;
+          bezier = "snap";
+          style = "fade";
+        }
+        {
+          leaf = "border";
+          enabled = true;
+          speed = 8;
+          bezier = "default";
+        }
+        {
+          leaf = "layers";
+          enabled = true;
+          speed = 2.5;
+          bezier = "snap";
+          style = "fade";
+        }
+      ];
+
+      permission = [
+        {
+          _args = [
+            "${pkgs.grim}/bin/grim"
+            "screencopy"
+            "allow"
+          ];
+        }
+        {
+          _args = [
+            "${pkgs.wayfreeze}/bin/wayfreeze"
+            "screencopy"
+            "allow"
+          ];
+        }
+        {
+          _args = [
+            "${osConfig.programs.hyprland.portalPackage}/libexec/.*"
+            "screencopy"
+            "allow"
+          ];
+        }
       ];
 
       monitor = [
-        "DP-1,2560x1440@180,0x0,1,vrr,1"
-        "DP-2,1920x1080@240,-1920x360,1"
-        "eDP-1,2160x1440@60,auto,1"
+        {
+          output = "DP-1";
+          mode = "2560x1440@180";
+          position = "0x0";
+          scale = "1";
+          vrr = 1;
+        }
+        {
+          output = "DP-2";
+          mode = "1920x1080@240";
+          position = "-1920x360";
+          scale = "1";
+        }
+        {
+          output = "eDP-1";
+          mode = "2160x1440@60";
+          position = "auto";
+          scale = "1";
+        }
       ];
 
-      workspace = lib.optionals isDesktop [
-        "1, monitor:DP-1"
-        "2, monitor:DP-1"
-        "3, monitor:DP-1"
-        "4, monitor:DP-1"
-        "5, monitor:DP-1"
-        "6, monitor:DP-1"
-        "7, monitor:DP-2"
-        "8, monitor:DP-2"
-        "9, monitor:DP-2"
+      workspace_rule = lib.optionals isDesktop [
+        {
+          workspace = "1";
+          monitor = "DP-1";
+        }
+        {
+          workspace = "2";
+          monitor = "DP-1";
+        }
+        {
+          workspace = "3";
+          monitor = "DP-1";
+        }
+        {
+          workspace = "4";
+          monitor = "DP-1";
+        }
+        {
+          workspace = "5";
+          monitor = "DP-1";
+        }
+        {
+          workspace = "6";
+          monitor = "DP-1";
+        }
+        {
+          workspace = "7";
+          monitor = "DP-2";
+        }
+        {
+          workspace = "8";
+          monitor = "DP-2";
+        }
+        {
+          workspace = "9";
+          monitor = "DP-2";
+        }
       ];
 
-      general = {
-        gaps_in = 2;
-        gaps_out = 5;
-        border_size = 1;
-        "col.active_border" = t.hypr.active_border;
-        "col.inactive_border" = t.hypr.inactive_border;
-        allow_tearing = true;
-        layout = "dwindle";
-      };
-
-      decoration = {
-        rounding = 0;
-        active_opacity = 1.0;
-        inactive_opacity = 1.0;
-
-        blur = {
-          enabled = true;
-          size = 4;
-          passes = 5;
-          noise = "0.02";
-          brightness = 1.0;
-          contrast = "0.89";
-          vibrancy = "1.2";
-          new_optimizations = true;
-        };
-
-        shadow = {
-          enabled = true;
-          range = 10;
-          render_power = 3;
-          color = t.hypr.shadow;
-          offset = "0 5";
-        };
-      };
-
-      animations = {
-        enabled = false;
-
-        bezier = [
-          "snap, 0.25, 1, 0.3, 1"
-        ];
-
-        animation = [
-          "windows, 1, 3, snap, popin 80%"
-          "windowsOut, 1, 3, snap, popin 80%"
-          "fade, 1, 2.5, snap"
-          "workspaces, 1, 2, snap, fade"
-          "border, 1, 8, default"
-          "layers, 1, 2.5, snap, fade"
-        ];
-      };
-
-      input = {
-        kb_layout = "us,ru";
-        kb_options = "grp:alt_shift_toggle";
-        numlock_by_default = true;
-        repeat_rate = 25;
-        repeat_delay = 600;
-        follow_mouse = 1;
-        accel_profile = "flat";
-        sensitivity = 0;
-
-        touchpad = {
-          scroll_factor = "1.0";
-        };
-      };
-
-      cursor = {
-        inactive_timeout = 5;
-        warp_on_change_workspace = true;
-      };
-
-      master = {
-        new_status = "slave";
-        mfact = "0.5";
-      };
-
-      misc = {
-        disable_hyprland_logo = true;
-        disable_splash_rendering = true;
-        focus_on_activate = false;
-        allow_session_lock_restore = true;
-      };
-
-      xwayland = {
-        enabled = true;
-      };
-
-      ecosystem = {
-        enforce_permissions = true;
-      };
-
-      permission = [
-        "${pkgs.grim}/bin/grim, screencopy, allow"
-        "${pkgs.wayfreeze}/bin/wayfreeze, screencopy, allow"
-        "${osConfig.programs.hyprland.portalPackage}/libexec/.*, screencopy, allow"
+      env = [
+        (mkEnv "XCURSOR_THEME" "Bibata-Modern-Classic")
+        (mkEnv "XCURSOR_SIZE" "20")
+        (mkEnv "QT_AUTO_SCREEN_SCALE_FACTOR" "1")
+        (mkEnv "QT_QPA_PLATFORMTHEME" "gtk3")
+        (mkEnv "QT_QPA_PLATFORM" "wayland")
+        (mkEnv "GDK_BACKEND" "wayland")
+        (mkEnv "XDG_THEME_DESKTOP_SCHEME" "prefer-dark")
+        (mkEnv "XDG_CURRENT_DESKTOP" "Hyprland")
+        (mkEnv "NIXOS_OZONE_WL" "1")
       ];
 
       bind = [
-        "SUPER, t, exec, foot"
-        "SUPER, e, exec, thunar"
-        "SUPER, w, exec, chromium"
-        "SUPER, s, exec, firefox"
-        "SUPER, space, exec, fuzzel"
-        "SUPER, v, exec, bash -c 'cliphist list | fuzzel --dmenu | cliphist decode | wl-copy'"
+        (mkBind "SUPER + t" "hl.dsp.exec_cmd('foot')")
+        (mkBind "SUPER + e" "hl.dsp.exec_cmd('thunar')")
+        (mkBind "SUPER + w" "hl.dsp.exec_cmd('chromium')")
+        (mkBind "SUPER + s" "hl.dsp.exec_cmd('firefox')")
+        (mkBind "SUPER + space" "hl.dsp.exec_cmd('fuzzel')")
+        (mkBind "SUPER + v" "hl.dsp.exec_cmd([[bash -c 'cliphist list | fuzzel --dmenu | cliphist decode | wl-copy']])")
 
-        ", Print, exec, grim -g \"$(slurp)\" -t ppm - | satty -f -"
-        "SUPER SHIFT, s, exec, freeze-screenshot"
-        "CTRL, Print, exec, grim - | satty -f -"
-        "SUPER SHIFT, t, exec, bash -c 'grim -g \"$(slurp)\" -t png - | convert - -resize 300% -sharpen 0x1 png:- | tesseract -l eng+rus stdin stdout | wl-copy && notify-send OCR Скопировано'"
+        (mkBind "Print" "hl.dsp.exec_cmd([[grim -g \"$(slurp)\" -t ppm - | satty -f -]])")
+        (mkBind "SUPER + SHIFT + s" "hl.dsp.exec_cmd('freeze-screenshot')")
+        (mkBind "CTRL + Print" "hl.dsp.exec_cmd([[grim - | satty -f -]])")
+        (mkBind "SUPER + SHIFT + t" "hl.dsp.exec_cmd([[bash -c 'grim -g \"$(slurp)\" -t png - | convert - -resize 300% -sharpen 0x1 png:- | tesseract -l eng+rus stdin stdout | wl-copy && notify-send OCR Скопировано']])")
 
-        "SUPER SHIFT, w, exec, wallpicker"
+        (mkBind "SUPER + SHIFT + w" "hl.dsp.exec_cmd('wallpicker')")
 
-        "SUPER, q, killactive"
-        "SUPER, d, fullscreen, 1"
-        "SUPER, f, fullscreen, 0"
-        "SUPER SHIFT, f, fullscreen, 2"
-        "SUPER, c, togglefloating"
-        "SUPER CTRL, c, centerwindow"
-        "SUPER, n, movetoworkspacesilent, special:scratch"
-        "SUPER, grave, focuscurrentorlast"
+        (mkBind "SUPER + q" "hl.dsp.window.close()")
+        (mkBind "SUPER + d" "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })")
+        (mkBind "SUPER + f" "hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' })")
+        (mkBind "SUPER + c" "hl.dsp.window.float({ action = 'toggle' })")
+        (mkBind "SUPER + CTRL + c" "hl.dsp.window.center()")
+        (mkBind "SUPER + n" "hl.dsp.window.move({ workspace = 'special:scratch', follow = false })")
+        (mkBind "SUPER + grave" "hl.dsp.focus({ last = true })")
 
-        "ALT, Tab, cyclenext"
+        (mkBind "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
 
-        "SUPER, h, movefocus, l"
-        "SUPER, j, movefocus, d"
-        "SUPER, k, movefocus, u"
-        "SUPER, l, movefocus, r"
-        "SUPER, left, movefocus, l"
-        "SUPER, down, movefocus, d"
-        "SUPER, up, movefocus, u"
-        "SUPER, right, movefocus, r"
-        "SUPER ALT, j, cyclenext"
-        "SUPER ALT, k, cyclenext, prev"
+        (mkBind "SUPER + h" "hl.dsp.focus({ direction = 'left' })")
+        (mkBind "SUPER + j" "hl.dsp.focus({ direction = 'down' })")
+        (mkBind "SUPER + k" "hl.dsp.focus({ direction = 'up' })")
+        (mkBind "SUPER + l" "hl.dsp.focus({ direction = 'right' })")
+        (mkBind "SUPER + left" "hl.dsp.focus({ direction = 'left' })")
+        (mkBind "SUPER + down" "hl.dsp.focus({ direction = 'down' })")
+        (mkBind "SUPER + up" "hl.dsp.focus({ direction = 'up' })")
+        (mkBind "SUPER + right" "hl.dsp.focus({ direction = 'right' })")
+        (mkBind "SUPER + ALT + j" "hl.dsp.window.cycle_next({ next = true })")
+        (mkBind "SUPER + ALT + k" "hl.dsp.window.cycle_next({ prev = true })")
 
-        "SUPER CTRL, h, swapwindow, l"
-        "SUPER CTRL, j, swapwindow, d"
-        "SUPER CTRL, k, swapwindow, u"
-        "SUPER CTRL, l, swapwindow, r"
-        "SUPER CTRL, left, swapwindow, l"
-        "SUPER CTRL, down, swapwindow, d"
-        "SUPER CTRL, up, swapwindow, u"
-        "SUPER CTRL, right, swapwindow, r"
-        "SUPER CTRL ALT, j, swapnext"
-        "SUPER CTRL ALT, k, swapnext, prev"
+        (mkBind "SUPER + CTRL + h" "hl.dsp.window.swap({ direction = 'l' })")
+        (mkBind "SUPER + CTRL + j" "hl.dsp.window.swap({ direction = 'd' })")
+        (mkBind "SUPER + CTRL + k" "hl.dsp.window.swap({ direction = 'u' })")
+        (mkBind "SUPER + CTRL + l" "hl.dsp.window.swap({ direction = 'r' })")
+        (mkBind "SUPER + CTRL + left" "hl.dsp.window.swap({ direction = 'l' })")
+        (mkBind "SUPER + CTRL + down" "hl.dsp.window.swap({ direction = 'd' })")
+        (mkBind "SUPER + CTRL + up" "hl.dsp.window.swap({ direction = 'u' })")
+        (mkBind "SUPER + CTRL + right" "hl.dsp.window.swap({ direction = 'r' })")
+        (mkBind "SUPER + CTRL + ALT + j" "hl.dsp.window.swap({ next = true })")
+        (mkBind "SUPER + CTRL + ALT + k" "hl.dsp.window.swap({ prev = true })")
 
-        "SUPER SHIFT, h, focusmonitor, l"
-        "SUPER SHIFT, l, focusmonitor, r"
-        "SUPER SHIFT, left, layoutmsg, mfact -0.05"
-        "SUPER SHIFT, right, layoutmsg, mfact +0.05"
-        "SUPER SHIFT, up, layoutmsg, addmaster"
-        "SUPER SHIFT, down, layoutmsg, removemaster"
-        "SUPER SHIFT CTRL, h, movewindow, mon:l"
-        "SUPER SHIFT CTRL, l, movewindow, mon:r"
-        "SUPER SHIFT CTRL, left, movewindow, mon:l"
-        "SUPER SHIFT CTRL, right, movewindow, mon:r"
+        (mkBind "SUPER + SHIFT + h" "hl.dsp.focus({ monitor = 'l' })")
+        (mkBind "SUPER + SHIFT + l" "hl.dsp.focus({ monitor = 'r' })")
+        (mkBind "SUPER + SHIFT + left" "hl.dsp.layout('mfact -0.05')")
+        (mkBind "SUPER + SHIFT + right" "hl.dsp.layout('mfact +0.05')")
+        (mkBind "SUPER + SHIFT + up" "hl.dsp.layout('addmaster')")
+        (mkBind "SUPER + SHIFT + down" "hl.dsp.layout('removemaster')")
+        (mkBind "SUPER + SHIFT + CTRL + h" "hl.dsp.window.move({ monitor = 'l' })")
+        (mkBind "SUPER + SHIFT + CTRL + l" "hl.dsp.window.move({ monitor = 'r' })")
+        (mkBind "SUPER + SHIFT + CTRL + left" "hl.dsp.window.move({ monitor = 'l' })")
+        (mkBind "SUPER + SHIFT + CTRL + right" "hl.dsp.window.move({ monitor = 'r' })")
 
-        "SUPER, 1, workspace, 1"
-        "SUPER, 2, workspace, 2"
-        "SUPER, 3, workspace, 3"
-        "SUPER, 4, workspace, 4"
-        "SUPER, 5, workspace, 5"
-        "SUPER, 6, workspace, 6"
-        "SUPER, 7, workspace, 7"
-        "SUPER, 8, workspace, 8"
-        "SUPER, 9, workspace, 9"
+        (mkBind "SUPER + 1" "hl.dsp.focus({ workspace = 1 })")
+        (mkBind "SUPER + 2" "hl.dsp.focus({ workspace = 2 })")
+        (mkBind "SUPER + 3" "hl.dsp.focus({ workspace = 3 })")
+        (mkBind "SUPER + 4" "hl.dsp.focus({ workspace = 4 })")
+        (mkBind "SUPER + 5" "hl.dsp.focus({ workspace = 5 })")
+        (mkBind "SUPER + 6" "hl.dsp.focus({ workspace = 6 })")
+        (mkBind "SUPER + 7" "hl.dsp.focus({ workspace = 7 })")
+        (mkBind "SUPER + 8" "hl.dsp.focus({ workspace = 8 })")
+        (mkBind "SUPER + 9" "hl.dsp.focus({ workspace = 9 })")
 
-        "SUPER ALT, 1, movetoworkspace, 1"
-        "SUPER ALT, 2, movetoworkspace, 2"
-        "SUPER ALT, 3, movetoworkspace, 3"
-        "SUPER ALT, 4, movetoworkspace, 4"
-        "SUPER ALT, 5, movetoworkspace, 5"
-        "SUPER ALT, 6, movetoworkspace, 6"
-        "SUPER ALT, 7, movetoworkspace, 7"
-        "SUPER ALT, 8, movetoworkspace, 8"
-        "SUPER ALT, 9, movetoworkspace, 9"
+        (mkBind "SUPER + ALT + 1" "hl.dsp.window.move({ workspace = 1 })")
+        (mkBind "SUPER + ALT + 2" "hl.dsp.window.move({ workspace = 2 })")
+        (mkBind "SUPER + ALT + 3" "hl.dsp.window.move({ workspace = 3 })")
+        (mkBind "SUPER + ALT + 4" "hl.dsp.window.move({ workspace = 4 })")
+        (mkBind "SUPER + ALT + 5" "hl.dsp.window.move({ workspace = 5 })")
+        (mkBind "SUPER + ALT + 6" "hl.dsp.window.move({ workspace = 6 })")
+        (mkBind "SUPER + ALT + 7" "hl.dsp.window.move({ workspace = 7 })")
+        (mkBind "SUPER + ALT + 8" "hl.dsp.window.move({ workspace = 8 })")
+        (mkBind "SUPER + ALT + 9" "hl.dsp.window.move({ workspace = 9 })")
 
-        "SUPER SHIFT, 1, movetoworkspacesilent, 1"
-        "SUPER SHIFT, 2, movetoworkspacesilent, 2"
-        "SUPER SHIFT, 3, movetoworkspacesilent, 3"
-        "SUPER SHIFT, 4, movetoworkspacesilent, 4"
-        "SUPER SHIFT, 5, movetoworkspacesilent, 5"
-        "SUPER SHIFT, 6, movetoworkspacesilent, 6"
-        "SUPER SHIFT, 7, movetoworkspacesilent, 7"
-        "SUPER SHIFT, 8, movetoworkspacesilent, 8"
-        "SUPER SHIFT, 9, movetoworkspacesilent, 9"
+        (mkBind "SUPER + SHIFT + 1" "hl.dsp.window.move({ workspace = 1, follow = false })")
+        (mkBind "SUPER + SHIFT + 2" "hl.dsp.window.move({ workspace = 2, follow = false })")
+        (mkBind "SUPER + SHIFT + 3" "hl.dsp.window.move({ workspace = 3, follow = false })")
+        (mkBind "SUPER + SHIFT + 4" "hl.dsp.window.move({ workspace = 4, follow = false })")
+        (mkBind "SUPER + SHIFT + 5" "hl.dsp.window.move({ workspace = 5, follow = false })")
+        (mkBind "SUPER + SHIFT + 6" "hl.dsp.window.move({ workspace = 6, follow = false })")
+        (mkBind "SUPER + SHIFT + 7" "hl.dsp.window.move({ workspace = 7, follow = false })")
+        (mkBind "SUPER + SHIFT + 8" "hl.dsp.window.move({ workspace = 8, follow = false })")
+        (mkBind "SUPER + SHIFT + 9" "hl.dsp.window.move({ workspace = 9, follow = false })")
 
-        "SUPER, Page_Up, workspace, e-1"
-        "SUPER, Page_Down, workspace, e+1"
-        "SUPER, u, workspace, e-1"
-        "SUPER, i, workspace, e+1"
-        "SUPER CTRL, Page_Up, movetoworkspace, e-1"
-        "SUPER CTRL, Page_Down, movetoworkspace, e+1"
-        "SUPER CTRL, u, movetoworkspace, e-1"
-        "SUPER CTRL, i, movetoworkspace, e+1"
-        "SUPER, BackSpace, workspace, previous"
+        (mkBind "SUPER + Page_Up" "hl.dsp.focus({ workspace = 'e-1' })")
+        (mkBind "SUPER + Page_Down" "hl.dsp.focus({ workspace = 'e+1' })")
+        (mkBind "SUPER + u" "hl.dsp.focus({ workspace = 'e-1' })")
+        (mkBind "SUPER + i" "hl.dsp.focus({ workspace = 'e+1' })")
+        (mkBind "SUPER + CTRL + Page_Up" "hl.dsp.window.move({ workspace = 'e-1' })")
+        (mkBind "SUPER + CTRL + Page_Down" "hl.dsp.window.move({ workspace = 'e+1' })")
+        (mkBind "SUPER + CTRL + u" "hl.dsp.window.move({ workspace = 'e-1' })")
+        (mkBind "SUPER + CTRL + i" "hl.dsp.window.move({ workspace = 'e+1' })")
+        (mkBind "SUPER + BackSpace" "hl.dsp.focus({ workspace = 'previous' })")
 
-        "SUPER, a, togglespecialworkspace, scratch"
-        "SUPER, Return, togglespecialworkspace, term"
+        (mkBind "SUPER + a" "hl.dsp.workspace.toggle_special('scratch')")
+        (mkBind "SUPER + Return" "hl.dsp.workspace.toggle_special('term')")
 
-        "SUPER, minus, layoutmsg, mfact -0.05"
-        "SUPER, equal, layoutmsg, mfact +0.05"
+        (mkBind "SUPER + minus" "hl.dsp.layout('mfact -0.05')")
+        (mkBind "SUPER + equal" "hl.dsp.layout('mfact +0.05')")
 
-        "SUPER, z, layoutmsg, swapwithmaster"
-        "SUPER ALT, space, layoutmsg, orientationcycle"
+        (mkBind "SUPER + z" "hl.dsp.layout('swapwithmaster')")
+        (mkBind "SUPER + ALT + space" "hl.dsp.layout('orientationcycle')")
 
-        "SUPER SHIFT, Return, submap, resize"
-        "SUPER CTRL, Return, submap, move"
+        (mkBind "SUPER + SHIFT + Return" "hl.dsp.submap('resize')")
+        (mkBind "SUPER + CTRL + Return" "hl.dsp.submap('move')")
 
-        "SUPER, r, exec, hyprctl reload"
+        (mkBind "SUPER + r" "hl.dsp.exec_cmd('hyprctl reload')")
 
-        "CTRL ALT, Delete, exit"
-        "SUPER SHIFT, p, exec, bash -c 'hyprctl dispatch dpms off DP-1 && hyprctl dispatch dpms off DP-2'"
+        (mkBind "CTRL + ALT + Delete" "hl.dsp.exit()")
+        (mkBind "SUPER + SHIFT + p" "hl.dsp.exec_cmd([[bash -c 'hyprctl dispatch dpms off DP-1 && hyprctl dispatch dpms off DP-2']])")
+
+        (mkBindOpt "XF86AudioRaiseVolume"
+          "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0')"
+          { locked = true; }
+        )
+        (mkBindOpt "XF86AudioLowerVolume" "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-')" {
+          locked = true;
+        })
+        (mkBindOpt "XF86AudioMute" "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle')" {
+          locked = true;
+        })
+        (mkBindOpt "XF86AudioMicMute" "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle')" {
+          locked = true;
+        })
+        (mkBindOpt "XF86AudioPlay" "hl.dsp.exec_cmd('playerctl play-pause')" { locked = true; })
+        (mkBindOpt "XF86AudioStop" "hl.dsp.exec_cmd('playerctl stop')" { locked = true; })
+        (mkBindOpt "XF86AudioPrev" "hl.dsp.exec_cmd('playerctl previous')" { locked = true; })
+        (mkBindOpt "XF86AudioNext" "hl.dsp.exec_cmd('playerctl next')" { locked = true; })
+        (mkBindOpt "XF86MonBrightnessUp" "hl.dsp.exec_cmd('brightnessctl --class=backlight set +10%')" {
+          locked = true;
+        })
+        (mkBindOpt "XF86MonBrightnessDown" "hl.dsp.exec_cmd('brightnessctl --class=backlight set 10%-')" {
+          locked = true;
+        })
+
+        (mkBindOpt "SUPER + mouse:272" "hl.dsp.window.drag()" { mouse = true; })
+        (mkBindOpt "SUPER + mouse:273" "hl.dsp.window.resize()" { mouse = true; })
       ];
 
-      bindl = [
-        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"
-        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"
-        ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-        ", XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"
-        ", XF86AudioPlay, exec, playerctl play-pause"
-        ", XF86AudioStop, exec, playerctl stop"
-        ", XF86AudioPrev, exec, playerctl previous"
-        ", XF86AudioNext, exec, playerctl next"
-        ", XF86MonBrightnessUp, exec, brightnessctl --class=backlight set +10%"
-        ", XF86MonBrightnessDown, exec, brightnessctl --class=backlight set 10%-"
+      window_rule = [
+        {
+          name = "firefox-private-noscreenshare";
+          match = {
+            class = "^(firefox)$";
+            title = ".*Private Browsing.*";
+          };
+          no_screen_share = true;
+        }
+        {
+          name = "portal-gtk-float";
+          match = {
+            class = "^(xdg-desktop-portal-gtk)$";
+          };
+          float = true;
+        }
+        {
+          name = "portal-gnome-float";
+          match = {
+            class = "^(xdg-desktop-portal-gnome)$";
+          };
+          float = true;
+        }
+        {
+          name = "share-screen-float";
+          match = {
+            title = "^(Share Screen)$";
+          };
+          float = true;
+        }
+        {
+          name = "screen-share-float";
+          match = {
+            title = "^(Screen Share)$";
+          };
+          float = true;
+        }
+        {
+          name = "satty-float";
+          match = {
+            class = "^(com.gabm.satty)$";
+          };
+          float = true;
+        }
+        {
+          name = "chromium-pip";
+          match = {
+            class = "^(chromium-browser)$";
+            title = "^(Picture-in-Picture)$";
+          };
+          float = true;
+          pin = true;
+        }
+        {
+          name = "firefox-pip";
+          match = {
+            class = "^(firefox)$";
+            title = "^(Picture-in-Picture)$";
+          };
+          float = true;
+          pin = true;
+        }
+        {
+          name = "thunar-float";
+          match = {
+            class = "^(thunar)$";
+          };
+          float = true;
+          size = "1000 700";
+        }
+        {
+          name = "steam-float";
+          match = {
+            class = "^(steam)$";
+          };
+          float = true;
+        }
+        {
+          name = "steam-main-tile";
+          match = {
+            class = "^(steam)$";
+            title = "^(Steam)$";
+          };
+          tile = true;
+        }
+        {
+          name = "steam-app";
+          match = {
+            class = "^(steam_app_)";
+          };
+          workspace = "6";
+          immediate = true;
+        }
       ];
 
-      bindm = [
-        "SUPER, mouse:272, movewindow"
-        "SUPER, mouse:273, resizewindow"
+      layer_rule = [
+        {
+          name = "selection-noanim";
+          match = {
+            namespace = "selection";
+          };
+          no_anim = true;
+        }
+      ];
+
+      config = {
+        general = {
+          gaps_in = 2;
+          gaps_out = 5;
+          border_size = 1;
+          col = {
+            active_border = t.hypr.active_border;
+            inactive_border = t.hypr.inactive_border;
+          };
+          allow_tearing = true;
+          layout = "dwindle";
+        };
+        decoration = {
+          rounding = 0;
+          active_opacity = 1.0;
+          inactive_opacity = 1.0;
+          blur = {
+            enabled = true;
+            size = 4;
+            passes = 5;
+            noise = 0.02;
+            brightness = 1.0;
+            contrast = 0.89;
+            vibrancy = 1.2;
+            new_optimizations = true;
+          };
+          shadow = {
+            enabled = true;
+            range = 10;
+            render_power = 3;
+            color = t.hypr.shadow;
+            offset = "0 5";
+          };
+        };
+        animations = {
+          enabled = false;
+        };
+        input = {
+          kb_layout = "us,ru";
+          kb_options = "grp:alt_shift_toggle";
+          numlock_by_default = true;
+          repeat_rate = 25;
+          repeat_delay = 600;
+          follow_mouse = 1;
+          accel_profile = "flat";
+          sensitivity = 0;
+          touchpad = {
+            scroll_factor = 1.0;
+          };
+        };
+        cursor = {
+          inactive_timeout = 5;
+          warp_on_change_workspace = true;
+        };
+        master = {
+          new_status = "slave";
+          mfact = 0.5;
+        };
+        misc = {
+          disable_hyprland_logo = true;
+          disable_splash_rendering = true;
+          focus_on_activate = false;
+          allow_session_lock_restore = true;
+        };
+        xwayland = {
+          enabled = true;
+        };
+        ecosystem = {
+          enforce_permissions = true;
+        };
+      };
+
+      on = [
+        {
+          _args = [
+            "hyprland.start"
+            (lib.generators.mkLuaInline ''
+              function()
+                hl.exec_cmd("bash ~/.config/hypr/autostart.sh")
+                hl.exec_cmd("foot", { workspace = "special:term silent" })
+              end
+            '')
+          ];
+        }
       ];
     };
 
     extraConfig = ''
-      windowrule {
-        name = firefox-private-noscreenshare
-        match:class = ^(firefox)$
-        match:title = .*Private Browsing.*
-        no_screen_share = true
-      }
-      windowrule {
-        name = portal-gtk-float
-        match:class = ^(xdg-desktop-portal-gtk)$
-        float = true
-      }
-      windowrule {
-        name = portal-gnome-float
-        match:class = ^(xdg-desktop-portal-gnome)$
-        float = true
-      }
-      windowrule {
-        name = share-screen-float
-        match:title = ^(Share Screen)$
-        float = true
-      }
-      windowrule {
-        name = screen-share-float
-        match:title = ^(Screen Share)$
-        float = true
-      }
-      windowrule {
-        name = satty-float
-        match:class = ^(com.gabm.satty)$
-        float = true
-      }
-      windowrule {
-        name = chromium-pip
-        match:class = ^(chromium-browser)$
-        match:title = ^(Picture-in-Picture)$
-        float = true
-        pin = true
-      }
-      windowrule {
-        name = firefox-pip
-        match:class = ^(firefox)$
-        match:title = ^(Picture-in-Picture)$
-        float = true
-        pin = true
-      }
-      windowrule {
-        name = thunar-float
-        match:class = ^(thunar)$
-        float = true
-        size = 1000 700
-      }
-      windowrule {
-        name = steam-float
-        match:class = ^(steam)$
-        float = true
-      }
-      windowrule {
-        name = steam-main-tile
-        match:class = ^(steam)$
-        match:title = ^(Steam)$
-        tile = true
-      }
-      windowrule {
-        name = steam-app
-        match:class = ^(steam_app_)
-        workspace = 6
-        immediate = true
-      }
+      hl.define_submap("resize", function()
+        hl.bind("h", hl.dsp.window.resize({ x = -40, y = 0, relative = true }))
+        hl.bind("l", hl.dsp.window.resize({ x = 40, y = 0, relative = true }))
+        hl.bind("k", hl.dsp.window.resize({ x = 0, y = -40, relative = true }))
+        hl.bind("j", hl.dsp.window.resize({ x = 0, y = 40, relative = true }))
+        hl.bind("left", hl.dsp.window.resize({ x = -40, y = 0, relative = true }))
+        hl.bind("right", hl.dsp.window.resize({ x = 40, y = 0, relative = true }))
+        hl.bind("up", hl.dsp.window.resize({ x = 0, y = -40, relative = true }))
+        hl.bind("down", hl.dsp.window.resize({ x = 0, y = 40, relative = true }))
+        hl.bind("Escape", hl.dsp.submap("reset"))
+        hl.bind("Return", hl.dsp.submap("reset"))
+        hl.bind("SUPER + SHIFT + Return", hl.dsp.submap("reset"))
+      end)
 
-      layerrule {
-        name = selection-noanim
-        match:namespace = selection
-        no_anim = true
-      }
-
-      submap = resize
-      bind = , h, resizeactive, -40 0
-      bind = , l, resizeactive, 40 0
-      bind = , k, resizeactive, 0 -40
-      bind = , j, resizeactive, 0 40
-      bind = , left, resizeactive, -40 0
-      bind = , right, resizeactive, 40 0
-      bind = , up, resizeactive, 0 -40
-      bind = , down, resizeactive, 0 40
-      bind = , Escape, submap, reset
-      bind = , Return, submap, reset
-      bind = SUPER SHIFT, Return, submap, reset
-      submap = reset
-
-      submap = move
-      bind = , h, moveactive, -40 0
-      bind = , l, moveactive, 40 0
-      bind = , k, moveactive, 0 -40
-      bind = , j, moveactive, 0 40
-      bind = , left, moveactive, -40 0
-      bind = , right, moveactive, 40 0
-      bind = , up, moveactive, 0 -40
-      bind = , down, moveactive, 0 40
-      bind = , c, centerwindow
-      bind = , Escape, submap, reset
-      bind = , Return, submap, reset
-      bind = SUPER CTRL, Return, submap, reset
-      submap = reset
+      hl.define_submap("move", function()
+        hl.bind("h", hl.dsp.window.move({ x = -40, y = 0, relative = true }))
+        hl.bind("l", hl.dsp.window.move({ x = 40, y = 0, relative = true }))
+        hl.bind("k", hl.dsp.window.move({ x = 0, y = -40, relative = true }))
+        hl.bind("j", hl.dsp.window.move({ x = 0, y = 40, relative = true }))
+        hl.bind("left", hl.dsp.window.move({ x = -40, y = 0, relative = true }))
+        hl.bind("right", hl.dsp.window.move({ x = 40, y = 0, relative = true }))
+        hl.bind("up", hl.dsp.window.move({ x = 0, y = -40, relative = true }))
+        hl.bind("down", hl.dsp.window.move({ x = 0, y = 40, relative = true }))
+        hl.bind("c", hl.dsp.window.center())
+        hl.bind("Escape", hl.dsp.submap("reset"))
+        hl.bind("Return", hl.dsp.submap("reset"))
+        hl.bind("SUPER + CTRL + Return", hl.dsp.submap("reset"))
+      end)
     '';
   };
 
