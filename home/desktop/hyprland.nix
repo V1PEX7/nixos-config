@@ -219,6 +219,7 @@ in
         (mkBind "SUPER + c" "hl.dsp.window.float({ action = 'toggle' })")
         (mkBind "SUPER + CTRL + c" "hl.dsp.window.center()")
         (mkBind "SUPER + n" "hl.dsp.window.move({ workspace = 'special:scratch', follow = false })")
+        (mkBind "SUPER + SHIFT + Return" "hl.dsp.window.move({ workspace = 'special:vpn', follow = false })")
         (mkBind "SUPER + grave" "hl.dsp.focus({ last = true })")
 
         (mkBind "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
@@ -432,6 +433,14 @@ in
             class = "^(steam_app_)";
           };
           workspace = "6";
+          immediate = true;
+        }
+        {
+          name = "Throne";
+          match = {
+            class = "^(Throne)";
+          };
+          workspace = "special:vpn silent";
           immediate = true;
         }
       ];
