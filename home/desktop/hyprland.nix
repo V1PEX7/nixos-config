@@ -297,7 +297,7 @@ in
         (mkBind "SUPER + BackSpace" "hl.dsp.focus({ workspace = 'previous' })")
 
         (mkBind "SUPER + a" "hl.dsp.workspace.toggle_special('scratch')")
-        (mkBind "SUPER + Return" "hl.dsp.workspace.toggle_special('term')")
+        (mkBind "SUPER + Return" "hl.dsp.workspace.toggle_special('vpn')")
 
         (mkBind "SUPER + minus" "hl.dsp.layout('mfact -0.05')")
         (mkBind "SUPER + equal" "hl.dsp.layout('mfact +0.05')")
@@ -525,7 +525,7 @@ in
             (lib.generators.mkLuaInline ''
               function()
                 hl.exec_cmd("bash ~/.config/hypr/autostart.sh")
-                hl.exec_cmd("foot", { workspace = "special:term silent" })
+                hl.exec_cmd("QT_QPA_PLATFORM=wayland Throne &", { workspace = "special:vpn silent" })
               end
             '')
           ];
@@ -575,6 +575,5 @@ in
     cliphist wipe
     wl-clip-persist --clipboard regular --reconnect-tries 0 &
     wl-paste --type text --watch cliphist store &
-    QT_QPA_PLATFORM=wayland Throne &
   '';
 }
