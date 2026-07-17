@@ -352,6 +352,13 @@ in
           no_screen_share = true;
         }
         {
+          name = "keepassxc-noscreenshare";
+          match = {
+            class = "^(org.keepassxc.KeePassXC)$";
+          };
+          no_screen_share = true;
+        }
+        {
           name = "portal-gtk-float";
           match = {
             class = "^(xdg-desktop-portal-gtk)$";
