@@ -1,6 +1,8 @@
 { ... }:
 let
-  t = import ../theme.nix;
+  t_full = import ../theme.nix;
+  t = t_full.theme;
+  s = t_full.settings;
 in
 {
   programs.waybar = {
@@ -61,28 +63,6 @@ in
           ".*Private Browsing.*" = "󰈹 Firefox";
         };
       };
-
-      # mpris = {
-      #   format = "  {dynamic}";
-      #   format-paused = " {status_icon} {dynamic}";
-      #   interval = 1;
-      #   dynamic-order = [
-      #     "artist"
-      #     "position"
-      #     "length"
-      #   ];
-      #   dynamic-importance-order = [
-      #     "position"
-      #     "length"
-      #     "artist"
-      #   ];
-      #   tooltip-format = "{player} ({status}):\n{artist} - {title}";
-      #   status-icons.paused = "󰖛";
-      #   ignored-players = [
-      #     "chromium"
-      #     "librewolf"
-      #   ];
-      # };
 
       privacy = {
         icon-spacing = 4;

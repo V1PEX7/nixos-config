@@ -5,7 +5,9 @@
   ...
 }:
 let
-  t = import ../theme.nix;
+  t_full = import ../theme.nix;
+  t = t_full.theme;
+  s = t_full.settings;
   isDesktop = osConfig.networking.hostName == "desktop";
 
   # Helper functions to keep our declarative bindings completely concise
@@ -475,11 +477,11 @@ in
           layout = "dwindle";
         };
         decoration = {
-          rounding = 0;
+          rounding = s.rounding;
           active_opacity = 1.0;
           inactive_opacity = 1.0;
           blur = {
-            enabled = true;
+            enabled = s.blur;
             size = 4;
             passes = 5;
             noise = 0.02;
@@ -497,7 +499,7 @@ in
           };
         };
         animations = {
-          enabled = false;
+          enabled = s.animations;
         };
         input = {
           kb_layout = "us,ru";

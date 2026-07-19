@@ -1,6 +1,7 @@
 { pkgs, ... }:
 let
-  t = import ../theme.nix;
+  t_full = import ../theme.nix;
+  t = t_full.theme;
 in
 {
   programs.foot = {
