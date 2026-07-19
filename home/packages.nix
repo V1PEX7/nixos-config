@@ -15,7 +15,6 @@
     ))
     uv
     neovim
-    claude-code
 
     ffmpeg
     yt-dlp
