@@ -1,6 +1,8 @@
 { ... }:
 let
-  t = import ../theme.nix;
+  t_full = import ../theme.nix;
+  t = t_full.theme;
+  s = t_full.settings;
 in
 {
   programs.fuzzel = {
@@ -33,7 +35,7 @@ in
 
       border = {
         width = 1;
-        radius = 5;
+        radius = s.rounding;
       };
 
       dmenu = {
