@@ -759,8 +759,8 @@ in
 {
   theme = themes.mono;
   settings = {
-    rounding = 0;
-    blur = false;
-    animations = false;
+    rounding = 5;
+    blur = true;
+    animations = true;
   };
 }
