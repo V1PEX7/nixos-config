@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    ungoogled-chromium
-
     zed-editor
     nixd
     nil
