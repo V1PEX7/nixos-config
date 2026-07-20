@@ -1,6 +1,15 @@
 { pkgs, lib, ... }:
 let
-  fetchCrx = { url, sha256 }: pkgs.fetchurl { inherit url sha256; };
+  fetchCrx =
+    {
+      name,
+      url,
+      sha256,
+    }:
+    pkgs.fetchurl {
+      inherit url sha256;
+      name = "${name}.crx";
+    };
 
   mkCrxUrl =
     id:
@@ -13,32 +22,36 @@ in
 
     extensions = [
       {
-        id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; # uBlock Origin
+        id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";
         crxPath = fetchCrx {
+          name = "ublock-origin";
           url = mkCrxUrl "cjpalhdlnbpafiamejdnhcphjbkeiagm";
           sha256 = "sha256-bgLY5tzlae7HIbUx+cfShAPlQmRCQX1ahVoX3SiLVvg=";
         };
         version = "1.72.2";
       }
       {
-        id = "dbepggeogbaibhgnhhndojpepiihcmeb"; # Vimium
+        id = "dbepggeogbaibhgnhhndojpepiihcmeb";
         crxPath = fetchCrx {
+          name = "vimium";
           url = mkCrxUrl "dbepggeogbaibhgnhhndojpepiihcmeb";
           sha256 = "sha256-MZjCaqcZvkYt6lhQUPvtm4uAYo1X6oihE7q/UzTFUXw=";
         };
         version = "2.4.2";
       }
       {
-        id = "pkehgijcmpdhfbdbbnkijodmdjhbjlgp"; # Privacy Badger
+        id = "pkehgijcmpdhfbdbbnkijodmdjhbjlgp";
         crxPath = fetchCrx {
+          name = "privacy-badger";
           url = mkCrxUrl "pkehgijcmpdhfbdbbnkijodmdjhbjlgp";
           sha256 = "sha256-r7/6OKSQ1D/45WoTsKS0+95ch7BtU9kImNnn4vzQj0A=";
         };
         version = "2026.6.16";
       }
       {
-        id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; # Dark Reader
+        id = "eimadpbcbfnmbkopoojfekhnkhdbieeh";
         crxPath = fetchCrx {
+          name = "dark-reader";
           url = mkCrxUrl "eimadpbcbfnmbkopoojfekhnkhdbieeh";
           sha256 = "sha256-ncsb1tytQ4kt3AKP9l+YLfPtuhNammRF5PpxZx43qhM=";
         };
