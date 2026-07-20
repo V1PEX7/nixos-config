@@ -14,6 +14,7 @@
     ./apps/rmpc.nix
     ./apps/zsh.nix
     ./apps/yazi.nix
+    ./apps/chromium.nix
   ];
 
   home.username = "xnp";
