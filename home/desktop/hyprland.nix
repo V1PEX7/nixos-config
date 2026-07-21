@@ -354,6 +354,14 @@ in
           no_screen_share = true;
         }
         {
+          name = "chromium-private-noscreenshare";
+          match = {
+            class = "^(chromium-browser)$";
+            title = ".*[Ii]ncognito.*";
+          };
+          no_screen_share = true;
+        }
+        {
           name = "keepassxc-noscreenshare";
           match = {
             class = "^(org.keepassxc.KeePassXC)$";
