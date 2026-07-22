@@ -2,11 +2,13 @@
   pkgs,
   lib,
   config,
+  osConfig,
   ...
 }:
 let
   mkSandbox = import ../lib/mkSandbox.nix { inherit pkgs lib; };
   home = config.home.homeDirectory;
+  gamingEnabled = osConfig.modules.apps.gaming.enable;
 
   vesktop = mkSandbox {
     name = "vesktop";
@@ -35,6 +37,33 @@ let
   #     "${home}/Downloads"
   #   ];
   # };
+  #
+
+  steam = mkSandbox {
+    name = "steam";
+    package = pkgs.steam.override {
+      extraLibraries = pkgs: with osConfig.hardware.graphics; [ package ] ++ extraPackages;
+    };
+    preset = "gui-av";
+    network = true;
+
+    rwPaths = [
+      "${home}/.steam"
+      "${home}/.local/share/Steam"
+      "${home}/.config/unity3d"
+    ];
+
+    roPaths = [
+      "${home}/.local/share/applications"
+      "${home}/.config/mimeapps.list"
+    ];
+
+    extraArgs = [
+      "--dev-bind /dev/input /dev/input"
+      "--ro-bind-try /run/udev /run/udev"
+      "--ro-bind-try /tmp/.X11-unix /tmp/.X11-unix"
+    ];
+  };
 
   telegram = mkSandbox {
     name = "telegram-desktop";
@@ -86,5 +115,6 @@ in
     telegram
     qbittorrent
     codeShell
-  ];
+  ]
+  ++ lib.optional gamingEnabled steam;
 }

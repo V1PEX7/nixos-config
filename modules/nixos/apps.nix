@@ -39,12 +39,8 @@ in
       }
 
       (lib.mkIf cfg.gaming.enable {
-        programs.steam = {
-          enable = true;
-          extraCompatPackages = with pkgs; [
-            proton-ge-bin
-          ];
-        };
+
+        # steam is sandboxed and declared in home/sandbox.nix
 
         programs.gamescope.enable = true;
 
