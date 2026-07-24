@@ -1,4 +1,8 @@
 let
+
+  generatedPath = /home/xnp/.config/nixos-theme/generated-theme.nix;
+  generated = import generatedPath;
+
   themes = {
     omarchy = {
       bg = "#131315";
@@ -757,10 +761,10 @@ let
   # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi, nightowl, rosewood
 in
 {
-  theme = themes.mono;
+  theme = generated;
   settings = {
-    rounding = 0;
-    blur = false;
-    animations = false;
+    rounding = 5;
+    blur = true;
+    animations = true;
   };
 }
