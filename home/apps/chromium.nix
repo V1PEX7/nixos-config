@@ -58,5 +58,18 @@ in
         version = "4.9.129";
       }
     ];
+
+    commandLineArgs = [
+      "--force-webrtc-ip-handling-policy=disable_non_proxied_udp"
+
+      "--fingerprinting-canvas-image-data-noise"
+      "--fingerprinting-canvas-measuretext-noise"
+      "--fingerprinting-client-rects-noise"
+
+      # - NoCrossOriginReferrers: Drops referrers for cross-origin requests entirely
+      # - ReducedSystemInfo: Trims OS details and reports hardwareConcurrency as 2 CPU cores
+      # - RemoveClientHints: Prevents high-entropy system spec leaks to web servers
+      "--enable-features=NoCrossOriginReferrers,RemoveClientHints"
+    ];
   };
 }
