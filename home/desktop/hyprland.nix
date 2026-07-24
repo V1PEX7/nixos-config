@@ -305,6 +305,10 @@ in
         (mkBind "SUPER + minus" "hl.dsp.layout('mfact -0.05')")
         (mkBind "SUPER + equal" "hl.dsp.layout('mfact +0.05')")
 
+        (mkBind "SUPER + ALT + equal" "hl.dsp.exec_cmd('hypr-zoom in')")
+        (mkBind "SUPER + ALT + minus" "hl.dsp.exec_cmd('hypr-zoom out')")
+        (mkBind "SUPER + ALT + 0" "hl.dsp.exec_cmd('hypr-zoom reset')")
+
         (mkBind "SUPER + z" "hl.dsp.layout('swapwithmaster')")
         (mkBind "SUPER + ALT + space" "hl.dsp.layout('orientationcycle')")
 

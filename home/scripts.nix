@@ -40,5 +40,21 @@
       ${pkgs.swaybg}/bin/swaybg -i "$HOME/.config/wallpaper" -m fill &
       disown
     '')
+
+    (pkgs.writeShellScriptBin "hypr-zoom" ''
+      set -euo pipefail
+      exec 200>/tmp/hypr-zoom.lock
+      flock 200
+
+      step="0.5"; min="1"; max="10"
+      cur=$(${pkgs.hyprland}/bin/hyprctl -j getoption cursor:zoom_factor | ${pkgs.jq}/bin/jq -r '.float')
+      case "''${1:-}" in
+        in)    new=$(${pkgs.gawk}/bin/awk -v c="$cur" -v s="$step" -v m="$max" 'BEGIN{v=c+s; print (v>m?m:v)}') ;;
+        out)   new=$(${pkgs.gawk}/bin/awk -v c="$cur" -v s="$step" -v m="$min" 'BEGIN{v=c-s; print (v<m?m:v)}') ;;
+        reset) new="1" ;;
+        *) echo "usage: hypr-zoom {in|out|reset}" >&2; exit 1 ;;
+      esac
+      ${pkgs.hyprland}/bin/hyprctl eval "hl.config({ cursor = { zoom_factor = $new } })"
+    '')
   ];
 }
