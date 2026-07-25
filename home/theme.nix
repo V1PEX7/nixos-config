@@ -1,7 +1,12 @@
+{ pkgs }:
 let
 
-  generatedPath = /home/xnp/.config/nixos-theme/generated-theme.nix;
-  generated = import generatedPath;
+  mkMatugenTheme = import ../lib/mkMatugenTheme.nix { inherit pkgs; };
+
+  generated = mkMatugenTheme {
+    seed = "#ad7882"; # paste the hex from `wallpaper-color` here
+    mode = "dark";
+  };
 
   themes = {
     omarchy = {

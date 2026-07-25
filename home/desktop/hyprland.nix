@@ -5,7 +5,7 @@
   ...
 }:
 let
-  t_full = import ../theme.nix;
+  t_full = import ../theme.nix { inherit pkgs; };
   t = t_full.theme;
   s = t_full.settings;
   isDesktop = osConfig.networking.hostName == "desktop";
