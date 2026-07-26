@@ -379,13 +379,6 @@ in
           float = true;
         }
         {
-          name = "portal-gnome-float";
-          match = {
-            class = "^(xdg-desktop-portal-gnome)$";
-          };
-          float = true;
-        }
-        {
           name = "share-screen-float";
           match = {
             title = "^(Share Screen)$";
