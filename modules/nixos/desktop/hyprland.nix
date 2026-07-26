@@ -10,7 +10,5 @@ in
       enable = true;
       xwayland.enable = true;
     };
-
-    services.gnome.gnome-keyring.enable = true;
   };
 }
