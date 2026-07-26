@@ -23,7 +23,7 @@
     extraRules = [
       {
         users = [ "xnp" ];
-        keepEnv = true;
+        keepEnv = false;
         persist = true;
       }
     ];
