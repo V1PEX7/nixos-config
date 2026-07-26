@@ -25,8 +25,6 @@ in
           config.init.defaultBranch = "main";
         };
 
-        programs.nix-ld.enable = true;
-
         programs.localsend = {
           enable = true;
           openFirewall = true;
