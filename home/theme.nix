@@ -766,7 +766,7 @@ let
   # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi, nightowl, rosewood
 in
 {
-  theme = generated;
+  theme = themes.nightowl;
   settings = {
     rounding = 5;
     blur = true;
