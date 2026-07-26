@@ -21,7 +21,8 @@
     htop
     btop
     pavucontrol
-    file-roller
+
+    xarchiver
 
     keepassxc
 
