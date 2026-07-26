@@ -500,6 +500,7 @@ in
             contrast = 0.89;
             vibrancy = 1.2;
             new_optimizations = true;
+            ignore_opacity = true;
           };
           shadow = {
             enabled = true;
