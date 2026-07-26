@@ -1,7 +1,8 @@
 { pkgs, ... }:
 let
-  t_full = import ../theme.nix;
+  t_full = import ../theme.nix { inherit pkgs; };
   t = t_full.theme;
+  s = t_full.settings;
 in
 {
   programs.foot = {
@@ -32,6 +33,7 @@ in
 
       "colors-dark" = {
         alpha = "0.9";
+        blur = if s.blur then "yes" else "no";
         background = builtins.substring 1 6 t.term.bg;
         foreground = builtins.substring 1 6 t.term.fg;
 

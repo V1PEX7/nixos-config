@@ -99,6 +99,7 @@ let
 
     "--ro-bind /nix/store /nix/store"
     "--ro-bind /run/current-system /run/current-system"
+    "--ro-bind-try /usr/bin/env /usr/bin/env"
     "--ro-bind /etc/static /etc/static"
     "--ro-bind /etc/resolv.conf /etc/resolv.conf"
     "--ro-bind /etc/nsswitch.conf /etc/nsswitch.conf"
@@ -189,23 +190,23 @@ let
   rwPathsBash = lib.concatMapStringsSep " " (p: ''"${p}"'') rwPaths;
 
   script = ''
-    #!${pkgs.runtimeShell}
-    set -eu
-    : "''${XDG_RUNTIME_DIR:=/run/user/$(${pkgs.coreutils}/bin/id -u)}"
-    export PATH=/run/current-system/sw/bin
+        #!${pkgs.runtimeShell}
+        set -eu
+        : "''${XDG_RUNTIME_DIR:=/run/user/$(${pkgs.coreutils}/bin/id -u)}"
+        export PATH=/run/current-system/sw/bin
 
-    for d in ${rwPathsBash}; do
-      ${pkgs.coreutils}/bin/mkdir -p "$d"
-    done
-${lib.optionalString (workdirArg != null) ''
-    WORKDIR="''${1:-${workdirArg}}"
-    [ "$#" -gt 0 ] && shift || true
-    WORKDIR="$(${pkgs.coreutils}/bin/realpath -m "$WORKDIR")"
-    ${pkgs.coreutils}/bin/mkdir -p "$WORKDIR"
-''}
-    exec ${bwrap} \
-      ${argsLines} \
-      -- ${package}/${binPath} "$@"
+        for d in ${rwPathsBash}; do
+          ${pkgs.coreutils}/bin/mkdir -p "$d"
+        done
+    ${lib.optionalString (workdirArg != null) ''
+      WORKDIR="''${1:-${workdirArg}}"
+      [ "$#" -gt 0 ] && shift || true
+      WORKDIR="$(${pkgs.coreutils}/bin/realpath -m "$WORKDIR")"
+      ${pkgs.coreutils}/bin/mkdir -p "$WORKDIR"
+    ''}
+        exec ${bwrap} \
+          ${argsLines} \
+          -- ${package}/${binPath} "$@"
   '';
 
   wrapper = pkgs.writeShellScript "${name}-sandboxed" script;

@@ -5,7 +5,7 @@
   ...
 }:
 let
-  t_full = import ../theme.nix;
+  t_full = import ../theme.nix { inherit pkgs; };
   t = t_full.theme;
   s = t_full.settings;
   isDesktop = osConfig.networking.hostName == "desktop";
@@ -206,7 +206,6 @@ in
         (mkBind "SUPER + w" "hl.dsp.exec_cmd('chromium')")
         (mkBind "SUPER + s" "hl.dsp.exec_cmd('firefox')")
         (mkBind "SUPER + space" "hl.dsp.exec_cmd('fuzzel')")
-        (mkBind "SUPER + v" "hl.dsp.exec_cmd([[bash -c 'cliphist list | fuzzel --dmenu | cliphist decode | wl-copy']])")
 
         (mkBind "Print" "hl.dsp.exec_cmd([[grim -g \"$(slurp)\" -t ppm - | satty -f -]])")
         (mkBind "SUPER + SHIFT + s" "hl.dsp.exec_cmd('freeze-screenshot')")
@@ -305,6 +304,10 @@ in
         (mkBind "SUPER + minus" "hl.dsp.layout('mfact -0.05')")
         (mkBind "SUPER + equal" "hl.dsp.layout('mfact +0.05')")
 
+        (mkBind "SUPER + ALT + equal" "hl.dsp.exec_cmd('hypr-zoom in')")
+        (mkBind "SUPER + ALT + minus" "hl.dsp.exec_cmd('hypr-zoom out')")
+        (mkBind "SUPER + ALT + 0" "hl.dsp.exec_cmd('hypr-zoom reset')")
+
         (mkBind "SUPER + z" "hl.dsp.layout('swapwithmaster')")
         (mkBind "SUPER + ALT + space" "hl.dsp.layout('orientationcycle')")
 
@@ -350,6 +353,14 @@ in
           match = {
             class = "^(firefox)$";
             title = ".*Private Browsing.*";
+          };
+          no_screen_share = true;
+        }
+        {
+          name = "chromium-private-noscreenshare";
+          match = {
+            class = "^(chromium-browser)$";
+            title = ".*[Ii]ncognito.*";
           };
           no_screen_share = true;
         }
@@ -489,6 +500,7 @@ in
             contrast = 0.89;
             vibrancy = 1.2;
             new_optimizations = true;
+            ignore_opacity = true;
           };
           shadow = {
             enabled = true;
@@ -590,8 +602,6 @@ in
       swaybg -i "$HOME/.config/wallpaper" -m fill &
     fi
 
-    cliphist wipe
     wl-clip-persist --clipboard regular --reconnect-tries 0 &
-    wl-paste --type text --watch cliphist store &
   '';
 }

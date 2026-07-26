@@ -14,6 +14,8 @@
     ./apps/rmpc.nix
     ./apps/zsh.nix
     ./apps/yazi.nix
+    ./apps/chromium.nix
+    ./apps/matugen.nix
   ];
 
   home.username = "xnp";
