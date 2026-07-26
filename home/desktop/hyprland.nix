@@ -210,7 +210,7 @@ in
         (mkBind "Print" "hl.dsp.exec_cmd([[grim -g \"$(slurp)\" -t ppm - | satty -f -]])")
         (mkBind "SUPER + SHIFT + s" "hl.dsp.exec_cmd('freeze-screenshot')")
         (mkBind "CTRL + Print" "hl.dsp.exec_cmd([[grim - | satty -f -]])")
-        (mkBind "SUPER + SHIFT + t" "hl.dsp.exec_cmd([[bash -c 'grim -g \"$(slurp)\" -t png - | convert - -resize 300% -sharpen 0x1 png:- | tesseract -l eng+rus stdin stdout | wl-copy && notify-send OCR Скопировано']])")
+        (mkBind "SUPER + SHIFT + t" "hl.dsp.exec_cmd([[bash -c 'grim -g \"$(slurp)\" -t png - | convert - -resize 300% -sharpen 0x1 png:- | tesseract -l eng+rus stdin stdout | wl-copy']])")
 
         (mkBind "SUPER + SHIFT + w" "hl.dsp.exec_cmd('wallpicker')")
 
