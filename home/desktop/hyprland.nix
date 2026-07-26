@@ -206,7 +206,6 @@ in
         (mkBind "SUPER + w" "hl.dsp.exec_cmd('chromium')")
         (mkBind "SUPER + s" "hl.dsp.exec_cmd('firefox')")
         (mkBind "SUPER + space" "hl.dsp.exec_cmd('fuzzel')")
-        (mkBind "SUPER + v" "hl.dsp.exec_cmd([[bash -c 'cliphist list | fuzzel --dmenu | cliphist decode | wl-copy']])")
 
         (mkBind "Print" "hl.dsp.exec_cmd([[grim -g \"$(slurp)\" -t ppm - | satty -f -]])")
         (mkBind "SUPER + SHIFT + s" "hl.dsp.exec_cmd('freeze-screenshot')")
@@ -602,8 +601,6 @@ in
       swaybg -i "$HOME/.config/wallpaper" -m fill &
     fi
 
-    cliphist wipe
     wl-clip-persist --clipboard regular --reconnect-tries 0 &
-    wl-paste --type text --watch cliphist store &
   '';
 }

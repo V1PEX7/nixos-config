@@ -32,7 +32,6 @@
 
     wl-clipboard
     wl-clip-persist
-    cliphist
     playerctl
     grim
     slurp
