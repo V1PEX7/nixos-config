@@ -2,7 +2,8 @@
 
 My nixos dotfiles. Two machines (desktop + laptop), single user.
 
-<img width="2558" height="1440" alt="image" src="https://github.com/user-attachments/assets/0bc053c6-85d2-41fa-a75e-cbc1f2ab99e5" />
+<img width="2160" height="1440" alt="image" src="https://github.com/user-attachments/assets/9d7e5695-7793-4dfd-a187-9b4af8c8d83e" />
+
 
 ## Stack
 
