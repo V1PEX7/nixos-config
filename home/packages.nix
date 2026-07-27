@@ -20,6 +20,8 @@
     ncdu
     htop
     btop
+    nix-tree
+
     pavucontrol
 
     xarchiver
