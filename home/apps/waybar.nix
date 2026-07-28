@@ -7,7 +7,7 @@ in
 {
   programs.waybar = {
     enable = true;
-    systemd.enable = false;
+    systemd.enable = true;
 
     settings.mainBar = {
       reload_style_on_change = true;

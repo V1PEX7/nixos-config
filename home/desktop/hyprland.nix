@@ -589,7 +589,6 @@ in
   };
 
   xdg.configFile."hypr/autostart.sh".source = pkgs.writeShellScript "hypr-autostart" ''
-    waybar &
 
     if [ -f "$HOME/.config/wallpaper" ]; then
       swaybg -i "$HOME/.config/wallpaper" -m fill &
