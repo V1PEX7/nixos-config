@@ -8,13 +8,13 @@ let
       accent = "{{colors.primary.default.hex}}";
       hover = "{{colors.surface_container_high.default.hex}}";
       red = "{{colors.error.default.hex}}";
-      green = "{{colors.tertiary.default.hex}}";
-      yellow = "{{colors.secondary.default.hex}}";
+      green = "{{colors.green.default.hex}}";
+      yellow = "{{colors.yellow.default.hex}}";
       contrast = "#000000";
       shadow = "{{colors.shadow.default.hex}}";
       dim = "0.35";
       calMonth = "{{colors.on_surface.default.hex}}";
-      calWeekdays = "{{colors.secondary.default.hex}}";
+      calWeekdays = "{{colors.yellow.default.hex}}";
       calToday = "{{colors.primary.default.hex}}";
 
       hypr = {
@@ -26,25 +26,27 @@ let
       term = {
         bg = "{{colors.surface.default.hex}}";
         fg = "{{colors.on_surface.default.hex}}";
-        selText = "{{colors.on_primary_container.default.hex}}";
-        selBg = "{{colors.primary_container.default.hex}}";
+        selText = "{{colors.on_surface.default.hex}}";
+        selBg = "{{colors.surface_container_high.default.hex}}";
         curText = "{{colors.surface.default.hex}}";
         curCursor = "{{colors.primary.default.hex}}";
-        black = "{{colors.surface.default.hex}}";
+
+        black = "{{colors.surface_container.default.hex}}";
         red = "{{colors.error.default.hex}}";
-        green = "{{colors.tertiary.default.hex}}";
-        yellow = "{{colors.secondary.default.hex}}";
+        green = "{{colors.green.default.hex}}";
+        yellow = "{{colors.yellow.default.hex}}";
         blue = "{{colors.primary.default.hex}}";
-        magenta = "{{colors.secondary_container.default.hex}}";
-        cyan = "{{colors.primary_container.default.hex}}";
+        magenta = "{{colors.tertiary.default.hex}}";
+        cyan = "{{colors.secondary.default.hex}}";
         white = "{{colors.on_surface_variant.default.hex}}";
+
         brBlack = "{{colors.outline.default.hex}}";
-        brRed = "{{colors.error_container.default.hex}}";
-        brGreen = "{{colors.tertiary_container.default.hex}}";
-        brYellow = "{{colors.secondary.default.hex}}";
+        brRed = "{{colors.error.default.hex}}";
+        brGreen = "{{colors.green.default.hex}}";
+        brYellow = "{{colors.yellow.default.hex}}";
         brBlue = "{{colors.primary_fixed.default.hex}}";
-        brMagenta = "{{colors.secondary_fixed.default.hex}}";
-        brCyan = "{{colors.primary_fixed_dim.default.hex}}";
+        brMagenta = "{{colors.tertiary_fixed.default.hex}}";
+        brCyan = "{{colors.secondary_fixed.default.hex}}";
         brWhite = "{{colors.on_surface.default.hex}}";
       };
 
@@ -62,6 +64,14 @@ let
 
   matugenConfig = pkgs.writeText "matugen-config.toml" ''
     [config]
+
+    [config.custom_colors.green]
+    color = "#a8c47a"
+    blend = true
+
+    [config.custom_colors.yellow]
+    color = "#e8c08e"
+    blend = true
 
     [templates.nixtheme]
     input_path = "${template}"
