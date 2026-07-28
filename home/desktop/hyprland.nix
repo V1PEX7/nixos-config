@@ -471,8 +471,8 @@ in
 
       config = {
         general = {
-          gaps_in = 2;
-          gaps_out = 5;
+          gaps_in = s.gaps_in;
+          gaps_out = s.gaps_out;
           border_size = 1;
           col = {
             active_border = t.hypr.active_border;

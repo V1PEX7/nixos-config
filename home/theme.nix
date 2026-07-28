@@ -764,6 +764,9 @@ in
       rounding = 5;
       blur = true;
       animations = true;
+
+      gaps_in = 2;
+      gaps_out = 5;
     };
   };
 }
