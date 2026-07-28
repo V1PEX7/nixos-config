@@ -1,6 +1,7 @@
 { ... }:
 {
   imports = [
+    ./theme.nix
     ./common.nix
     ./packages.nix
     ./scripts.nix

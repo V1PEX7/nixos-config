@@ -1,13 +1,5 @@
-{ pkgs }:
+{ ... }:
 let
-
-  mkMatugenTheme = import ../lib/mkMatugenTheme.nix { inherit pkgs; };
-
-  generated = mkMatugenTheme {
-    seed = "#ad7882"; # paste the hex from `wallpaper-color` here
-    mode = "dark";
-  };
-
   themes = {
     omarchy = {
       bg = "#131315";
@@ -766,10 +758,12 @@ let
   # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi, nightowl, rosewood
 in
 {
-  theme = themes.nightowl;
-  settings = {
-    rounding = 5;
-    blur = true;
-    animations = true;
+  _module.args = {
+    theme = themes.nightowl;
+    settings = {
+      rounding = 5;
+      blur = true;
+      animations = true;
+    };
   };
 }

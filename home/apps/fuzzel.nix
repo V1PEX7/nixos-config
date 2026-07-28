@@ -1,8 +1,11 @@
-{ pkgs, ... }:
+{
+  theme,
+  settings,
+  ...
+}:
 let
-  t_full = import ../theme.nix { inherit pkgs; };
-  t = t_full.theme;
-  s = t_full.settings;
+  t = theme;
+  s = settings;
 in
 {
   programs.fuzzel = {
