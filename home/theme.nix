@@ -759,14 +759,14 @@ let
 in
 {
   _module.args = {
-    theme = themes.nightowl;
+    theme = themes.mono;
     settings = {
-      rounding = 5;
-      blur = true;
-      animations = true;
+      rounding = 0;
+      blur = false;
+      animations = false;
 
-      gaps_in = 2;
-      gaps_out = 5;
+      gaps_in = 0;
+      gaps_out = 0;
     };
   };
 }
