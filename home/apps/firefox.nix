@@ -78,15 +78,16 @@
         "signon.rememberSignons" = false;
         "signon.autofillForms" = false;
 
-        "dom.event.clipboardevents.enabled" = false;
+        #"dom.event.clipboardevents.enabled" = false;
         "dom.push.enabled" = false;
         "dom.webnotifications.enabled" = false;
 
         "geo.enabled" = false;
 
-        "privacy.resistFingerprinting" = false;
+        "privacy.resistFingerprinting" = true;
         "privacy.resistFingerprinting.letterboxing" = false;
 
+        "browser.nova.enabled" = true;
       };
 
       userChrome = "";
