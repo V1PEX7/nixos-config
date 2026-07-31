@@ -42,10 +42,14 @@ let
   steam = mkSandbox {
     name = "steam";
     package = pkgs.steam.override {
-      extraLibraries = pkgs: with osConfig.hardware.graphics; [ package ] ++ extraPackages;
+      extraPkgs =
+        pkgs: with pkgs; [
+          ffmpeg
+        ];
     };
     preset = "gui-av";
     network = true;
+    dbusSystem = true;
 
     rwPaths = [
       "${home}/.steam"
@@ -62,6 +66,7 @@ let
       "--dev-bind /dev/input /dev/input"
       "--ro-bind-try /run/udev /run/udev"
       "--ro-bind-try /tmp/.X11-unix /tmp/.X11-unix"
+      "--ro-bind-try /run/systemd/resolve /run/systemd/resolve"
     ];
   };
 
