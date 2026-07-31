@@ -14,9 +14,6 @@ in
     services.xserver.videoDrivers = [ "amdgpu" ];
     environment.variables.AMD_VULKAN_ICD = "RADV";
 
-    hardware.graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
+    hardware.graphics.enable = true;
   };
 }

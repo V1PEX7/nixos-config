@@ -48,6 +48,8 @@ in
           # mangohud
           # goverlay
         ];
+
+        hardware.graphics.enable32Bit = true;
       })
 
       (lib.mkIf cfg.docker.enable {
