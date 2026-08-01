@@ -219,6 +219,7 @@ in
         (mkBind "SUPER + d" "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })")
         (mkBind "SUPER + f" "hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' })")
         (mkBind "SUPER + c" "hl.dsp.window.float({ action = 'toggle' })")
+        (mkBind "SUPER + p" "hl.dsp.window.pin()")
         (mkBind "SUPER + CTRL + c" "hl.dsp.window.center()")
         (mkBind "SUPER + n" "hl.dsp.window.move({ workspace = 'special:scratch', follow = false })")
         (mkBind "SUPER + SHIFT + Return" "hl.dsp.window.move({ workspace = 'special:vpn', follow = false })")
