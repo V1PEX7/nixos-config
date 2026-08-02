@@ -2,9 +2,14 @@
   config,
   lib,
   pkgs,
+  theme,
+  settings,
   ...
 }:
 let
+  t = theme;
+  s = settings;
+
   dotfilesPath = "${config.home.homeDirectory}/nixos-config/dotfiles";
   localDotfilesPath = ../dotfiles;
   dirContents =
@@ -13,7 +18,7 @@ let
     source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${name}";
   };
 
-  GTK_THEME_NAME = "Graphite-Dark";
+  GTK_THEME_NAME = "adw-gtk3-dark";
   GTK_CURSOR_NAME = "Bibata-Modern-Classic";
 in
 {
@@ -35,35 +40,19 @@ in
     enable = true;
     theme = {
       name = GTK_THEME_NAME;
-      package = pkgs.graphite-gtk-theme.override {
-        themeVariants = [ ];
-        colorVariants = [ "dark" ];
-        sizeVariants = [ "standard" ];
-        tweaks = [
-          "rimless"
-          "darker"
-        ];
-      };
+      package = pkgs.adw-gtk3;
     };
     gtk4.theme = {
       name = GTK_THEME_NAME;
-      package = pkgs.graphite-gtk-theme.override {
-        themeVariants = [ ];
-        colorVariants = [ "dark" ];
-        sizeVariants = [ "standard" ];
-        tweaks = [
-          "rimless"
-          "darker"
-        ];
-      };
+      package = pkgs.adw-gtk3;
     };
     gtk3.extraConfig = {
-      gtk-enable-animations = true;
+      gtk-enable-animations = s.animations;
       gtk-primary-button-warps-slider = false;
       gtk-application-prefer-dark-theme = true;
     };
     gtk4.extraConfig = {
-      gtk-enable-animations = true;
+      gtk-enable-animations = s.animations;
       gtk-primary-button-warps-slider = false;
       gtk-application-prefer-dark-theme = true;
       gtk-hint-font-metrics = true;
