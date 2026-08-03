@@ -347,7 +347,7 @@ pkgs.runCommand "${name}-sandboxed-${package.version or "0"}"
   {
     meta = (package.meta or { }) // {
       mainProgram = name;
-      description = "${name} (sandboxed via bubblewrap with DBus proxy)";
+      description = "${name} (sandboxed via bubblewrap)";
       outputsToInstall = [ "out" ];
     };
   }
