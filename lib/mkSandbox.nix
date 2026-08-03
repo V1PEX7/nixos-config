@@ -32,9 +32,19 @@
   theme ? null,
 
   dbusProxy ? true,
-  dbusTalk ? [ ],
+  defaultDbusTalk ? [
+    "org.freedesktop.Notifications"
+    "org.freedesktop.portal.*"
+    "ca.desrt.dconf"
+  ],
+  extraDbusTalk ? [ ],
+  dbusTalk ? defaultDbusTalk ++ extraDbusTalk,
   dbusSee ? [ ],
-  dbusOwn ? [ ],
+  defaultDbusOwn ? [
+    "org.mpris.MediaPlayer2.*"
+  ],
+  extraDbusOwn ? [ ],
+  dbusOwn ? defaultDbusOwn ++ extraDbusOwn,
   dbusCall ? [ ],
 
   dbusSystemProxy ? true,
@@ -100,18 +110,10 @@ let
   };
   caps = baseCaps // presetCaps // overrides;
 
-  defaultDbusTalk = [
-    "org.freedesktop.Notifications"
-    "org.freedesktop.portal.*"
-    "ca.desrt.dconf"
-  ];
-
-  effectiveDbusTalk = if (dbusTalk == [ ]) then defaultDbusTalk else dbusTalk;
-
   dbusFlags =
-    (map (x: "--talk=${x}") effectiveDbusTalk)
+    (map (x: "--talk=${x}") dbusTalk)
     ++ (map (x: "--see=${x}") dbusSee)
-    ++ (map (x: "--own=${x}") (dbusOwn ++ [ "org.mpris.MediaPlayer2.*" ]))
+    ++ (map (x: "--own=${x}") dbusOwn)
     ++ (map (x: "--call=${x}") dbusCall);
 
   # escapeShellArgs prevents shell globbing on DBus wildcards (e.g. portal.*) during proxy launch.
@@ -238,11 +240,18 @@ let
 
   waitForSocketFn = ''
     wait_for_socket() {
+      local socket_path="$1"
+      local bus_name="$2"
+      local proxy_pid="$3"
       for i in $(${pkgs.coreutils}/bin/seq 1 200); do
-        [ -S "$1" ] && return 0
+        [ -S "$socket_path" ] && return 0
+        if [ -n "$proxy_pid" ] && ! kill -0 "$proxy_pid" 2>/dev/null; then
+          echo "error: $bus_name proxy process ($proxy_pid) exited prematurely" >&2
+          return 1
+        fi
         sleep 0.01
       done
-      echo "warning: $2 proxy socket missing after 2s ($1)" >&2
+      echo "warning: $bus_name proxy socket missing after 2s ($socket_path)" >&2
       return 1
     }
   '';
@@ -304,7 +313,7 @@ let
         ${xdgDbusProxy} "$SESSION_BUS" "$PROXY_BUS" --filter ${dbusFlagsStr} &
         SESSION_PROXY_PID=$!
 
-        wait_for_socket "$PROXY_BUS" "session bus" || true
+        wait_for_socket "$PROXY_BUS" "session bus" "$SESSION_PROXY_PID" || true
       fi
     ''}
 
@@ -316,7 +325,7 @@ let
         ${xdgDbusProxy} "unix:path=/run/dbus/system_bus_socket" "$PROXY_SYS_BUS" --filter ${dbusSystemFlagsStr} &
         SYSTEM_PROXY_PID=$!
 
-        wait_for_socket "$PROXY_SYS_BUS" "system bus" || true
+        wait_for_socket "$PROXY_SYS_BUS" "system bus" "$SYSTEM_PROXY_PID" || true
       fi
     ''}
 
