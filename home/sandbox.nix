@@ -10,6 +10,19 @@ let
   home = config.home.homeDirectory;
   gamingEnabled = osConfig.modules.apps.gaming.enable;
 
+  # Common DBus permissions for applications that show tray icons and prevent sleep
+  commonGuiDbusTalk = [
+    "org.freedesktop.StatusNotifierWatcher"
+    "org.kde.StatusNotifierWatcher"
+    "org.freedesktop.ScreenSaver"
+    "org.freedesktop.PowerManagement"
+  ];
+
+  commonGuiDbusOwn = [
+    "org.kde.StatusNotifierItem.*"
+    "org.ayatana.NotificationItem.*"
+  ];
+
   vesktop = mkSandbox {
     name = "vesktop";
     package = pkgs.vesktop;
@@ -20,24 +33,9 @@ let
       "${home}/.config/Vencord"
       "${home}/Downloads"
     ];
+    extraDbusTalk = commonGuiDbusTalk;
+    extraDbusOwn = commonGuiDbusOwn;
   };
-
-  # discord = mkSandbox {
-  #   name = "discord";
-  #   package = pkgs.discord.override {
-  #     withVencord = true;
-  #     withOpenASAR = true;
-  #   };
-  #   binPath = "bin/Discord";
-  #   preset = "gui-av";
-  #   network = true;
-  #   rwPaths = [
-  #     "${home}/.config/discord"
-  #     "${home}/.config/Vencord"
-  #     "${home}/Downloads"
-  #   ];
-  # };
-  #
 
   steam = mkSandbox {
     name = "steam";
@@ -50,6 +48,7 @@ let
     preset = "gui-av";
     network = true;
     dbusSystem = true;
+    dbusSystemProxy = false; # Pass system bus directly so Steam hardware/net checks work
 
     rwPaths = [
       "${home}/.steam"
@@ -60,6 +59,11 @@ let
     roPaths = [
       "${home}/.local/share/applications"
       "${home}/.config/mimeapps.list"
+    ];
+
+    extraDbusTalk = commonGuiDbusTalk;
+    extraDbusOwn = commonGuiDbusOwn ++ [
+      "com.steampowered.*"
     ];
 
     extraArgs = [
@@ -81,6 +85,10 @@ let
       "${home}/.cache/TelegramDesktop"
       "${home}/Downloads"
     ];
+    extraDbusTalk = commonGuiDbusTalk;
+    extraDbusOwn = commonGuiDbusOwn ++ [
+      "org.telegram.desktop.*"
+    ];
   };
 
   qbittorrent = mkSandbox {
@@ -92,6 +100,10 @@ let
       "${home}/.config/qBittorrent"
       "${home}/.local/share/qBittorrent"
       "${home}/Downloads"
+    ];
+    extraDbusTalk = commonGuiDbusTalk;
+    extraDbusOwn = commonGuiDbusOwn ++ [
+      "org.qbittorrent.*"
     ];
   };
 
@@ -116,7 +128,6 @@ in
 {
   home.packages = [
     vesktop
-    #discord
     telegram
     qbittorrent
     codeShell
