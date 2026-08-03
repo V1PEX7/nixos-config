@@ -277,10 +277,18 @@ let
 
     cleanup() {
       trap - EXIT INT TERM
-      [ -n "$BWRAP_PID" ] && kill -TERM "$BWRAP_PID" 2>/dev/null || true
+
+      # Terminate bwrap first and wait for it to exit fully
+      if [ -n "$BWRAP_PID" ] && kill -0 "$BWRAP_PID" 2>/dev/null; then
+        kill -TERM "$BWRAP_PID" 2>/dev/null || true
+        wait "$BWRAP_PID" 2>/dev/null || true
+      fi
+
+      # Now safely kill the proxies since the app is gone
       [ -n "$SESSION_PROXY_PID" ] && kill -TERM "$SESSION_PROXY_PID" 2>/dev/null || true
       [ -n "$SYSTEM_PROXY_PID" ] && kill -TERM "$SYSTEM_PROXY_PID" 2>/dev/null || true
       wait 2>/dev/null || true
+
       [ -n "$SESSION_PROXY_DIR" ] && [ -d "$SESSION_PROXY_DIR" ] && ${pkgs.coreutils}/bin/rm -rf "$SESSION_PROXY_DIR"
       [ -n "$SYSTEM_PROXY_DIR" ] && [ -d "$SYSTEM_PROXY_DIR" ] && ${pkgs.coreutils}/bin/rm -rf "$SYSTEM_PROXY_DIR"
     }
