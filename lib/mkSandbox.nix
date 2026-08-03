@@ -86,7 +86,6 @@ let
   };
 
   presetCaps = presets.${preset} or (throw ''mkSandbox: unknown preset "${preset}"'');
-
   overrides = lib.filterAttrs (_: v: v != null) {
     inherit
       network
@@ -99,12 +98,12 @@ let
       theme
       ;
   };
-
   caps = baseCaps // presetCaps // overrides;
 
   defaultDbusTalk = [
     "org.freedesktop.Notifications"
     "org.freedesktop.portal.*"
+    "ca.desrt.dconf"
   ];
 
   effectiveDbusTalk = if (dbusTalk == [ ]) then defaultDbusTalk else dbusTalk;
@@ -112,12 +111,11 @@ let
   dbusFlags =
     (map (x: "--talk=${x}") effectiveDbusTalk)
     ++ (map (x: "--see=${x}") dbusSee)
-    ++ (map (x: "--own=${x}") dbusOwn)
+    ++ (map (x: "--own=${x}") (dbusOwn ++ [ "org.mpris.MediaPlayer2.*" ]))
     ++ (map (x: "--call=${x}") dbusCall);
 
   # escapeShellArgs prevents shell globbing on DBus wildcards (e.g. portal.*) during proxy launch.
   dbusFlagsStr = lib.escapeShellArgs dbusFlags;
-
   useDbusProxy = caps.dbusSession && dbusProxy;
 
   dbusSystemFlags =
@@ -127,17 +125,16 @@ let
     ++ (map (x: "--call=${x}") dbusSystemCall);
 
   dbusSystemFlagsStr = lib.escapeShellArgs dbusSystemFlags;
-
   useDbusSystemProxy = caps.dbusSystem && dbusSystemProxy;
 
   baseArgs = [
     "--unshare-all"
+    "--die-with-parent"
+    "--new-session"
+    "--symlink /run /var/run" # Allows legacy DBus system socket lookups
   ]
   ++ lib.optional caps.network "--share-net"
   ++ [
-    "--die-with-parent"
-    "--new-session"
-
     "--ro-bind /nix/store /nix/store"
     "--ro-bind /run/current-system /run/current-system"
     "--ro-bind-try /usr/bin/env /usr/bin/env"
@@ -212,9 +209,11 @@ let
     ]
     ++ lib.optionals useDbusSystemProxy [
       ''--bind-try "$PROXY_SYS_BUS" /run/dbus/system_bus_socket''
+      ''--setenv DBUS_SYSTEM_BUS_ADDRESS "unix:path=/run/dbus/system_bus_socket"''
     ]
     ++ lib.optionals (caps.dbusSystem && !useDbusSystemProxy) [
       "--ro-bind-try /run/dbus/system_bus_socket /run/dbus/system_bus_socket"
+      ''--setenv DBUS_SYSTEM_BUS_ADDRESS "unix:path=/run/dbus/system_bus_socket"''
     ];
 
   unsetArgs = map (v: "--unsetenv ${v}") unsetVars;
@@ -235,7 +234,6 @@ let
     ++ workdirArgs
     ++ extraArgs;
   argsLines = lib.concatStringsSep " \\\n  " allArgs;
-
   rwPathsBash = lib.concatMapStringsSep " " (p: ''"${p}"'') rwPaths;
 
   waitForSocketFn = ''
@@ -271,29 +269,20 @@ let
     # bwrap --bind-try fails on empty strings. Dummy absolute paths ensure safe fallback
     PROXY_BUS="/run/sandbox-no-session-bus-$$"
     PROXY_SYS_BUS="/run/sandbox-no-system-bus-$$"
-    SESSION_PROXY_PID=""
-    SYSTEM_PROXY_PID=""
     SESSION_PROXY_DIR=""
     SYSTEM_PROXY_DIR=""
+    SESSION_PROXY_PID=""
+    SYSTEM_PROXY_PID=""
     BWRAP_PID=""
 
     cleanup() {
-      if [ -n "$BWRAP_PID" ] && kill -0 "$BWRAP_PID" 2>/dev/null; then
-        kill -TERM "$BWRAP_PID" 2>/dev/null || true
-        wait "$BWRAP_PID" 2>/dev/null || true
-      fi
-      if [ -n "$SESSION_PROXY_PID" ]; then
-        kill "$SESSION_PROXY_PID" 2>/dev/null || true
-      fi
-      if [ -n "$SYSTEM_PROXY_PID" ]; then
-        kill "$SYSTEM_PROXY_PID" 2>/dev/null || true
-      fi
-      if [ -n "$SESSION_PROXY_DIR" ] && [ -d "$SESSION_PROXY_DIR" ]; then
-        ${pkgs.coreutils}/bin/rm -rf "$SESSION_PROXY_DIR"
-      fi
-      if [ -n "$SYSTEM_PROXY_DIR" ] && [ -d "$SYSTEM_PROXY_DIR" ]; then
-        ${pkgs.coreutils}/bin/rm -rf "$SYSTEM_PROXY_DIR"
-      fi
+      trap - EXIT INT TERM
+      [ -n "$BWRAP_PID" ] && kill -TERM "$BWRAP_PID" 2>/dev/null || true
+      [ -n "$SESSION_PROXY_PID" ] && kill -TERM "$SESSION_PROXY_PID" 2>/dev/null || true
+      [ -n "$SYSTEM_PROXY_PID" ] && kill -TERM "$SYSTEM_PROXY_PID" 2>/dev/null || true
+      wait 2>/dev/null || true
+      [ -n "$SESSION_PROXY_DIR" ] && [ -d "$SESSION_PROXY_DIR" ] && ${pkgs.coreutils}/bin/rm -rf "$SESSION_PROXY_DIR"
+      [ -n "$SYSTEM_PROXY_DIR" ] && [ -d "$SYSTEM_PROXY_DIR" ] && ${pkgs.coreutils}/bin/rm -rf "$SYSTEM_PROXY_DIR"
     }
     trap cleanup EXIT INT TERM
 
@@ -304,11 +293,7 @@ let
         SESSION_PROXY_DIR="$(${pkgs.coreutils}/bin/mktemp -d -t sandbox-dbus-session-XXXXXX)"
         PROXY_BUS="$SESSION_PROXY_DIR/bus"
 
-        ${xdgDbusProxy} \
-          "$SESSION_BUS" \
-          "$PROXY_BUS" \
-          --filter \
-          ${dbusFlagsStr} &
+        ${xdgDbusProxy} "$SESSION_BUS" "$PROXY_BUS" --filter ${dbusFlagsStr} &
         SESSION_PROXY_PID=$!
 
         wait_for_socket "$PROXY_BUS" "session bus" || true
@@ -320,11 +305,7 @@ let
         SYSTEM_PROXY_DIR="$(${pkgs.coreutils}/bin/mktemp -d -t sandbox-dbus-system-XXXXXX)"
         PROXY_SYS_BUS="$SYSTEM_PROXY_DIR/bus"
 
-        ${xdgDbusProxy} \
-          "unix:path=/run/dbus/system_bus_socket" \
-          "$PROXY_SYS_BUS" \
-          --filter \
-          ${dbusSystemFlagsStr} &
+        ${xdgDbusProxy} "unix:path=/run/dbus/system_bus_socket" "$PROXY_SYS_BUS" --filter ${dbusSystemFlagsStr} &
         SYSTEM_PROXY_PID=$!
 
         wait_for_socket "$PROXY_SYS_BUS" "system bus" || true
@@ -336,6 +317,7 @@ let
       ${argsLines} \
       -- ${package}/${binPath} "$@" &
     BWRAP_PID=$!
+
     wait "$BWRAP_PID"
     status=$?
     BWRAP_PID=""
