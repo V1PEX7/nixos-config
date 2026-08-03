@@ -31,6 +31,18 @@
   dbusSystem ? null,
   theme ? null,
 
+  dbusProxy ? true,
+  dbusTalk ? [ ],
+  dbusSee ? [ ],
+  dbusOwn ? [ ],
+  dbusCall ? [ ],
+
+  dbusSystemProxy ? true,
+  dbusSystemTalk ? [ ],
+  dbusSystemSee ? [ ],
+  dbusSystemOwn ? [ ],
+  dbusSystemCall ? [ ],
+
   unsetVars ? [
     "SSH_AUTH_SOCK"
     "SSH_AGENT_PID"
@@ -42,6 +54,7 @@
 
 let
   bwrap = "${pkgs.bubblewrap}/bin/bwrap";
+  xdgDbusProxy = "${pkgs.xdg-dbus-proxy}/bin/xdg-dbus-proxy";
 
   guiCaps = {
     wayland = true;
@@ -88,6 +101,34 @@ let
   };
 
   caps = baseCaps // presetCaps // overrides;
+
+  defaultDbusTalk = [
+    "org.freedesktop.Notifications"
+    "org.freedesktop.portal.*"
+  ];
+
+  effectiveDbusTalk = if (dbusTalk == [ ]) then defaultDbusTalk else dbusTalk;
+
+  dbusFlags =
+    (map (x: "--talk=${x}") effectiveDbusTalk)
+    ++ (map (x: "--see=${x}") dbusSee)
+    ++ (map (x: "--own=${x}") dbusOwn)
+    ++ (map (x: "--call=${x}") dbusCall);
+
+  # escapeShellArgs prevents shell globbing on DBus wildcards (e.g. portal.*) during proxy launch.
+  dbusFlagsStr = lib.escapeShellArgs dbusFlags;
+
+  useDbusProxy = caps.dbusSession && dbusProxy;
+
+  dbusSystemFlags =
+    (map (x: "--talk=${x}") dbusSystemTalk)
+    ++ (map (x: "--see=${x}") dbusSystemSee)
+    ++ (map (x: "--own=${x}") dbusSystemOwn)
+    ++ (map (x: "--call=${x}") dbusSystemCall);
+
+  dbusSystemFlagsStr = lib.escapeShellArgs dbusSystemFlags;
+
+  useDbusSystemProxy = caps.dbusSystem && dbusSystemProxy;
 
   baseArgs = [
     "--unshare-all"
@@ -161,10 +202,18 @@ let
     ++ lib.optionals caps.pulse [
       ''--bind-try "$XDG_RUNTIME_DIR/pulse" "$XDG_RUNTIME_DIR/pulse"''
     ]
-    ++ lib.optionals caps.dbusSession [
-      ''--bind-try "$XDG_RUNTIME_DIR/bus" "$XDG_RUNTIME_DIR/bus"''
+    ++ lib.optionals useDbusProxy [
+      ''--bind-try "$PROXY_BUS" "$XDG_RUNTIME_DIR/bus"''
+      ''--setenv DBUS_SESSION_BUS_ADDRESS "unix:path=$XDG_RUNTIME_DIR/bus"''
     ]
-    ++ lib.optionals caps.dbusSystem [
+    ++ lib.optionals (caps.dbusSession && !useDbusProxy) [
+      ''--bind-try "$XDG_RUNTIME_DIR/bus" "$XDG_RUNTIME_DIR/bus"''
+      ''--setenv DBUS_SESSION_BUS_ADDRESS "unix:path=$XDG_RUNTIME_DIR/bus"''
+    ]
+    ++ lib.optionals useDbusSystemProxy [
+      ''--bind-try "$PROXY_SYS_BUS" /run/dbus/system_bus_socket''
+    ]
+    ++ lib.optionals (caps.dbusSystem && !useDbusSystemProxy) [
       "--ro-bind-try /run/dbus/system_bus_socket /run/dbus/system_bus_socket"
     ];
 
@@ -189,24 +238,108 @@ let
 
   rwPathsBash = lib.concatMapStringsSep " " (p: ''"${p}"'') rwPaths;
 
-  script = ''
-        #!${pkgs.runtimeShell}
-        set -eu
-        : "''${XDG_RUNTIME_DIR:=/run/user/$(${pkgs.coreutils}/bin/id -u)}"
-        export PATH=/run/current-system/sw/bin
+  waitForSocketFn = ''
+    wait_for_socket() {
+      for i in $(${pkgs.coreutils}/bin/seq 1 200); do
+        [ -S "$1" ] && return 0
+        sleep 0.01
+      done
+      echo "warning: $2 proxy socket missing after 2s ($1)" >&2
+      return 1
+    }
+  '';
 
-        for d in ${rwPathsBash}; do
-          ${pkgs.coreutils}/bin/mkdir -p "$d"
-        done
+  script = ''
+    #!${pkgs.runtimeShell}
+    set -eu
+    : "''${XDG_RUNTIME_DIR:=/run/user/$(${pkgs.coreutils}/bin/id -u)}"
+    export PATH=/run/current-system/sw/bin
+
+    for d in ${rwPathsBash}; do
+      ${pkgs.coreutils}/bin/mkdir -p "$d"
+    done
+
     ${lib.optionalString (workdirArg != null) ''
       WORKDIR="''${1:-${workdirArg}}"
       [ "$#" -gt 0 ] && shift || true
       WORKDIR="$(${pkgs.coreutils}/bin/realpath -m "$WORKDIR")"
       ${pkgs.coreutils}/bin/mkdir -p "$WORKDIR"
     ''}
-        exec ${bwrap} \
-          ${argsLines} \
-          -- ${package}/${binPath} "$@"
+
+    ${lib.optionalString (useDbusProxy || useDbusSystemProxy) waitForSocketFn}
+
+    # bwrap --bind-try fails on empty strings. Dummy absolute paths ensure safe fallback
+    PROXY_BUS="/run/sandbox-no-session-bus-$$"
+    PROXY_SYS_BUS="/run/sandbox-no-system-bus-$$"
+    SESSION_PROXY_PID=""
+    SYSTEM_PROXY_PID=""
+    SESSION_PROXY_DIR=""
+    SYSTEM_PROXY_DIR=""
+    BWRAP_PID=""
+
+    cleanup() {
+      if [ -n "$BWRAP_PID" ] && kill -0 "$BWRAP_PID" 2>/dev/null; then
+        kill -TERM "$BWRAP_PID" 2>/dev/null || true
+        wait "$BWRAP_PID" 2>/dev/null || true
+      fi
+      if [ -n "$SESSION_PROXY_PID" ]; then
+        kill "$SESSION_PROXY_PID" 2>/dev/null || true
+      fi
+      if [ -n "$SYSTEM_PROXY_PID" ]; then
+        kill "$SYSTEM_PROXY_PID" 2>/dev/null || true
+      fi
+      if [ -n "$SESSION_PROXY_DIR" ] && [ -d "$SESSION_PROXY_DIR" ]; then
+        ${pkgs.coreutils}/bin/rm -rf "$SESSION_PROXY_DIR"
+      fi
+      if [ -n "$SYSTEM_PROXY_DIR" ] && [ -d "$SYSTEM_PROXY_DIR" ]; then
+        ${pkgs.coreutils}/bin/rm -rf "$SYSTEM_PROXY_DIR"
+      fi
+    }
+    trap cleanup EXIT INT TERM
+
+    ${lib.optionalString useDbusProxy ''
+      SESSION_BUS="''${DBUS_SESSION_BUS_ADDRESS:-unix:path=$XDG_RUNTIME_DIR/bus}"
+
+      if [ -S "$XDG_RUNTIME_DIR/bus" ] || [ -n "''${DBUS_SESSION_BUS_ADDRESS:-}" ]; then
+        SESSION_PROXY_DIR="$(${pkgs.coreutils}/bin/mktemp -d -t sandbox-dbus-session-XXXXXX)"
+        PROXY_BUS="$SESSION_PROXY_DIR/bus"
+
+        ${xdgDbusProxy} \
+          "$SESSION_BUS" \
+          "$PROXY_BUS" \
+          --filter \
+          ${dbusFlagsStr} &
+        SESSION_PROXY_PID=$!
+
+        wait_for_socket "$PROXY_BUS" "session bus" || true
+      fi
+    ''}
+
+    ${lib.optionalString useDbusSystemProxy ''
+      if [ -S /run/dbus/system_bus_socket ]; then
+        SYSTEM_PROXY_DIR="$(${pkgs.coreutils}/bin/mktemp -d -t sandbox-dbus-system-XXXXXX)"
+        PROXY_SYS_BUS="$SYSTEM_PROXY_DIR/bus"
+
+        ${xdgDbusProxy} \
+          "unix:path=/run/dbus/system_bus_socket" \
+          "$PROXY_SYS_BUS" \
+          --filter \
+          ${dbusSystemFlagsStr} &
+        SYSTEM_PROXY_PID=$!
+
+        wait_for_socket "$PROXY_SYS_BUS" "system bus" || true
+      fi
+    ''}
+
+    # No exec: shell must stay alive for cleanup trap
+    ${bwrap} \
+      ${argsLines} \
+      -- ${package}/${binPath} "$@" &
+    BWRAP_PID=$!
+    wait "$BWRAP_PID"
+    status=$?
+    BWRAP_PID=""
+    exit "$status"
   '';
 
   wrapper = pkgs.writeShellScript "${name}-sandboxed" script;
@@ -215,9 +348,7 @@ pkgs.runCommand "${name}-sandboxed-${package.version or "0"}"
   {
     meta = (package.meta or { }) // {
       mainProgram = name;
-      description = "${name} (sandboxed via bubblewrap)";
-      # The wrapper is single-output; drop any multi-output install list
-      # inherited from the wrapped package (e.g. bash's "man").
+      description = "${name} (sandboxed via bubblewrap with DBus proxy)";
       outputsToInstall = [ "out" ];
     };
   }
