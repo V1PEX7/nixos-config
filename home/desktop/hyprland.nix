@@ -206,7 +206,7 @@ in
         (mkBind "SUPER + e" "hl.dsp.exec_cmd('thunar')")
         (mkBind "SUPER + w" "hl.dsp.exec_cmd('chromium')")
         (mkBind "SUPER + s" "hl.dsp.exec_cmd('firefox')")
-        (mkBind "SUPER + space" "hl.dsp.exec_cmd('fuzzel')")
+        (mkBind "SUPER + space" "hl.dsp.exec_cmd('rofi -show drun')")
 
         (mkBind "Print" "hl.dsp.exec_cmd([[grim -g \"$(slurp)\" -t ppm - | satty -f -]])")
         (mkBind "SUPER + SHIFT + s" "hl.dsp.exec_cmd('freeze-screenshot')")
