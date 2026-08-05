@@ -474,7 +474,7 @@ in
         general = {
           gaps_in = s.gaps_in;
           gaps_out = s.gaps_out;
-          border_size = 2;
+          border_size = s.border_size;
           col = {
             active_border = t.hypr.active_border;
             inactive_border = t.hypr.inactive_border;

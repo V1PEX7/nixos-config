@@ -594,6 +594,7 @@ in
     theme = themes.nightowl;
     settings = {
       rounding = 5;
+      border_size = 1;
       blur = true;
       animations = true;
 
