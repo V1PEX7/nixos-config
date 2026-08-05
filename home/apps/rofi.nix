@@ -18,7 +18,7 @@ in
     terminal = "foot";
 
     extraConfig = {
-      modi = "drun,run,window";
+      modi = "drun,calc,window";
       show-icons = true;
       icon-theme = "Papirus-Dark";
       drun-display-format = "{name}";
@@ -31,8 +31,9 @@ in
 
         bg0 = mkLiteral t.bg;
         bg1 = mkLiteral t.surface;
-        fg0 = mkLiteral t.fg;
+        bg-selected = mkLiteral t.hover;
 
+        fg0 = mkLiteral t.fg;
         accent-color = mkLiteral t.accent;
         urgent-color = mkLiteral t.yellow;
 
@@ -48,10 +49,8 @@ in
         location = mkLiteral "center";
         width = mkLiteral "480";
         background-color = mkLiteral "@bg0";
-
-        # border = mkLiteral "1px";
-        # border-color = mkLiteral "@accent-color";
-        # border-radius = mkLiteral "${toString s.rounding}px";
+        border = mkLiteral "0px";
+        border-radius = mkLiteral "${toString s.rounding}px";
       };
 
       "inputbar" = {
@@ -83,6 +82,7 @@ in
       "element" = {
         padding = mkLiteral "8px";
         spacing = mkLiteral "8px";
+        border-radius = mkLiteral "${toString s.rounding}px";
       };
 
       "element normal normal" = {
@@ -101,16 +101,15 @@ in
         text-color = mkLiteral "@accent-color";
       };
 
-      "element selected" = {
-        text-color = mkLiteral "@bg0";
-      };
-
+      # Subtle dark selection background with highlighted text
       "element selected normal, element selected active" = {
-        background-color = mkLiteral "@accent-color";
+        background-color = mkLiteral "@bg-selected";
+        text-color = mkLiteral "@accent-color";
       };
 
       "element selected urgent" = {
         background-color = mkLiteral "@urgent-color";
+        text-color = mkLiteral "@bg0";
       };
 
       "element-icon" = {
