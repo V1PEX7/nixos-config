@@ -17,6 +17,7 @@
     ./apps/yazi.nix
     ./apps/chromium.nix
     ./apps/matugen.nix
+    ./apps/rofi.nix
   ];
 
   home.username = "xnp";
