@@ -29,6 +29,10 @@
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
           installation_mode = "force_installed";
         };
+        "@testpilot-containers" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
+          installation_mode = "force_installed";
+        };
       };
     };
 
@@ -42,10 +46,29 @@
         default = "ddg";
       };
 
+      containersForce = true;
+      containers = {
+        personal = {
+          id = 1;
+          name = "Personal";
+          color = "blue";
+          icon = "fingerprint";
+        };
+        work = {
+          id = 2;
+          name = "Work";
+          color = "orange";
+          icon = "briefcase";
+        };
+      };
+
       settings = {
         "browser.startup.homepage" = "about:blank";
         "browser.newtabpage.enabled" = false;
         "browser.tabs.inTitlebar" = 1;
+
+        "privacy.userContext.enabled" = true;
+        "privacy.userContext.ui.enabled" = true;
 
         "browser.contentblocking.category" = "strict";
         "privacy.trackingprotection.enabled" = true;
