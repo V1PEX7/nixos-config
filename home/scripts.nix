@@ -33,8 +33,21 @@
     (pkgs.writeShellScriptBin "wallpicker" ''
       WALL_DIR="''${1:-$HOME/Pictures/Wallpapers}"
       [ -d "$WALL_DIR" ] || { echo "No wallpaper directory: $WALL_DIR"; exit 1; }
-      PICK=$(${pkgs.findutils}/bin/find "$WALL_DIR" -maxdepth 1 -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' \) -printf '%f\n' | sort | ${pkgs.fuzzel}/bin/fuzzel --dmenu --prompt "wall: ")
+
+      PICK=$(
+        ${pkgs.findutils}/bin/find "$WALL_DIR" -maxdepth 1 -type f \( -name '*.png' -o -name '*.jpg' -o -name '*.jpeg' -o -name '*.webp' \) -printf '%f\n' | sort | while read -r img; do
+          printf "%s\0icon\x1f%s/%s\n" "$img" "$WALL_DIR" "$img"
+        done | ${pkgs.rofi}/bin/rofi -dmenu -i -show-icons -p "Wallpaper" -theme-str '
+          window { width: 920px; }
+          listview { columns: 4; lines: 2; spacing: 12px; cycle: true; fixed-columns: true; }
+          element { orientation: vertical; padding: 12px; spacing: 8px; }
+          element-icon { size: 160px; horizontal-align: 0.5; }
+          element-text { horizontal-align: 0.5; vertical-align: 0.5; }
+        '
+      )
+
       [ -z "$PICK" ] && exit 0
+
       ${pkgs.procps}/bin/pkill swaybg || true
       ln -sf "$WALL_DIR/$PICK" "$HOME/.config/wallpaper"
       ${pkgs.swaybg}/bin/swaybg -i "$HOME/.config/wallpaper" -m fill &
