@@ -47,16 +47,6 @@ let
         brCyan = "#ebe1ff";
         brWhite = "#faf8ff";
       };
-
-      fuzzel = {
-        bg = "131315ee";
-        text = "e6d8baff";
-        match = "ff9b71ff";
-        selection = "3f3f46ff";
-        selText = "e6d8baff";
-        selMatch = "ff9b71ff";
-        border = "ff9b71ff";
-      };
     };
 
     tokyo-night = {
@@ -104,16 +94,6 @@ let
         brMagenta = "#bb9af7";
         brCyan = "#7dcfff";
         brWhite = "#c0caf5";
-      };
-
-      fuzzel = {
-        bg = "1a1b26ee";
-        text = "c0caf5ff";
-        match = "7dcfffff";
-        selection = "33467cff";
-        selText = "c0caf5ff";
-        selMatch = "7dcfffff";
-        border = "7dcfffff";
       };
     };
 
@@ -163,16 +143,6 @@ let
         brCyan = "#5cf0ff";
         brWhite = "#f4f2ff";
       };
-
-      fuzzel = {
-        bg = "0e0e14ee";
-        text = "e2e0f0ff";
-        match = "00e5ffff";
-        selection = "2a2a3aff";
-        selText = "e2e0f0ff";
-        selMatch = "00e5ffff";
-        border = "00e5ffff";
-      };
     };
 
     kanagawa = {
@@ -220,16 +190,6 @@ let
         brMagenta = "#938aa9";
         brCyan = "#7aa89f";
         brWhite = "#dcd7ba";
-      };
-
-      fuzzel = {
-        bg = "1f1f28ee";
-        text = "dcd7baff";
-        match = "7e9cd8ff";
-        selection = "2d4f67ff";
-        selText = "dcd7baff";
-        selMatch = "7e9cd8ff";
-        border = "7e9cd8ff";
       };
     };
 
@@ -279,16 +239,6 @@ let
         brCyan = "#ebbcba";
         brWhite = "#e0def4";
       };
-
-      fuzzel = {
-        bg = "191724ee";
-        text = "e0def4ff";
-        match = "c4a7e7ff";
-        selection = "26233aff";
-        selText = "e0def4ff";
-        selMatch = "c4a7e7ff";
-        border = "c4a7e7ff";
-      };
     };
 
     mono = {
@@ -336,16 +286,6 @@ let
         brMagenta = "#c080e0";
         brCyan = "#58d0ec";
         brWhite = "#eaeef8";
-      };
-
-      fuzzel = {
-        bg = "0c0c0cee";
-        text = "d0d0d0ff";
-        match = "f0f0f0ff";
-        selection = "222222ff";
-        selText = "d0d0d0ff";
-        selMatch = "f0f0f0ff";
-        border = "f0f0f0ff";
       };
     };
 
@@ -395,16 +335,6 @@ let
         brCyan = "#94e2d5";
         brWhite = "#a6adc8";
       };
-
-      fuzzel = {
-        bg = "1e1e2eee";
-        text = "cdd6f4ff";
-        match = "cba6f7ff";
-        selection = "45475aff";
-        selText = "cdd6f4ff";
-        selMatch = "cba6f7ff";
-        border = "cba6f7ff";
-      };
     };
 
     peppermint = {
@@ -453,189 +383,109 @@ let
         brCyan = "#96dcda";
         brWhite = "#dedede";
       };
-
-      fuzzel = {
-        bg = "0c0c0cee";
-        text = "dededeff";
-        match = "96dcdaff";
-        selection = "1e1e1eff";
-        selText = "dededeff";
-        selMatch = "96dcdaff";
-        border = "96dcdaff";
-      };
     };
 
-    sakura = {
-      bg = "#181115";
-      surface = "#241b20";
-      fg = "#e6d8dd";
-      accent = "#c07898";
-      hover = "#362830";
-      red = "#e0607a";
-      green = "#8dc47a";
-      yellow = "#d4a860";
-      contrast = "#000";
-      shadow = "#100b0e";
-      dim = "0.38";
-      calMonth = "#e6d8dd";
-      calWeekdays = "#d4a860";
-      calToday = "#c07898";
+    oxocarbon = {
+      bg = "#161616";
+      surface = "#262626";
+      fg = "#f2f4f8";
+
+      accent = "#BE95FF";
+      hover = "#393939";
+
+      red = "#ff8389";
+      green = "#42be65";
+      yellow = "#ffe66d";
+      contrast = "#161616";
+      shadow = "#161616";
+      dim = "0.35";
+
+      calMonth = "#f2f4f8";
+      calWeekdays = "#ffe66d";
+      calToday = "#78a9ff";
 
       hypr = {
-        active_border = "rgba(c07898ff)";
-        inactive_border = "rgba(362830aa)";
+        active_border = "rgba(be95ff77)";
+        inactive_border = "rgba(262626aa)";
         shadow = "rgba(00000077)";
       };
 
       term = {
-        bg = "#181115";
-        fg = "#e6d8dd";
-        selText = "#e6d8dd";
-        selBg = "#4a2a36";
-        curText = "#181115";
-        curCursor = "#c07898";
-        black = "#181115";
-        red = "#e0607a";
-        green = "#8dc47a";
-        yellow = "#d4a860";
-        blue = "#7e9ec0";
-        magenta = "#c07898";
-        cyan = "#78a896";
-        white = "#ccc0c4";
-        brBlack = "#6a5058";
-        brRed = "#e88098";
-        brGreen = "#a8d896";
-        brYellow = "#e4c080";
-        brBlue = "#9ab8d8";
-        brMagenta = "#d898b0";
-        brCyan = "#96c0b4";
-        brWhite = "#e6d8dd";
-      };
+        bg = "#161616";
+        fg = "#f2f4f8";
+        selText = "#161616";
+        selBg = "#393939";
+        curText = "#161616";
+        curCursor = "#78a9ff";
 
-      fuzzel = {
-        bg = "181115ee";
-        text = "e6d8ddff";
-        match = "c07898ff";
-        selection = "362830ff";
-        selText = "e6d8ddff";
-        selMatch = "c07898ff";
-        border = "c07898ff";
+        black = "#262626";
+        red = "#ff8389";
+        green = "#42be65";
+        yellow = "#ffe66d";
+        blue = "#78a9ff";
+        magenta = "#be95ff";
+        cyan = "#3ddbd9";
+        white = "#f2f4f8";
+
+        brBlack = "#525252";
+        brRed = "#ff8389";
+        brGreen = "#42be65";
+        brYellow = "#ffe66d";
+        brBlue = "#78a9ff";
+        brMagenta = "#be95ff";
+        brCyan = "#3ddbd9";
+        brWhite = "#ffffff";
       };
     };
 
-    orchid = {
-      bg = "#141214";
-      surface = "#201c20";
-      fg = "#e0d4e0";
-      accent = "#b87eb8";
-      hover = "#2e283e";
-      red = "#d86878";
-      green = "#88c47a";
-      yellow = "#c8a860";
-      contrast = "#000";
-      shadow = "#0c0a0c";
-      dim = "0.38";
-      calMonth = "#e0d4e0";
-      calWeekdays = "#c8a860";
-      calToday = "#b87eb8";
+    kanagawa-dragon = {
+      bg = "#12120f"; # dragonBlack1
+      surface = "#1a1a18"; # dragonBlack2 / 3
+      fg = "#c5c9c5"; # dragonWhite
+      accent = "#8ea49e"; # dragonAqua
+      hover = "#282727"; # dragonBlack4
+      red = "#c4746e"; # dragonRed
+      green = "#699469"; # dragonGreen
+      yellow = "#c0a36e"; # boatYellow2
+      contrast = "#0d0c0c"; # dragonBlack0
+      shadow = "#0d0c0c";
+      dim = "0.35";
+
+      calMonth = "#c5c9c5";
+      calWeekdays = "#c0a36e";
+      calToday = "#8ea49e";
 
       hypr = {
-        active_border = "rgba(b87eb8ff)";
-        inactive_border = "rgba(2e283eaa)";
-        shadow = "rgba(00000077)";
+        active_border = "rgba(8ea49eff)";
+        inactive_border = "rgba(282727aa)";
+        shadow = "rgba(00000000)";
       };
 
       term = {
-        bg = "#141214";
-        fg = "#e0d4e0";
-        selText = "#e0d4e0";
-        selBg = "#3c2a48";
-        curText = "#141214";
-        curCursor = "#b87eb8";
-        black = "#141214";
-        red = "#d86878";
-        green = "#88c47a";
-        yellow = "#c8a860";
-        blue = "#7898c8";
-        magenta = "#b87eb8";
-        cyan = "#70a898";
-        white = "#c0b4c0";
-        brBlack = "#604858";
-        brRed = "#e88898";
-        brGreen = "#a4d898";
-        brYellow = "#dcc080";
-        brBlue = "#98b4e0";
-        brMagenta = "#d0a0d0";
-        brCyan = "#90c0b0";
-        brWhite = "#e0d4e0";
-      };
+        bg = "#12120f";
+        fg = "#c5c9c5";
+        selText = "#c5c9c5";
+        selBg = "#282727";
+        curText = "#12120f";
+        curCursor = "#c5c9c5";
 
-      fuzzel = {
-        bg = "141214ee";
-        text = "e0d4e0ff";
-        match = "b87eb8ff";
-        selection = "2e283eff";
-        selText = "e0d4e0ff";
-        selMatch = "b87eb8ff";
-        border = "b87eb8ff";
-      };
-    };
+        black = "#0d0c0c";
+        red = "#c4746e";
+        green = "#699469";
+        yellow = "#c0a36e";
+        blue = "#658594"; # dragonBlue
+        magenta = "#a292a3"; # dragonPink
+        cyan = "#8ea49e"; # dragonAqua
+        white = "#c5c9c5";
 
-    mochi = {
-      bg = "#131118";
-      surface = "#1e1924";
-      fg = "#e4d8e8";
-      accent = "#d07a9a";
-      hover = "#2a2236";
-      red = "#e06070";
-      green = "#88c480";
-      yellow = "#d0a858";
-      contrast = "#000";
-      shadow = "#0d0b10";
-      dim = "0.38";
-      calMonth = "#e4d8e8";
-      calWeekdays = "#d0a858";
-      calToday = "#d07a9a";
-
-      hypr = {
-        active_border = "rgba(d07a9aff)";
-        inactive_border = "rgba(2a2236aa)";
-        shadow = "rgba(00000077)";
-      };
-
-      term = {
-        bg = "#131118";
-        fg = "#e4d8e8";
-        selText = "#e4d8e8";
-        selBg = "#44283e";
-        curText = "#131118";
-        curCursor = "#d07a9a";
-        black = "#131118";
-        red = "#e06070";
-        green = "#88c480";
-        yellow = "#d0a858";
-        blue = "#7888c8";
-        magenta = "#d07a9a";
-        cyan = "#6898a0";
-        white = "#c4b8cc";
-        brBlack = "#5e4868";
-        brRed = "#e88898";
-        brGreen = "#a4d898";
-        brYellow = "#dcc078";
-        brBlue = "#98a8e0";
-        brMagenta = "#e098b8";
-        brCyan = "#88b8c0";
-        brWhite = "#e4d8e8";
-      };
-
-      fuzzel = {
-        bg = "131118ee";
-        text = "e4d8e8ff";
-        match = "d07a9aff";
-        selection = "2a2236ff";
-        selText = "e4d8e8ff";
-        selMatch = "d07a9aff";
-        border = "d07a9aff";
+        brBlack = "#625e5a"; # dragonBlack6
+        brRed = "#c4746e";
+        brGreen = "#8a9a7b"; # dragonGreen2
+        brYellow = "#c0a36e";
+        brBlue = "#708e9e"; # dragonBlue3
+        brMagenta = "#a292a3";
+        brCyan = "#8ea49e";
+        brWhite = "#e6e6e3";
       };
     };
 
@@ -684,74 +534,6 @@ let
         brMagenta = "#ffd8ee";
         brCyan = "#e1e0f9";
         brWhite = "#f0eef7";
-      };
-
-      fuzzel = {
-        bg = "131318ee";
-        text = "e4e1e9ff";
-        match = "bec2ffff";
-        selection = "2a292fff";
-        selText = "e4e1e9ff";
-        selMatch = "bec2ffff";
-        border = "bec2ffff";
-      };
-    };
-
-    rosewood = {
-      bg = "#1a1112";
-      surface = "#271d1e";
-      fg = "#f0dedf";
-      accent = "#ffb2b8";
-      hover = "#3d3233";
-      red = "#ffb4ab";
-      green = "#9ec48a";
-      yellow = "#e8c08e";
-      contrast = "#000";
-      shadow = "#100a0b";
-      dim = "0.4";
-      calMonth = "#f0dedf";
-      calWeekdays = "#e8c08e";
-      calToday = "#ffb2b8";
-
-      hypr = {
-        active_border = "rgba(ffb2b8ff)";
-        inactive_border = "rgba(3d3233aa)";
-        shadow = "rgba(00000077)";
-      };
-
-      term = {
-        bg = "#1a1112";
-        fg = "#f0dedf";
-        selText = "#f0dedf";
-        selBg = "#312828";
-        curText = "#1a1112";
-        curCursor = "#ffb2b8";
-        black = "#271d1e";
-        red = "#ffb2b8";
-        green = "#9ec48a";
-        yellow = "#e8c08e";
-        blue = "#9ab8d8";
-        magenta = "#e6bdbf";
-        cyan = "#a8c4bf";
-        white = "#d7c1c2";
-        brBlack = "#524344";
-        brRed = "#ffdadb";
-        brGreen = "#bcd9a8";
-        brYellow = "#ffddb4";
-        brBlue = "#bcd2e8";
-        brMagenta = "#f4ddde";
-        brCyan = "#c8e0db";
-        brWhite = "#fff8f7";
-      };
-
-      fuzzel = {
-        bg = "1a1112ee";
-        text = "f0dedfff";
-        match = "ffb2b8ff";
-        selection = "312828ff";
-        selText = "f0dedfff";
-        selMatch = "ffb2b8ff";
-        border = "ffb2b8ff";
       };
     };
 
@@ -803,30 +585,20 @@ let
         brCyan = "#eadef8";
         brWhite = "#e7e0e8";
       };
-
-      fuzzel = {
-        bg = "151218ee";
-        text = "e7e0e8ff";
-        match = "d3bcfdff";
-        selection = "2c292fff";
-        selText = "e7e0e8ff";
-        selMatch = "d3bcfdff";
-        border = "d3bcfdff";
-      };
     };
   };
   # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi, nightowl, rosewood
 in
 {
   _module.args = {
-    theme = themes.mono;
+    theme = themes.oxocarbon;
     settings = {
-      rounding = 0;
-      blur = false;
-      animations = false;
+      rounding = 8;
+      blur = true;
+      animations = true;
 
-      gaps_in = 0;
-      gaps_out = 0;
+      gaps_in = 2;
+      gaps_out = 2;
     };
   };
 }
