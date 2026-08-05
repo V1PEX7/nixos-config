@@ -591,9 +591,9 @@ let
 in
 {
   _module.args = {
-    theme = themes.oxocarbon;
+    theme = themes.nightowl;
     settings = {
-      rounding = 8;
+      rounding = 5;
       blur = true;
       animations = true;
 
