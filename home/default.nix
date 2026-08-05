@@ -8,7 +8,6 @@
     ./sandbox.nix
     ./desktop/hyprland.nix
     ./apps/foot.nix
-    ./apps/fuzzel.nix
     ./apps/waybar.nix
     ./apps/fastfetch.nix
     ./apps/firefox.nix
