@@ -587,7 +587,7 @@ let
       };
     };
   };
-  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, peppermint, sakura, orchid, mochi, nightowl, rosewood
+  # themes: omarchy, tokyo-night, neon-dusk, kanagawa, rosepine, mono, catppuccin, peppermint, oxocarbon, kanagawa-dragon, nightowl, lavender
 in
 {
   _module.args = {
