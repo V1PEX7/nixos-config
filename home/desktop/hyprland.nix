@@ -519,8 +519,12 @@ in
           follow_mouse = 1;
           accel_profile = "flat";
           sensitivity = 0;
+
           touchpad = {
-            scroll_factor = 1.0;
+            scroll_factor = 0.5;
+            clickfinger_behavior = true;
+            disable_while_typing = true;
+            middle_button_emulation = true;
           };
         };
         cursor = {
