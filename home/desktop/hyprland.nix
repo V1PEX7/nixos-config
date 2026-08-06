@@ -227,6 +227,8 @@ in
 
         (mkBind "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
 
+        (mkBind "SUPER + Tab" "hl.dsp.exec_cmd('rofi -show window')")
+
         (mkBind "SUPER + h" "hl.dsp.focus({ direction = 'left' })")
         (mkBind "SUPER + j" "hl.dsp.focus({ direction = 'down' })")
         (mkBind "SUPER + k" "hl.dsp.focus({ direction = 'up' })")
