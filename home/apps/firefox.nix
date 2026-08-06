@@ -60,6 +60,12 @@
           color = "orange";
           icon = "briefcase";
         };
+        google = {
+          id = 3;
+          name = "Google";
+          color = "purple";
+          icon = "fingerprint";
+        };
       };
 
       settings = {
