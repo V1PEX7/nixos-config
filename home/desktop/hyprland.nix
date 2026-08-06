@@ -87,7 +87,7 @@ in
           enabled = true;
           speed = 2;
           bezier = "snap";
-          style = "fade";
+          style = "slide";
         }
         {
           leaf = "border";
