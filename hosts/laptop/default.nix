@@ -33,17 +33,31 @@
   environment.systemPackages = [
     (pkgs.writeShellScriptBin "fix-speakers" ''
       amixer="${pkgs.alsa-utils}/bin/amixer"
-      current=$($amixer -c 0 cget numid=30 | grep ': values=' | cut -d= -f2)
-      if [ "$current" = "on" ]; then
-        $amixer -c 0 cset numid=70 off
-        $amixer -c 0 cset numid=72 off
-        $amixer -c 0 cset numid=30 off
+
+      CARD="sofessx8336"
+
+      CTRL_SWITCH="name='Headphone Switch'"
+      CTRL_LEFT="name='Left Headphone Mixer Left DAC Switch'"
+      CTRL_RIGHT="name='Right Headphone Mixer Right DAC Switch'"
+      CTRL_VOL="name='Headphone Mixer Volume'"
+
+      if $amixer -c "$CARD" cget "$CTRL_SWITCH" | grep -q "values=on"; then
+        $amixer -c "$CARD" cset "$CTRL_LEFT" off
+        $amixer -c "$CARD" cset "$CTRL_RIGHT" off
+        $amixer -c "$CARD" cset "$CTRL_SWITCH" off
         echo "Speakers off"
       else
-        $amixer -c 0 cset numid=70 on
-        $amixer -c 0 cset numid=72 on
-        $amixer -c 0 cset numid=2 8,8
-        $amixer -c 0 cset numid=30 on
+        # Reset toggle to wake up the ES8336 amplifier
+        $amixer -c "$CARD" cset "$CTRL_LEFT" off
+        $amixer -c "$CARD" cset "$CTRL_RIGHT" off
+        $amixer -c "$CARD" cset "$CTRL_SWITCH" off
+
+        sleep 0.1
+
+        $amixer -c "$CARD" cset "$CTRL_LEFT" on
+        $amixer -c "$CARD" cset "$CTRL_RIGHT" on
+        $amixer -c "$CARD" cset "$CTRL_VOL" 8,8
+        $amixer -c "$CARD" cset "$CTRL_SWITCH" on
         echo "Speakers on"
       fi
     '')
