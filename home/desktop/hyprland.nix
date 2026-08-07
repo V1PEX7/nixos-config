@@ -268,8 +268,7 @@ in
 
         (mkBind "SUPER + minus" "hl.dsp.layout('mfact -0.05')")
         (mkBind "SUPER + equal" "hl.dsp.layout('mfact +0.05')")
-        (mkBind "SUPER + SHIFT + up" "hl.dsp.layout('addmaster')")
-        (mkBind "SUPER + SHIFT + down" "hl.dsp.layout('removemaster')")
+
         (mkBind "SUPER + bracketleft" "hl.dsp.layout('removemaster')")
         (mkBind "SUPER + bracketright" "hl.dsp.layout('addmaster')")
 
@@ -358,6 +357,8 @@ in
         # Mouse Move and Resize
         (mkBindOpt "SUPER + mouse:272" "hl.dsp.window.drag()" { mouse = true; })
         (mkBindOpt "SUPER + mouse:273" "hl.dsp.window.resize()" { mouse = true; })
+        (mkBindOpt "SUPER + g" "hl.dsp.window.drag()" { mouse = true; })
+        (mkBindOpt "SUPER + r" "hl.dsp.window.resize()" { mouse = true; })
       ];
 
       window_rule = [
