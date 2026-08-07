@@ -26,9 +26,9 @@ in
         crxPath = fetchCrx {
           name = "ublock-origin";
           url = mkCrxUrl "cjpalhdlnbpafiamejdnhcphjbkeiagm";
-          sha256 = "sha256-bgLY5tzlae7HIbUx+cfShAPlQmRCQX1ahVoX3SiLVvg=";
+          sha256 = "sha256-am9BiDyrsTDQCNXazBGIKEkMJwE3ZbNRiSR+i+oXg5E=";
         };
-        version = "1.72.2";
+        version = "1.73.0";
       }
       {
         id = "dbepggeogbaibhgnhhndojpepiihcmeb";
