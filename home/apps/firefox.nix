@@ -12,6 +12,18 @@
       OfferToSaveLogins = false;
       PasswordManagerEnabled = false;
 
+      OverrideFirstRunPage = "";
+      OverridePostUpdatePage = "";
+
+      UserMessaging = {
+        ExtensionRecommendations = false;
+        FeatureRecommendations = false;
+        MoreFromMozilla = false;
+        SkipOnboarding = true;
+        UrlbarInteractions = false;
+        WhatsNew = false;
+      };
+
       ExtensionSettings = {
         "uBlock0@raymondhill.net" = {
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
@@ -115,6 +127,30 @@
 
         "privacy.resistFingerprinting" = true;
         "privacy.resistFingerprinting.letterboxing" = false;
+
+        "browser.newtabpage.activity-stream.hideLogo" = true;
+        "browser.newtabpage.activity-stream.logowordmark.alwaysVisible" = false;
+
+        "browser.newtabpage.activity-stream.showSponsored" = false;
+        "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+        "browser.newtabpage.activity-stream.system.showSponsored" = false;
+        "browser.newtabpage.activity-stream.feeds.topstories" = false;
+        "browser.newtabpage.activity-stream.feeds.snippets" = false;
+
+        "browser.urlbar.suggest.quicksuggest.sponsored" = false;
+        "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+        "browser.urlbar.trending.featureGate" = false;
+        "browser.urlbar.addons.featureGate" = false;
+        "browser.urlbar.pocket.featureGate" = false;
+        "browser.urlbar.weather.featureGate" = false;
+
+        "datareporting.policy.dataSubmissionPolicyBypassNotification" = true;
+
+        "privacy.userContext.newTabContainerOnLeftClick.enabled" = true;
+        "browser.discovery.enabled" = false;
+        "app.normandy.enabled" = false;
+        "breakpad.reportURL" = "";
+        "browser.tabs.crashReporting.sendReport" = false;
 
         "browser.nova.enabled" = true;
       };
