@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
   imports = [
     ./nix.nix
@@ -14,7 +14,7 @@
   boot.tmp.cleanOnBoot = true;
 
   services.printing.enable = false;
-  services.speechd.enable = false;
+  services.speechd.enable = lib.mkForce false;
   services.geoclue2.enable = false;
 
   security.sudo.enable = false;
