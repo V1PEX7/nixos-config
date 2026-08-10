@@ -10,8 +10,6 @@
 
   services.power-profiles-daemon.enable = true;
 
-  services.getty.autologinUser = "xnp";
-
   modules = {
     hardware.audio.enable = true;
     hardware.intel.enable = true;

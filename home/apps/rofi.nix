@@ -23,6 +23,9 @@ in
       icon-theme = "Papirus-Dark";
       drun-display-format = "{name}";
       disable-history = false;
+
+      run-command = "uwsm app -- {cmd}";
+      drun-launch = "uwsm app -- {cmd}";
     };
 
     theme = {

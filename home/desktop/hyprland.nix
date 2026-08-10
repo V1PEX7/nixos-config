@@ -36,7 +36,7 @@ in
 {
   wayland.windowManager.hyprland = {
     enable = true;
-
+    systemd.enable = false;
     configType = "lua";
 
     settings = {
@@ -203,11 +203,11 @@ in
 
       bind = [
         # --- App Launchers ---
-        (mkBind "SUPER + t" "hl.dsp.exec_cmd('foot')")
-        (mkBind "SUPER + e" "hl.dsp.exec_cmd('thunar')")
-        (mkBind "SUPER + w" "hl.dsp.exec_cmd('chromium')")
-        (mkBind "SUPER + s" "hl.dsp.exec_cmd('firefox')")
-        (mkBind "SUPER + space" "hl.dsp.exec_cmd('rofi -show drun')")
+        (mkBind "SUPER + t" "hl.dsp.exec_cmd('uwsm app -- foot')")
+        (mkBind "SUPER + e" "hl.dsp.exec_cmd('uwsm app -- thunar')")
+        (mkBind "SUPER + w" "hl.dsp.exec_cmd('uwsm app -- chromium')")
+        (mkBind "SUPER + s" "hl.dsp.exec_cmd('uwsm app -- firefox')")
+        (mkBind "SUPER + space" "hl.dsp.exec_cmd('uwsm app -- rofi -show drun')")
 
         # Screenshots & Utility
         (mkBind "Print" "hl.dsp.exec_cmd([[grim -g \"$(slurp)\" -t ppm - | satty -f -]])")

@@ -15,7 +15,13 @@ in
   options.modules.desktop.enable = lib.mkEnableOption "Shared desktop environment";
 
   config = lib.mkIf cfg.enable {
-    services.displayManager.enable = false;
+    services.greetd = {
+      enable = true;
+      settings.default_session = {
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --remember --remember-user-session --asterisks --cmd 'uwsm start hyprland-uwsm.desktop'";
+        user = "greeter";
+      };
+    };
 
     services.xserver.upscaleDefaultCursor = false;
 
