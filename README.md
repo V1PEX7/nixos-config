@@ -6,9 +6,11 @@ My NixOS dotfiles. Two machines (desktop + laptop), single user.
 
 ## Stack
 
-- **compositor:** [hyprland](https://github.com/hyprwm/Hyprland)
+- **compositor:** [hyprland](https://github.com/hyprwm/Hyprland) (UWSM)
+- **login manager:** tuigreet
+- **session locking:** hyprlock + hypridle
 - **bar:** waybar
-- **launcher:** [rofi](https://github.com/davatorium/rofi) (with `rofi-calc`)
+- **launcher:** [rofi](https://github.com/davatorium/rofi)
 - **terminal:** foot
 - **browsers:** ungoogled-chromium (hardened, extensions pinned by hash), firefox (with Firefox Containers & `resistFingerprinting`)
 - **shell:** zsh (with carapace completions)
@@ -74,14 +76,14 @@ Gaming is opt-in per host (`modules.apps.gaming.enable`). Includes Steam (sandbo
 
 ## Virtualization (opt-in)
 
-A `modules.apps.vm.enable` toggle exists for a full libvirt/virt-manager stack (with SPICE USB redirection), but it is disabled by default.
+A `modules.apps.vm.enable` toggle exists for a full libvirt/virt-manager stack (with SPICE USB redirection) with NAT routing via `throne-tun`. Enabled on laptop.
 
 ## Hardware
 
 Two host configs under `hosts/`:
 
 - **desktop** - AMD GPU (`RADV`), dual monitor setup (2560x1440@180 + 1920x1080@240), gaming enabled, relaxed kernel hardening
-- **laptop** - Intel GPU (`i915` + `iHD` media driver), power-profiles-daemon, strict kernel hardening, speaker fix script
+- **laptop** - Intel GPU (`i915` + `iHD` media driver), power-profiles-daemon, strict kernel hardening, speaker fix script, VM enabled
 
 GPU modules for AMD, Intel, and NVIDIA exist separately under `modules/nixos/hardware/`. Audio is driven by PipeWire (ALSA 32-bit disabled, 48kHz clock rate base with dynamic rate switching).
 
@@ -95,7 +97,7 @@ lib/
 hosts/
   common/                  shared: doas, locale, nix settings, user
   desktop/                 amd, gaming, relaxed hardening
-  laptop/                  intel, power management, strict hardening
+  laptop/                  intel, power management, strict hardening, vm
 modules/nixos/
   hardening/               kernel.basic, kernel.strict, network, modules
   hardware/                amd, intel, nvidia, audio
@@ -110,8 +112,11 @@ home/
   packages.nix             unsandboxed apps
   sandbox.nix              bwrap-wrapped apps (vesktop, telegram, qbittorrent, steam, code-shell)
   scripts.nix              screenshot helpers, wallpicker (rofi grid), hypr-zoom
-  desktop/hyprland.nix     compositor config + autostart
-  apps/                    foot, fastfetch, firefox, rmpc, rofi, waybar, yazi, zsh, chromium, matugen
+  desktop/
+    hyprland.nix           compositor config (lua) + autostart
+    hyprlock.nix           lock screen configuration
+    hypridle.nix           idle/power management
+  apps/                    foot, fastfetch, firefox, rmpc, rofi, waybar, yazi, zsh, chromium, matugen, mime
 dotfiles/                  mutable configs (zed, etc)
 ```
 
@@ -124,6 +129,5 @@ This config is opinionated and makes choices that will lock you out of things if
 - Bluetooth is off by default
 - Vesktop, telegram, and qbittorrent run inside bubblewrap sandboxes with heavy restrictions. They can't see your home directory, can't talk to most of your system, and will refuse to do things you might expect to work
 - Several kernel hardening options are on. Things might not work and you won't know why until you read what `kernel.strict` does
-- No login manager (SDDM, etc.). Autologin on both devices is on by default. If you disable autologin, you will have to login through tty1
 - Theme and UI settings are driven from `home/theme.nix` via module arguments. To change themes, update `theme = themes.<name>;` in `home/theme.nix` and rebuild
-- I mass-delete, rename, and restructure modules without warning. These are my personal dotfiles, not a framework - if you fork this expecting stability you will have a bad time
+- I mass-delete, rename, and restructure modules without warning. These are my personal dotfiles - if you fork this expecting stability you will have a bad time
