@@ -17,7 +17,7 @@
     desktop.hyprland.enable = true;
     networking.enable = true;
     apps.enable = true;
-    #apps.vm.enable = true;
+    apps.vm.enable = true;
     sandbox.enable = true;
 
     hardening = {
