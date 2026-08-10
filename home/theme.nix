@@ -52,8 +52,8 @@ let
     tokyo-night = {
       bg = "#1a1b26";
       surface = "#24283b";
-      fg = "#c0caf5";
-      accent = "#7dcfff";
+      fg = "#a9b1d6";
+      accent = "#7aa2f7";
       hover = "#3b3f5c";
       red = "#f7768e";
       green = "#9ece6a";
@@ -66,9 +66,9 @@ let
       calToday = "#ff007c";
 
       hypr = {
-        active_border = "rgba(7dcfffff)";
-        inactive_border = "rgba(3b3f5caa)";
-        shadow = "rgba(00000077)";
+        active_border = "rgba(7aa2f7ff)";
+        inactive_border = "rgba(595959aa)";
+        shadow = "rgba(1a1a1aee)";
       };
 
       term = {
@@ -203,7 +203,7 @@ let
       green = "#9ccfd8";
       yellow = "#f6c177";
       contrast = "#000";
-      shadow = "#131020";
+      shadow = "#1a1a1a";
       dim = "0.35";
       calMonth = "#e0def4";
       calWeekdays = "#f6c177";
@@ -211,8 +211,8 @@ let
 
       hypr = {
         active_border = "rgba(c4a7e7ff)";
-        inactive_border = "rgba(26233aaa)";
-        shadow = "rgba(00000077)";
+        inactive_border = "rgba(595959aa)";
+        shadow = "rgba(1a1a1aee)";
       };
 
       term = {
@@ -293,22 +293,22 @@ let
       bg = "#1e1e2e";
       surface = "#313244";
       fg = "#cdd6f4";
-      accent = "#cba6f7";
+      accent = "#89b4fa";
       hover = "#45475a";
       red = "#f38ba8";
       green = "#a6e3a1";
       yellow = "#f9e2af";
       contrast = "#000";
-      shadow = "#11111b";
+      shadow = "#1a1a1a";
       dim = "0.35";
       calMonth = "#cdd6f4";
       calWeekdays = "#f9e2af";
       calToday = "#f5c2e7";
 
       hypr = {
-        active_border = "rgba(6c7086ff)";
-        inactive_border = "rgba(45475aaa)";
-        shadow = "rgba(00000077)";
+        active_border = "rgba(89b4faff)";
+        inactive_border = "rgba(595959aa)";
+        shadow = "rgba(1a1a1aee)";
       };
 
       term = {
@@ -389,50 +389,45 @@ let
       bg = "#161616";
       surface = "#262626";
       fg = "#f2f4f8";
-
-      accent = "#BE95FF";
+      accent = "#be95ff";
       hover = "#393939";
-
-      red = "#ff8389";
+      red = "#ee5396";
       green = "#42be65";
-      yellow = "#ffe66d";
+      yellow = "#ffe97b";
       contrast = "#161616";
       shadow = "#161616";
       dim = "0.35";
-
       calMonth = "#f2f4f8";
-      calWeekdays = "#ffe66d";
+      calWeekdays = "#ffe97b";
       calToday = "#78a9ff";
 
       hypr = {
-        active_border = "rgba(be95ff77)";
-        inactive_border = "rgba(262626aa)";
-        shadow = "rgba(00000077)";
+        active_border = "rgba(be95ffff)";
+        inactive_border = "rgba(595959aa)";
+        shadow = "rgba(161616ee)";
       };
 
       term = {
         bg = "#161616";
-        fg = "#f2f4f8";
+        fg = "#ffffff";
         selText = "#161616";
         selBg = "#393939";
         curText = "#161616";
         curCursor = "#78a9ff";
-
         black = "#262626";
-        red = "#ff8389";
+        red = "#ee5396";
         green = "#42be65";
-        yellow = "#ffe66d";
-        blue = "#78a9ff";
-        magenta = "#be95ff";
+        yellow = "#ffe97b";
+        blue = "#33b1ff";
+        magenta = "#ff7eb6";
         cyan = "#3ddbd9";
-        white = "#f2f4f8";
-
-        brBlack = "#525252";
-        brRed = "#ff8389";
+        white = "#dde1e6";
+        brBlack = "#393939";
+        brRed = "#ee5396";
         brGreen = "#42be65";
-        brYellow = "#ffe66d";
-        brBlue = "#78a9ff";
-        brMagenta = "#be95ff";
+        brYellow = "#ffe97b";
+        brBlue = "#33b1ff";
+        brMagenta = "#ff7eb6";
         brCyan = "#3ddbd9";
         brWhite = "#ffffff";
       };
@@ -591,15 +586,15 @@ let
 in
 {
   _module.args = {
-    theme = themes.nightowl;
+    theme = themes.oxocarbon;
     settings = {
       rounding = 5;
-      border_size = 1;
+      border_size = 2;
       blur = true;
       animations = true;
 
       gaps_in = 2;
-      gaps_out = 2;
+      gaps_out = 4;
     };
   };
 }
