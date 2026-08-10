@@ -7,6 +7,8 @@
     ./scripts.nix
     ./sandbox.nix
     ./desktop/hyprland.nix
+    ./desktop/hyprlock.nix
+    ./desktop/hypridle.nix
     ./apps/foot.nix
     ./apps/waybar.nix
     ./apps/fastfetch.nix

@@ -327,7 +327,7 @@ in
         (mkBind "SUPER + ALT + 0" "hl.dsp.exec_cmd('hypr-zoom reset')")
 
         (mkBind "CTRL + ALT + Delete" "hl.dsp.exit()")
-        (mkBind "SUPER + SHIFT + p" "hl.dsp.exec_cmd([[bash -c 'hyprctl dispatch dpms off DP-1 && hyprctl dispatch dpms off DP-2']])")
+        (mkBind "SUPER + ALT + l" "hl.dsp.exec_cmd('loginctl lock-session')")
 
         # Media keys
         (mkBindOpt "XF86AudioRaiseVolume"
