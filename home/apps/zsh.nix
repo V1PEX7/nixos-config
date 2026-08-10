@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   programs.zsh = {
     enable = true;
@@ -13,6 +13,20 @@
     };
     syntaxHighlighting.enable = true;
 
+    historySubstringSearch = {
+      enable = true;
+      searchUpKey = [
+        "^[[A"
+        "^[OA"
+        "$terminfo[kcuu1]"
+      ];
+      searchDownKey = [
+        "^[[B"
+        "^[OB"
+        "$terminfo[kcud1]"
+      ];
+    };
+
     history = {
       ignoreAllDups = true;
       share = true;
@@ -24,9 +38,7 @@
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
     '';
 
-    shellAliases = {
-
-    };
+    shellAliases = { };
 
     initContent = ''
       if [[ -n "$IN_CODE_SHELL" ]]; then
@@ -38,10 +50,6 @@
       fi
       PROMPT="''${_shell_tag}%F{green}➜ %F{cyan}%~%f "
 
-      source ${pkgs.zsh-history-substring-search}/share/zsh-history-substring-search/zsh-history-substring-search.zsh
-      bindkey '^[[A' history-substring-search-up
-      bindkey '^[[B' history-substring-search-down
-
       bindkey ';5C' forward-word
       bindkey ';5D' backward-word
       bindkey '^H' backward-kill-word
@@ -51,6 +59,12 @@
       bindkey '^Z' undo
       bindkey '^[.' insert-last-word
     '';
+  };
+
+  # Interactive fuzzy history search bound to Ctrl+R
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.carapace = {
