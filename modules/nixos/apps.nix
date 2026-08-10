@@ -75,6 +75,22 @@ in
           "libvirtd"
           "kvm"
         ];
+
+        boot.kernel.sysctl = {
+          "net.ipv4.ip_forward" = 1;
+        };
+
+        networking.nat = {
+          enable = true;
+          internalInterfaces = [ "virbr0" ];
+          externalInterface = "throne-tun";
+          internalIPs = [ "192.168.122.0/24" ];
+        };
+
+        networking.localCommands = ''
+          ${pkgs.iproute2}/bin/ip rule del to 192.168.122.0/24 lookup main priority 10 2>/dev/null || true
+          ${pkgs.iproute2}/bin/ip rule add to 192.168.122.0/24 lookup main priority 10
+        '';
       })
     ]
   );
