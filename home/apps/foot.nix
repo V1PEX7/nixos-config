@@ -36,7 +36,7 @@ in
       };
 
       "colors-dark" = {
-        alpha = "0.9";
+        alpha = "0.95";
         blur = if s.blur then "yes" else "no";
         background = builtins.substring 1 6 t.term.bg;
         foreground = builtins.substring 1 6 t.term.fg;
