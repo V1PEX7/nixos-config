@@ -47,6 +47,7 @@ in
       ];
 
       label = [
+        # Clock
         {
           monitor = "";
           text = "$TIME";
@@ -54,6 +55,17 @@ in
           font_size = 64;
           font_family = "JetBrains Mono Nerd Font";
           position = "0, 80";
+          halign = "center";
+          valign = "center";
+        }
+        # Keyboard Layout
+        {
+          monitor = "";
+          text = "$LAYOUT";
+          color = "rgb(${strip t.fg})";
+          font_size = 12;
+          font_family = "JetBrains Mono Nerd Font";
+          position = "0, -85";
           halign = "center";
           valign = "center";
         }
