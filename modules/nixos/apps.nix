@@ -80,6 +80,8 @@ in
           "net.ipv4.ip_forward" = 1;
         };
 
+        networking.firewall.trustedInterfaces = [ "virbr0" ];
+
         networking.nat = {
           enable = true;
           internalInterfaces = [ "virbr0" ];
