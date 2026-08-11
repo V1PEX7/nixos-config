@@ -9,6 +9,30 @@ let
   t = theme;
   s = settings;
   inherit (config.lib.formats.rasi) mkLiteral;
+
+  hyprlandWindowMode = pkgs.writeShellScript "rofi-hyprland-window-mode" ''
+    if [ -n "''${1:-}" ] || [ "''${ROFI_RETV:-0}" -ne 0 ]; then
+      if [ -n "''${ROFI_INFO:-}" ]; then
+        ADDR="''${ROFI_INFO}"
+        (${pkgs.coreutils}/bin/sleep 0.02 && ${pkgs.hyprland}/bin/hyprctl dispatch "hl.dsp.focus({ window = 'address:$ADDR' })") >/dev/null 2>&1 &
+      fi
+      exit 0
+    fi
+
+    ${pkgs.hyprland}/bin/hyprctl clients -j | ${pkgs.jq}/bin/jq -r '
+      [.[] | select(.mapped == true)]
+      | sort_by(if (.workspace.id // 0) > 0 then .workspace.id else 999999 end, (.class // ""), (.title // ""))
+      | (
+          (map(.focusHistoryID == 0) | index(true)) as $active_idx
+          | select($active_idx != null)
+          | "\u0000active\u001f\($active_idx)"
+        ),
+        (
+          .[]
+          | "[\(.workspace.name // "")]  \(.class // "")  —  \((.title // "") | gsub("\n"; " "))\u0000info\u001f\(.address)\u001ficon\u001f\((.class // "") | ascii_downcase)"
+        )
+    '
+  '';
 in
 {
   programs.rofi = {
@@ -18,7 +42,7 @@ in
     terminal = "foot";
 
     extraConfig = {
-      modi = "drun,calc,window";
+      modi = "drun,calc,window:${hyprlandWindowMode}";
       show-icons = true;
       icon-theme = "Papirus-Dark";
       drun-display-format = "{name}";
@@ -38,6 +62,7 @@ in
 
         fg0 = mkLiteral t.fg;
         accent-color = mkLiteral t.accent;
+        active-color = mkLiteral t.fg; # currently selected window
         urgent-color = mkLiteral t.yellow;
 
         background-color = mkLiteral "transparent";
@@ -96,18 +121,18 @@ in
         text-color = mkLiteral "@urgent-color";
       };
 
-      "element normal active" = {
-        text-color = mkLiteral "@accent-color";
+      "element normal active, element alternate active" = {
+        text-color = mkLiteral "@active-color";
       };
 
-      "element alternate active" = {
-        text-color = mkLiteral "@accent-color";
-      };
-
-      # Subtle dark selection background with highlighted text
-      "element selected normal, element selected active" = {
+      "element selected normal" = {
         background-color = mkLiteral "@bg-selected";
         text-color = mkLiteral "@accent-color";
+      };
+
+      "element selected active" = {
+        background-color = mkLiteral "@bg-selected";
+        text-color = mkLiteral "@active-color";
       };
 
       "element selected urgent" = {
