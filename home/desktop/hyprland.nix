@@ -26,6 +26,15 @@ let
       opts
     ];
   };
+  mkBindP = key: action: {
+    _args = [
+      key
+      (lib.generators.mkLuaInline action)
+      {
+        dont_inhibit = true;
+      }
+    ];
+  };
   mkEnv = k: v: {
     _args = [
       k
@@ -202,7 +211,7 @@ in
       ];
 
       bind = [
-        # --- App Launchers ---
+        # App Launchers
         (mkBind "SUPER + t" "hl.dsp.exec_cmd('uwsm app -- foot')")
         (mkBind "SUPER + e" "hl.dsp.exec_cmd('uwsm app -- thunar')")
         (mkBind "SUPER + w" "hl.dsp.exec_cmd('uwsm app -- chromium')")
@@ -217,20 +226,20 @@ in
         (mkBind "SUPER + SHIFT + w" "hl.dsp.exec_cmd('wallpicker')")
 
         # Window Management
-        (mkBind "SUPER + q" "hl.dsp.window.close()")
-        (mkBind "SUPER + d" "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })")
-        (mkBind "SUPER + f" "hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' })")
-        (mkBind "SUPER + c" "hl.dsp.window.float({ action = 'toggle' })")
-        (mkBind "SUPER + p" "hl.dsp.window.pin()")
-        (mkBind "SUPER + CTRL + c" "hl.dsp.window.center()")
-        (mkBind "SUPER + n" "hl.dsp.window.move({ workspace = 'special:scratch', follow = false })")
-        (mkBind "SUPER + grave" "hl.dsp.focus({ last = true })")
+        (mkBindP "SUPER + q" "hl.dsp.window.close()")
+        (mkBindP "SUPER + d" "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })")
+        (mkBindP "SUPER + f" "hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' })")
+        (mkBindP "SUPER + c" "hl.dsp.window.float({ action = 'toggle' })")
+        (mkBindP "SUPER + p" "hl.dsp.window.pin()")
+        (mkBindP "SUPER + CTRL + c" "hl.dsp.window.center()")
+        (mkBindP "SUPER + n" "hl.dsp.window.move({ workspace = 'special:scratch', follow = false })")
+        (mkBindP "SUPER + grave" "hl.dsp.focus({ last = true })")
 
-        (mkBind "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
-        (mkBind "SUPER + Tab" "hl.dsp.exec_cmd('rofi -show window')")
+        (mkBindP "ALT + Tab" "hl.dsp.window.cycle_next({ next = true })")
+        (mkBindP "SUPER + Tab" "hl.dsp.exec_cmd('rofi -show window')")
 
         # Cycle Focus Between Floating and Tiling Windows
-        (mkBind "SUPER + SHIFT + space" ''
+        (mkBindP "SUPER + SHIFT + space" ''
           function()
             local win = hl.get_active_window()
             if win and win.floating then
@@ -242,116 +251,136 @@ in
         '')
 
         # Focus Navigation
-        (mkBind "SUPER + h" "hl.dsp.focus({ direction = 'left' })")
-        (mkBind "SUPER + j" "hl.dsp.focus({ direction = 'down' })")
-        (mkBind "SUPER + k" "hl.dsp.focus({ direction = 'up' })")
-        (mkBind "SUPER + l" "hl.dsp.focus({ direction = 'right' })")
-        (mkBind "SUPER + left" "hl.dsp.focus({ direction = 'left' })")
-        (mkBind "SUPER + down" "hl.dsp.focus({ direction = 'down' })")
-        (mkBind "SUPER + up" "hl.dsp.focus({ direction = 'up' })")
-        (mkBind "SUPER + right" "hl.dsp.focus({ direction = 'right' })")
+        (mkBindP "SUPER + h" "hl.dsp.focus({ direction = 'left' })")
+        (mkBindP "SUPER + j" "hl.dsp.focus({ direction = 'down' })")
+        (mkBindP "SUPER + k" "hl.dsp.focus({ direction = 'up' })")
+        (mkBindP "SUPER + l" "hl.dsp.focus({ direction = 'right' })")
+        (mkBindP "SUPER + left" "hl.dsp.focus({ direction = 'left' })")
+        (mkBindP "SUPER + down" "hl.dsp.focus({ direction = 'down' })")
+        (mkBindP "SUPER + up" "hl.dsp.focus({ direction = 'up' })")
+        (mkBindP "SUPER + right" "hl.dsp.focus({ direction = 'right' })")
 
         # Window Swapping
-        (mkBind "SUPER + SHIFT + h" "hl.dsp.window.swap({ direction = 'l' })")
-        (mkBind "SUPER + SHIFT + j" "hl.dsp.window.swap({ direction = 'd' })")
-        (mkBind "SUPER + SHIFT + k" "hl.dsp.window.swap({ direction = 'u' })")
-        (mkBind "SUPER + SHIFT + l" "hl.dsp.window.swap({ direction = 'r' })")
-        (mkBind "SUPER + SHIFT + left" "hl.dsp.window.swap({ direction = 'l' })")
-        (mkBind "SUPER + SHIFT + down" "hl.dsp.window.swap({ direction = 'd' })")
-        (mkBind "SUPER + SHIFT + up" "hl.dsp.window.swap({ direction = 'u' })")
-        (mkBind "SUPER + SHIFT + right" "hl.dsp.window.swap({ direction = 'r' })")
+        (mkBindP "SUPER + SHIFT + h" "hl.dsp.window.swap({ direction = 'l' })")
+        (mkBindP "SUPER + SHIFT + j" "hl.dsp.window.swap({ direction = 'd' })")
+        (mkBindP "SUPER + SHIFT + k" "hl.dsp.window.swap({ direction = 'u' })")
+        (mkBindP "SUPER + SHIFT + l" "hl.dsp.window.swap({ direction = 'r' })")
+        (mkBindP "SUPER + SHIFT + left" "hl.dsp.window.swap({ direction = 'l' })")
+        (mkBindP "SUPER + SHIFT + down" "hl.dsp.window.swap({ direction = 'd' })")
+        (mkBindP "SUPER + SHIFT + up" "hl.dsp.window.swap({ direction = 'u' })")
+        (mkBindP "SUPER + SHIFT + right" "hl.dsp.window.swap({ direction = 'r' })")
 
         # Master Layout Controls
-        (mkBind "SUPER + z" "hl.dsp.layout('swapwithmaster')")
-        (mkBind "SUPER + m" "hl.dsp.layout('focusmaster')")
-        (mkBind "SUPER + ALT + space" "hl.dsp.layout('orientationcycle')")
+        (mkBindP "SUPER + z" "hl.dsp.layout('swapwithmaster')")
+        (mkBindP "SUPER + m" "hl.dsp.layout('focusmaster')")
+        (mkBindP "SUPER + ALT + space" "hl.dsp.layout('orientationcycle')")
 
-        (mkBind "SUPER + minus" "hl.dsp.layout('mfact -0.05')")
-        (mkBind "SUPER + equal" "hl.dsp.layout('mfact +0.05')")
+        (mkBindP "SUPER + minus" "hl.dsp.layout('mfact -0.05')")
+        (mkBindP "SUPER + equal" "hl.dsp.layout('mfact +0.05')")
 
-        (mkBind "SUPER + bracketleft" "hl.dsp.layout('removemaster')")
-        (mkBind "SUPER + bracketright" "hl.dsp.layout('addmaster')")
+        (mkBindP "SUPER + bracketleft" "hl.dsp.layout('removemaster')")
+        (mkBindP "SUPER + bracketright" "hl.dsp.layout('addmaster')")
 
         # Monitor Navigation
-        (mkBind "SUPER + comma" "hl.dsp.focus({ monitor = 'l' })")
-        (mkBind "SUPER + period" "hl.dsp.focus({ monitor = 'r' })")
-        (mkBind "SUPER + SHIFT + comma" "hl.dsp.window.move({ monitor = 'l' })")
-        (mkBind "SUPER + SHIFT + period" "hl.dsp.window.move({ monitor = 'r' })")
+        (mkBindP "SUPER + comma" "hl.dsp.focus({ monitor = 'l' })")
+        (mkBindP "SUPER + period" "hl.dsp.focus({ monitor = 'r' })")
+        (mkBindP "SUPER + SHIFT + comma" "hl.dsp.window.move({ monitor = 'l' })")
+        (mkBindP "SUPER + SHIFT + period" "hl.dsp.window.move({ monitor = 'r' })")
 
         # Workspaces
-        (mkBind "SUPER + 1" "hl.dsp.focus({ workspace = 1 })")
-        (mkBind "SUPER + 2" "hl.dsp.focus({ workspace = 2 })")
-        (mkBind "SUPER + 3" "hl.dsp.focus({ workspace = 3 })")
-        (mkBind "SUPER + 4" "hl.dsp.focus({ workspace = 4 })")
-        (mkBind "SUPER + 5" "hl.dsp.focus({ workspace = 5 })")
-        (mkBind "SUPER + 6" "hl.dsp.focus({ workspace = 6 })")
-        (mkBind "SUPER + 7" "hl.dsp.focus({ workspace = 7 })")
-        (mkBind "SUPER + 8" "hl.dsp.focus({ workspace = 8 })")
-        (mkBind "SUPER + 9" "hl.dsp.focus({ workspace = 9 })")
+        (mkBindP "SUPER + 1" "hl.dsp.focus({ workspace = 1 })")
+        (mkBindP "SUPER + 2" "hl.dsp.focus({ workspace = 2 })")
+        (mkBindP "SUPER + 3" "hl.dsp.focus({ workspace = 3 })")
+        (mkBindP "SUPER + 4" "hl.dsp.focus({ workspace = 4 })")
+        (mkBindP "SUPER + 5" "hl.dsp.focus({ workspace = 5 })")
+        (mkBindP "SUPER + 6" "hl.dsp.focus({ workspace = 6 })")
+        (mkBindP "SUPER + 7" "hl.dsp.focus({ workspace = 7 })")
+        (mkBindP "SUPER + 8" "hl.dsp.focus({ workspace = 8 })")
+        (mkBindP "SUPER + 9" "hl.dsp.focus({ workspace = 9 })")
 
-        (mkBind "SUPER + ALT + 1" "hl.dsp.window.move({ workspace = 1 })")
-        (mkBind "SUPER + ALT + 2" "hl.dsp.window.move({ workspace = 2 })")
-        (mkBind "SUPER + ALT + 3" "hl.dsp.window.move({ workspace = 3 })")
-        (mkBind "SUPER + ALT + 4" "hl.dsp.window.move({ workspace = 4 })")
-        (mkBind "SUPER + ALT + 5" "hl.dsp.window.move({ workspace = 5 })")
-        (mkBind "SUPER + ALT + 6" "hl.dsp.window.move({ workspace = 6 })")
-        (mkBind "SUPER + ALT + 7" "hl.dsp.window.move({ workspace = 7 })")
-        (mkBind "SUPER + ALT + 8" "hl.dsp.window.move({ workspace = 8 })")
-        (mkBind "SUPER + ALT + 9" "hl.dsp.window.move({ workspace = 9 })")
+        (mkBindP "SUPER + ALT + 1" "hl.dsp.window.move({ workspace = 1 })")
+        (mkBindP "SUPER + ALT + 2" "hl.dsp.window.move({ workspace = 2 })")
+        (mkBindP "SUPER + ALT + 3" "hl.dsp.window.move({ workspace = 3 })")
+        (mkBindP "SUPER + ALT + 4" "hl.dsp.window.move({ workspace = 4 })")
+        (mkBindP "SUPER + ALT + 5" "hl.dsp.window.move({ workspace = 5 })")
+        (mkBindP "SUPER + ALT + 6" "hl.dsp.window.move({ workspace = 6 })")
+        (mkBindP "SUPER + ALT + 7" "hl.dsp.window.move({ workspace = 7 })")
+        (mkBindP "SUPER + ALT + 8" "hl.dsp.window.move({ workspace = 8 })")
+        (mkBindP "SUPER + ALT + 9" "hl.dsp.window.move({ workspace = 9 })")
 
-        (mkBind "SUPER + SHIFT + 1" "hl.dsp.window.move({ workspace = 1, follow = false })")
-        (mkBind "SUPER + SHIFT + 2" "hl.dsp.window.move({ workspace = 2, follow = false })")
-        (mkBind "SUPER + SHIFT + 3" "hl.dsp.window.move({ workspace = 3, follow = false })")
-        (mkBind "SUPER + SHIFT + 4" "hl.dsp.window.move({ workspace = 4, follow = false })")
-        (mkBind "SUPER + SHIFT + 5" "hl.dsp.window.move({ workspace = 5, follow = false })")
-        (mkBind "SUPER + SHIFT + 6" "hl.dsp.window.move({ workspace = 6, follow = false })")
-        (mkBind "SUPER + SHIFT + 7" "hl.dsp.window.move({ workspace = 7, follow = false })")
-        (mkBind "SUPER + SHIFT + 8" "hl.dsp.window.move({ workspace = 8, follow = false })")
-        (mkBind "SUPER + SHIFT + 9" "hl.dsp.window.move({ workspace = 9, follow = false })")
+        (mkBindP "SUPER + SHIFT + 1" "hl.dsp.window.move({ workspace = 1, follow = false })")
+        (mkBindP "SUPER + SHIFT + 2" "hl.dsp.window.move({ workspace = 2, follow = false })")
+        (mkBindP "SUPER + SHIFT + 3" "hl.dsp.window.move({ workspace = 3, follow = false })")
+        (mkBindP "SUPER + SHIFT + 4" "hl.dsp.window.move({ workspace = 4, follow = false })")
+        (mkBindP "SUPER + SHIFT + 5" "hl.dsp.window.move({ workspace = 5, follow = false })")
+        (mkBindP "SUPER + SHIFT + 6" "hl.dsp.window.move({ workspace = 6, follow = false })")
+        (mkBindP "SUPER + SHIFT + 7" "hl.dsp.window.move({ workspace = 7, follow = false })")
+        (mkBindP "SUPER + SHIFT + 8" "hl.dsp.window.move({ workspace = 8, follow = false })")
+        (mkBindP "SUPER + SHIFT + 9" "hl.dsp.window.move({ workspace = 9, follow = false })")
 
-        (mkBind "SUPER + Page_Up" "hl.dsp.focus({ workspace = 'e-1' })")
-        (mkBind "SUPER + Page_Down" "hl.dsp.focus({ workspace = 'e+1' })")
-        (mkBind "SUPER + u" "hl.dsp.focus({ workspace = 'e-1' })")
-        (mkBind "SUPER + i" "hl.dsp.focus({ workspace = 'e+1' })")
-        (mkBind "SUPER + CTRL + Page_Up" "hl.dsp.window.move({ workspace = 'e-1' })")
-        (mkBind "SUPER + CTRL + Page_Down" "hl.dsp.window.move({ workspace = 'e+1' })")
-        (mkBind "SUPER + CTRL + u" "hl.dsp.window.move({ workspace = 'e-1' })")
-        (mkBind "SUPER + CTRL + i" "hl.dsp.window.move({ workspace = 'e+1' })")
-        (mkBind "SUPER + BackSpace" "hl.dsp.focus({ workspace = 'previous' })")
+        (mkBindP "SUPER + Page_Up" "hl.dsp.focus({ workspace = 'e-1' })")
+        (mkBindP "SUPER + Page_Down" "hl.dsp.focus({ workspace = 'e+1' })")
+        (mkBindP "SUPER + u" "hl.dsp.focus({ workspace = 'e-1' })")
+        (mkBindP "SUPER + i" "hl.dsp.focus({ workspace = 'e+1' })")
+        (mkBindP "SUPER + CTRL + Page_Up" "hl.dsp.window.move({ workspace = 'e-1' })")
+        (mkBindP "SUPER + CTRL + Page_Down" "hl.dsp.window.move({ workspace = 'e+1' })")
+        (mkBindP "SUPER + CTRL + u" "hl.dsp.window.move({ workspace = 'e-1' })")
+        (mkBindP "SUPER + CTRL + i" "hl.dsp.window.move({ workspace = 'e+1' })")
+        (mkBindP "SUPER + BackSpace" "hl.dsp.focus({ workspace = 'previous' })")
 
-        (mkBind "SUPER + a" "hl.dsp.workspace.toggle_special('scratch')")
-        (mkBind "SUPER + Return" "hl.dsp.workspace.toggle_special('vpn')")
+        (mkBindP "SUPER + a" "hl.dsp.workspace.toggle_special('scratch')")
+        (mkBindP "SUPER + Return" "hl.dsp.workspace.toggle_special('vpn')")
 
-        (mkBind "SUPER + ALT + equal" "hl.dsp.exec_cmd('hypr-zoom in')")
-        (mkBind "SUPER + ALT + minus" "hl.dsp.exec_cmd('hypr-zoom out')")
-        (mkBind "SUPER + ALT + 0" "hl.dsp.exec_cmd('hypr-zoom reset')")
+        (mkBindP "SUPER + ALT + equal" "hl.dsp.exec_cmd('hypr-zoom in')")
+        (mkBindP "SUPER + ALT + minus" "hl.dsp.exec_cmd('hypr-zoom out')")
+        (mkBindP "SUPER + ALT + 0" "hl.dsp.exec_cmd('hypr-zoom reset')")
 
-        (mkBind "CTRL + ALT + Delete" "hl.dsp.exit()")
-        (mkBind "SUPER + ALT + l" "hl.dsp.exec_cmd('loginctl lock-session')")
+        (mkBindP "CTRL + ALT + Delete" "hl.dsp.exit()")
+        (mkBindP "SUPER + ALT + l" "hl.dsp.exec_cmd('loginctl lock-session')")
 
         # Media keys
         (mkBindOpt "XF86AudioRaiseVolume"
           "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0')"
-          { locked = true; }
+          {
+            locked = true;
+            dont_inhibit = true;
+          }
         )
         (mkBindOpt "XF86AudioLowerVolume" "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-')" {
           locked = true;
+          dont_inhibit = true;
         })
         (mkBindOpt "XF86AudioMute" "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle')" {
           locked = true;
+          dont_inhibit = true;
         })
         (mkBindOpt "XF86AudioMicMute" "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle')" {
           locked = true;
+          dont_inhibit = true;
         })
-        (mkBindOpt "XF86AudioPlay" "hl.dsp.exec_cmd('playerctl play-pause')" { locked = true; })
-        (mkBindOpt "XF86AudioStop" "hl.dsp.exec_cmd('playerctl stop')" { locked = true; })
-        (mkBindOpt "XF86AudioPrev" "hl.dsp.exec_cmd('playerctl previous')" { locked = true; })
-        (mkBindOpt "XF86AudioNext" "hl.dsp.exec_cmd('playerctl next')" { locked = true; })
+        (mkBindOpt "XF86AudioPlay" "hl.dsp.exec_cmd('playerctl play-pause')" {
+          locked = true;
+          dont_inhibit = true;
+        })
+        (mkBindOpt "XF86AudioStop" "hl.dsp.exec_cmd('playerctl stop')" {
+          locked = true;
+          dont_inhibit = true;
+        })
+        (mkBindOpt "XF86AudioPrev" "hl.dsp.exec_cmd('playerctl previous')" {
+          locked = true;
+          dont_inhibit = true;
+        })
+        (mkBindOpt "XF86AudioNext" "hl.dsp.exec_cmd('playerctl next')" {
+          locked = true;
+          dont_inhibit = true;
+        })
         (mkBindOpt "XF86MonBrightnessUp" "hl.dsp.exec_cmd('brightnessctl --class=backlight set +10%')" {
           locked = true;
+          dont_inhibit = true;
         })
         (mkBindOpt "XF86MonBrightnessDown" "hl.dsp.exec_cmd('brightnessctl --class=backlight set 10%-')" {
           locked = true;
+          dont_inhibit = true;
         })
 
         # Mouse Move and Resize
@@ -569,7 +598,7 @@ in
             (lib.generators.mkLuaInline ''
               function()
                 hl.exec_cmd("bash ~/.config/hypr/autostart.sh")
-                hl.exec_cmd("QT_QPA_PLATFORM=wayland Throne &", { workspace = "special:vpn silent" })
+                hl.exec_cmd("uwsm app -- Throne", { workspace = "special:vpn silent" })
               end
             '')
           ];
@@ -581,9 +610,9 @@ in
   xdg.configFile."hypr/autostart.sh".source = pkgs.writeShellScript "hypr-autostart" ''
 
     if [ -f "$HOME/.config/wallpaper" ]; then
-      swaybg -i "$HOME/.config/wallpaper" -m fill &
+      uwsm app -- swaybg -i "$HOME/.config/wallpaper" -m fill &
     fi
 
-    wl-clip-persist --clipboard regular --reconnect-tries 0 &
+    uwsm app -- wl-clip-persist --clipboard regular --reconnect-tries 0 &
   '';
 }
