@@ -399,14 +399,6 @@ in
           no_screen_share = true;
         }
         {
-          name = "chromium-private-noscreenshare";
-          match = {
-            class = "^(chromium-browser)$";
-            title = ".*[Ii]ncognito.*";
-          };
-          no_screen_share = true;
-        }
-        {
           name = "keepassxc-noscreenshare";
           match = {
             class = "^(org.keepassxc.KeePassXC)$";
@@ -421,34 +413,11 @@ in
           float = true;
         }
         {
-          name = "share-screen-float";
-          match = {
-            title = "^(Share Screen)$";
-          };
-          float = true;
-        }
-        {
-          name = "screen-share-float";
-          match = {
-            title = "^(Screen Share)$";
-          };
-          float = true;
-        }
-        {
           name = "satty-float";
           match = {
             class = "^(com.gabm.satty)$";
           };
           float = true;
-        }
-        {
-          name = "chromium-pip";
-          match = {
-            class = "^(chromium-browser)$";
-            title = "^(Picture-in-Picture)$";
-          };
-          float = true;
-          pin = true;
         }
         {
           name = "firefox-pip";
@@ -458,14 +427,6 @@ in
           };
           float = true;
           pin = true;
-        }
-        {
-          name = "thunar-float";
-          match = {
-            class = "^(thunar)$";
-          };
-          float = true;
-          size = "1000 700";
         }
         {
           name = "steam-float";
@@ -496,7 +457,6 @@ in
             class = "^(Throne)";
           };
           workspace = "special:vpn silent";
-          immediate = true;
         }
       ];
 
