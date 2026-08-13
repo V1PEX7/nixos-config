@@ -214,8 +214,7 @@ in
         # App Launchers
         (mkBind "SUPER + t" "hl.dsp.exec_cmd('uwsm app -- foot')")
         (mkBind "SUPER + e" "hl.dsp.exec_cmd('uwsm app -- thunar')")
-        (mkBind "SUPER + w" "hl.dsp.exec_cmd('uwsm app -- chromium')")
-        (mkBind "SUPER + s" "hl.dsp.exec_cmd('uwsm app -- firefox')")
+        (mkBind "SUPER + w" "hl.dsp.exec_cmd('uwsm app -- firefox')")
         (mkBind "SUPER + space" "hl.dsp.exec_cmd('uwsm app -- rofi -show drun')")
 
         # Screenshots & Utility
