@@ -14,7 +14,7 @@ pkgs.runCommandCC "wl-security-context"
     wayland-scanner private-code "$xml" security-context-v1-protocol.c
 
     mkdir -p $out/bin
-    $CC -O2 -I. -o $out/bin/wl-security-context \
+    $CC -O2 -Wall -Wextra -Wno-unused-parameter -I. -o $out/bin/wl-security-context \
       ${./wl-security-context.c} security-context-v1-protocol.c \
       $(pkg-config --cflags --libs wayland-client)
   ''

@@ -1,9 +1,9 @@
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
-#include <unistd.h>
 #include <sys/socket.h>
 #include <sys/un.h>
+#include <unistd.h>
 #include <wayland-client.h>
 
 #include "security-context-v1-client-protocol.h"
@@ -35,11 +35,11 @@ int main(int argc, char *argv[]) {
 	const char *app_id = argv[2];
 
 	struct sockaddr_un addr = { .sun_family = AF_UNIX };
-	if (strlen(path) >= sizeof(addr.sun_path)) {
+	int n = snprintf(addr.sun_path, sizeof(addr.sun_path), "%s.pending", path);
+	if (n < 0 || (size_t)n >= sizeof(addr.sun_path)) {
 		fprintf(stderr, "socket path too long: %s\n", path);
 		return 1;
 	}
-	strcpy(addr.sun_path, path);
 
 	struct wl_display *display = wl_display_connect(NULL);
 	if (!display) {
@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
-	unlink(path);
+	unlink(addr.sun_path);
 	if (bind(listen_fd, (struct sockaddr *)&addr, sizeof(addr)) < 0) {
 		perror("bind");
 		return 1;
@@ -72,6 +72,8 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
+	/* close_fd[1] stays open for the lifetime of this process: the compositor
+	   serves the listener until it hangs up. */
 	int close_fd[2];
 	if (pipe(close_fd) < 0) {
 		perror("pipe");
@@ -89,11 +91,16 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 
+	/* Publishing the path last makes its existence mean "restrictions applied". */
+	if (rename(addr.sun_path, path) < 0) {
+		perror("rename");
+		return 1;
+	}
+
 	close(listen_fd);
 	close(close_fd[0]);
 	wl_display_disconnect(display);
 
-	/* The compositor accepts connections until close_fd hangs up. */
 	pause();
 	return 0;
 }
