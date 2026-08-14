@@ -3,7 +3,6 @@
   home.packages = with pkgs; [
     zed-editor
     nixd
-    nil
     nixfmt
 
     (python3.withPackages (
@@ -18,7 +17,6 @@
     yt-dlp
 
     ncdu
-    htop
     btop
     nix-tree
 
