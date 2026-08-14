@@ -12,7 +12,7 @@ My NixOS dotfiles. Two machines (desktop + laptop), single user.
 - **bar:** waybar
 - **launcher:** [rofi](https://github.com/davatorium/rofi)
 - **terminal:** foot
-- **browsers:** ungoogled-chromium (hardened, extensions pinned by hash), firefox (with Firefox Containers & `resistFingerprinting`)
+- **browser:** firefox (with Firefox Containers & `resistFingerprinting`)
 - **shell:** zsh (with carapace completions)
 - **file manager:** thunar, yazi
 - **editor:** zed
@@ -32,7 +32,6 @@ My NixOS dotfiles. Two machines (desktop + laptop), single user.
 Some apps run inside bubblewrap sandboxes: `vesktop`, `telegram-desktop`, `qbittorrent`, and (when gaming is enabled) `steam`.
 
 Each sandbox isolates the application with a tmpfs `$HOME`, strict file permissions, and **`xdg-dbus-proxy` filtering**. DBus session and system buses are proxy-filtered so applications can only interact with explicitly whitelisted interfaces (e.g., status tray notifications, MPRIS media controls, or screensaver/power management).
-
 There's also a `code-shell` sandbox: a network-enabled, headless zsh environment scoped to `~/Code` for running untrusted project tooling without full home-directory access.
 
 AppArmor is enabled system-wide on top of bubblewrap.
@@ -52,7 +51,7 @@ myapp = mkSandbox {
 
 ## Screen capture
 
-Hyprland's permission system is enforced (`ecosystem.enforce_permissions`). Only explicitly whitelisted binaries can grab the screen via `screencopy` - grim, wayfreeze, and the hyprland portal. Anything else (including a compromised browser or a random Wayland client) is blocked at the compositor level. Firefox and Chromium private/incognito windows, as well as KeePassXC, additionally carry `no_screen_share` rules.
+Hyprland's permission system is enforced (`ecosystem.enforce_permissions`). Only explicitly whitelisted binaries can grab the screen via `screencopy` - grim, wayfreeze, and the hyprland portal. Matching is by executable path, so this stops incidental capture, not an app that can exec `grim` itself. Firefox private windows and KeePassXC additionally carry `no_screen_share` rules.
 
 ## Hardening
 
@@ -114,7 +113,7 @@ home/
     hyprland.nix           compositor config (lua) + autostart
     hyprlock.nix           lock screen configuration
     hypridle.nix           idle/power management
-  apps/                    foot, fastfetch, firefox, rmpc, rofi, waybar, yazi, zsh, chromium, matugen, mime
+  apps/                    foot, fastfetch, firefox, rmpc, rofi, waybar, yazi, zsh, matugen, mime
 dotfiles/                  mutable configs (zed, etc)
 ```
 
