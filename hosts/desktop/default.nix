@@ -17,7 +17,6 @@
     apps.enable = true;
     apps.gaming.enable = true;
     apps.docker.enable = false;
-    sandbox.enable = true;
 
     hardening = {
       kernel.basic.enable = true;

@@ -18,7 +18,6 @@
     networking.enable = true;
     apps.enable = true;
     apps.vm.enable = true;
-    sandbox.enable = true;
 
     hardening = {
       kernel.basic.enable = true;

@@ -98,7 +98,6 @@ modules/nixos/
   desktop/                 fonts, portals, thunar, hyprland
   networking.nix           quad9 dot, firewall, no bluetooth default
   apps.nix                 zsh, git, localsend, throne (vpn), gaming (gamescope+lact), docker, vm (libvirt, opt-in)
-  sandbox.nix              bwrap
 home/
   default.nix              imports themes, settings and home modules
   themes/                  one file per palette + mkTheme, exposed via _module.args

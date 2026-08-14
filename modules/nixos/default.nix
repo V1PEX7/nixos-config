@@ -8,6 +8,5 @@
     ./desktop
     ./networking.nix
     ./apps.nix
-    ./sandbox.nix
   ];
 }
