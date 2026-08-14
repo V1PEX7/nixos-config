@@ -1,7 +1,11 @@
-{ config, theme, ... }:
+{
+  config,
+  theme,
+  strip,
+  ...
+}:
 let
   t = theme;
-  strip = c: builtins.substring 1 6 c;
 in
 {
   programs.hyprlock = {

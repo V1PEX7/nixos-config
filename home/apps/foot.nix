@@ -2,6 +2,7 @@
   pkgs,
   theme,
   settings,
+  strip,
   ...
 }:
 let
@@ -38,29 +39,29 @@ in
       "colors-dark" = {
         alpha = "0.95";
         blur = if s.blur then "yes" else "no";
-        background = builtins.substring 1 6 t.term.bg;
-        foreground = builtins.substring 1 6 t.term.fg;
+        background = strip t.term.bg;
+        foreground = strip t.term.fg;
 
-        selection-foreground = builtins.substring 1 6 t.term.selText;
-        selection-background = builtins.substring 1 6 t.term.selBg;
+        selection-foreground = strip t.term.selText;
+        selection-background = strip t.term.selBg;
 
-        regular0 = builtins.substring 1 6 t.term.black;
-        regular1 = builtins.substring 1 6 t.term.red;
-        regular2 = builtins.substring 1 6 t.term.green;
-        regular3 = builtins.substring 1 6 t.term.yellow;
-        regular4 = builtins.substring 1 6 t.term.blue;
-        regular5 = builtins.substring 1 6 t.term.magenta;
-        regular6 = builtins.substring 1 6 t.term.cyan;
-        regular7 = builtins.substring 1 6 t.term.white;
+        regular0 = strip t.term.black;
+        regular1 = strip t.term.red;
+        regular2 = strip t.term.green;
+        regular3 = strip t.term.yellow;
+        regular4 = strip t.term.blue;
+        regular5 = strip t.term.magenta;
+        regular6 = strip t.term.cyan;
+        regular7 = strip t.term.white;
 
-        bright0 = builtins.substring 1 6 t.term.brBlack;
-        bright1 = builtins.substring 1 6 t.term.brRed;
-        bright2 = builtins.substring 1 6 t.term.brGreen;
-        bright3 = builtins.substring 1 6 t.term.brYellow;
-        bright4 = builtins.substring 1 6 t.term.brBlue;
-        bright5 = builtins.substring 1 6 t.term.brMagenta;
-        bright6 = builtins.substring 1 6 t.term.brCyan;
-        bright7 = builtins.substring 1 6 t.term.brWhite;
+        bright0 = strip t.term.brBlack;
+        bright1 = strip t.term.brRed;
+        bright2 = strip t.term.brGreen;
+        bright3 = strip t.term.brYellow;
+        bright4 = strip t.term.brBlue;
+        bright5 = strip t.term.brMagenta;
+        bright6 = strip t.term.brCyan;
+        bright7 = strip t.term.brWhite;
       };
 
       key-bindings = {
