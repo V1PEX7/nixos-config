@@ -65,10 +65,7 @@ Four toggleable modules under `modules/nixos/hardening/`:
 
 ## Theme management
 
-Theme palettes and UI settings (`rounding`, `border_size`, `blur`, `animations`, `gaps_in`, `gaps_out`) are configured in `home/theme.nix` and exposed globally to Home Manager modules via `_module.args`. Waybar, Rofi, Foot, GTK, and Hyprland consume `theme` and `settings` directly.
-
-- **Theme presets:** `home/theme.nix` defines a library of color schemes (`omarchy`, `tokyo-night`, `neon-dusk`, `kanagawa`, `rosepine`, `mono`, `catppuccin`, `peppermint`, `oxocarbon`, `kanagawa-dragon`, `nightowl`, `lavender`). `nightowl` is currently selected.
-- **Theme generation (`mktheme`):** The `mktheme` CLI tool uses [matugen](https://github.com/InioX/matugen) with custom blended color rules to generate a complete Nix theme attribute set to stdout. Running `mktheme` without arguments defaults to reading `~/.config/wallpaper`, or you can explicitly pass a hex color or image path (`mktheme #RRGGBB` or `mktheme /path/to/img`).
+Palettes live in `home/themes/`, one file per theme, selected with `theme` in `home/settings.nix` alongside the UI settings (`rounding`, `blur`, gaps). Both reach Home Manager modules via `_module.args`, so Waybar, Rofi, Foot, GTK, and Hyprland consume `theme` and `settings` directly. A theme states its core palette and the 8 ANSI colors; `mkTheme` in `home/themes/lib.nix` derives the rest, and misspelled keys fail the build. `mktheme` generates one from a wallpaper or hex color via [matugen](https://github.com/InioX/matugen) - `mktheme > home/themes/generated.nix`.
 
 ## Gaming
 
@@ -106,8 +103,9 @@ modules/nixos/
   apps.nix                 zsh, git, localsend, throne (vpn), gaming (gamescope+lact), docker, vm (libvirt, opt-in)
   sandbox.nix              apparmor + bwrap
 home/
-  default.nix              imports theme.nix and home modules
-  theme.nix                theme palette library and settings exposed via _module.args
+  default.nix              imports themes, settings and home modules
+  themes/                  one file per palette + mkTheme, exposed via _module.args
+  settings.nix             ui settings (rounding, gaps, blur, animations)
   common.nix               gtk theme (adw-gtk3), cursor, icons, dotfile linking
   packages.nix             unsandboxed apps
   sandbox.nix              bwrap-wrapped apps (vesktop, telegram, qbittorrent, steam, code-shell)
@@ -129,5 +127,5 @@ This config is opinionated and makes choices that will lock you out of things if
 - Bluetooth is off by default
 - Vesktop, telegram, and qbittorrent run inside bubblewrap sandboxes with heavy restrictions. They can't see your home directory, can't talk to most of your system, and will refuse to do things you might expect to work
 - Several kernel hardening options are on. Things might not work and you won't know why until you read what `kernel.strict` does
-- Theme and UI settings are driven from `home/theme.nix` via module arguments. To change themes, update `theme = themes.<name>;` in `home/theme.nix` and rebuild
+- Theme and UI settings are driven from `home/themes/` and `home/settings.nix` via module arguments. To change themes, update `theme = "<name>";` in `home/settings.nix` and rebuild
 - I mass-delete, rename, and restructure modules without warning. These are my personal dotfiles - if you fork this expecting stability you will have a bad time
