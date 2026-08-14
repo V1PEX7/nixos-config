@@ -1,7 +1,8 @@
 { ... }:
 {
   imports = [
-    ./theme.nix
+    ./themes
+    ./settings.nix
     ./common.nix
     ./packages.nix
     ./scripts.nix
