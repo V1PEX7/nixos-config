@@ -189,6 +189,7 @@ let
     # Without the daemon socket Nix falls back to a chroot store under $HOME
     "--ro-bind /nix/var/nix/daemon-socket /nix/var/nix/daemon-socket"
     "--ro-bind-try /nix/var/nix/profiles /nix/var/nix/profiles"
+    "--setenv NIX_REMOTE daemon"
   ];
 
   homeArgs = [
