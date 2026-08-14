@@ -48,7 +48,13 @@ let
     preset = "gui-av";
     network = true;
     dbusSystem = true;
-    dbusSystemProxy = false; # Pass system bus directly so Steam hardware/net checks work
+    dbusSystemTalk = [
+      "org.freedesktop.UPower"
+      "org.freedesktop.UPower.*"
+      "org.freedesktop.login1"
+      "org.freedesktop.NetworkManager"
+      "org.freedesktop.UDisks2"
+    ];
 
     rwPaths = [
       "${home}/.steam"
