@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  username,
   ...
 }:
 let
@@ -71,7 +72,7 @@ in
         virtualisation.libvirtd.enable = true;
         virtualisation.spiceUSBRedirection.enable = true;
 
-        users.users.xnp.extraGroups = [
+        users.users.${username}.extraGroups = [
           "libvirtd"
           "kvm"
         ];

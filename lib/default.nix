@@ -4,11 +4,13 @@
     {
       hostname,
       system ? "x86_64-linux",
+      username ? "xnp",
+      repoPath ? "/home/${username}/nixos-config",
     }:
     inputs.nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs;
+        inherit inputs username repoPath;
         outputs = inputs.self;
       };
       modules = [
@@ -21,10 +23,10 @@
           home-manager.useUserPackages = true;
           home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = {
-            inherit inputs;
+            inherit inputs username repoPath;
             outputs = inputs.self;
           };
-          home-manager.users.xnp = {
+          home-manager.users.${username} = {
             imports = [
               ../home
             ];

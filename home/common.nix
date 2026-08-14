@@ -4,13 +4,14 @@
   pkgs,
   theme,
   settings,
+  repoPath,
   ...
 }:
 let
   t = theme;
   s = settings;
 
-  dotfilesPath = "${config.home.homeDirectory}/nixos-config/dotfiles";
+  dotfilesPath = "${repoPath}/dotfiles";
   localDotfilesPath = ../dotfiles;
   dirContents =
     if builtins.pathExists localDotfilesPath then builtins.readDir localDotfilesPath else { };

@@ -1,4 +1,9 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  username,
+  ...
+}:
 {
   imports = [
     ./nix.nix
@@ -30,7 +35,7 @@
     enable = true;
     extraRules = [
       {
-        users = [ "xnp" ];
+        users = [ username ];
         keepEnv = false;
         persist = true;
       }
@@ -47,9 +52,9 @@
     DefaultTimeoutStartSec = "15s";
   };
 
-  users.users.xnp = {
+  users.users.${username} = {
     isNormalUser = true;
-    description = "xnp";
+    description = username;
     shell = pkgs.zsh;
     extraGroups = [
       "networkmanager"

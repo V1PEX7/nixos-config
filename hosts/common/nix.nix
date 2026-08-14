@@ -1,4 +1,4 @@
-{ ... }:
+{ repoPath, ... }:
 {
   nix.settings.experimental-features = [
     "nix-command"
@@ -12,7 +12,7 @@
 
   programs.nh = {
     enable = true;
-    flake = "/home/xnp/nixos-config";
+    flake = repoPath;
     clean = {
       enable = true;
       extraArgs = "--keep-since 7d --keep 5";

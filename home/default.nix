@@ -1,4 +1,4 @@
-{ ... }:
+{ username, ... }:
 {
   imports = [
     ./themes
@@ -22,7 +22,7 @@
     ./apps/mime.nix
   ];
 
-  home.username = "xnp";
-  home.homeDirectory = "/home/xnp";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   home.stateVersion = "25.11";
 }
