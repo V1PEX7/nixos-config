@@ -224,7 +224,7 @@ let
       ''--bind-try "$XDG_RUNTIME_DIR/wayland-1" "$XDG_RUNTIME_DIR/wayland-1"''
     ]
     ++ lib.optionals useWlSecurityContext [
-      ''--bind-try "$WL_CTX_SOCK" "$XDG_RUNTIME_DIR/wayland-0"''
+      ''--bind "$WL_CTX_SOCK" "$XDG_RUNTIME_DIR/wayland-0"''
       "--setenv WAYLAND_DISPLAY wayland-0"
     ]
     ++ lib.optionals caps.pipewire [
