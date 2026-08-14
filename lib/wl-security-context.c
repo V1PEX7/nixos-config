@@ -1,6 +1,8 @@
 #define _GNU_SOURCE
+#include <signal.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/prctl.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
@@ -30,6 +32,10 @@ int main(int argc, char *argv[]) {
 		fprintf(stderr, "usage: %s <socket-path> <app-id>\n", argv[0]);
 		return 2;
 	}
+
+	prctl(PR_SET_PDEATHSIG, SIGTERM);
+	if (getppid() == 1)
+		return 1;
 
 	const char *path = argv[1];
 	const char *app_id = argv[2];
