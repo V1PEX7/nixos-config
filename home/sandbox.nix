@@ -49,10 +49,6 @@ let
     network = true;
     dbusSystem = true;
     dbusSystemTalk = [
-      "org.freedesktop.UPower"
-      "org.freedesktop.UPower.*"
-      "org.freedesktop.login1"
-      "org.freedesktop.NetworkManager"
       "org.freedesktop.UDisks2"
     ];
 
@@ -67,7 +63,9 @@ let
       "${home}/.config/mimeapps.list"
     ];
 
-    extraDbusTalk = commonGuiDbusTalk;
+    extraDbusTalk = commonGuiDbusTalk ++ [
+      "org.gnome.SessionManager"
+    ];
     extraDbusOwn = commonGuiDbusOwn ++ [
       "com.steampowered.*"
     ];

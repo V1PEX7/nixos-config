@@ -184,6 +184,8 @@ let
     "--ro-bind-try /run/opengl-driver-32 /run/opengl-driver-32"
     "--ro-bind-try /sys/dev /sys/dev"
     "--ro-bind-try /sys/devices /sys/devices"
+    "--ro-bind-try /sys/class /sys/class"
+    "--ro-bind-try /sys/bus /sys/bus"
   ]
   ++ lib.optionals caps.nix [
     "--ro-bind /etc/nix /etc/nix"
