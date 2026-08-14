@@ -8,8 +8,6 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  services.getty.autologinUser = "xnp";
-
   modules = {
     hardware.amd.enable = true;
     hardware.audio.enable = true;
