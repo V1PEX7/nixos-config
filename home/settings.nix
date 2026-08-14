@@ -1,7 +1,7 @@
 { ... }:
 {
   _module.args.settings = {
-    theme = "oxocarbon"; # a file in ./themes
+    theme = "vesper"; # a file in ./themes
 
     rounding = 5;
     border_size = 2;
