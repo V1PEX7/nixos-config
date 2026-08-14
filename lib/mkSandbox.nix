@@ -33,6 +33,7 @@
   dbusSystem ? null,
   theme ? null,
   portalOpen ? null,
+  nix ? null,
 
   dbusProxy ? true,
   defaultDbusTalk ? [
@@ -99,6 +100,7 @@ let
     dbusSystem = false;
     theme = false;
     portalOpen = false;
+    nix = false;
   };
 
   presetCaps = presets.${preset} or (throw ''mkSandbox: unknown preset "${preset}"'');
@@ -113,6 +115,7 @@ let
       dbusSystem
       theme
       portalOpen
+      nix
       ;
   };
   caps = baseCaps // presetCaps // overrides;
@@ -180,6 +183,12 @@ let
     "--ro-bind-try /run/opengl-driver-32 /run/opengl-driver-32"
     "--ro-bind-try /sys/dev /sys/dev"
     "--ro-bind-try /sys/devices /sys/devices"
+  ]
+  ++ lib.optionals caps.nix [
+    "--ro-bind /etc/nix /etc/nix"
+    # Without the daemon socket Nix falls back to a chroot store under $HOME
+    "--ro-bind /nix/var/nix/daemon-socket /nix/var/nix/daemon-socket"
+    "--ro-bind-try /nix/var/nix/profiles /nix/var/nix/profiles"
   ];
 
   homeArgs = [

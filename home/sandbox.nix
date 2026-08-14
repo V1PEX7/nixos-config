@@ -118,12 +118,12 @@ let
     package = pkgs.claude-code;
     preset = "cli";
     network = true;
+    nix = true;
     bindCwd = true;
     newSession = false;
     rwPaths = [ "${home}/.claude" ];
     roPaths = [
       "${home}/.gitconfig"
-      "/etc/nix"
       "/etc/profiles"
     ];
     extraArgs = [
@@ -138,8 +138,10 @@ let
     binPath = "bin/zsh";
     preset = "cli";
     network = true;
+    nix = true;
     newSession = false;
     bindCwd = true;
+    rwPaths = [ "${home}/.cache/nix" ];
     roPaths = [
       "${home}/.zshrc"
       "${home}/.zshenv"
