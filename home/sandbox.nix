@@ -138,7 +138,8 @@ let
     binPath = "bin/zsh";
     preset = "cli";
     network = true;
-    workdirArg = "${home}/Code";
+    newSession = false;
+    bindCwd = true;
     roPaths = [
       "${home}/.zshrc"
       "${home}/.zshenv"
