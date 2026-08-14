@@ -34,8 +34,6 @@ Some apps run inside bubblewrap sandboxes: `vesktop`, `telegram-desktop`, `qbitt
 Each sandbox isolates the application with a tmpfs `$HOME`, strict file permissions, and **`xdg-dbus-proxy` filtering**. DBus session and system buses are proxy-filtered so applications can only interact with explicitly whitelisted interfaces (e.g., status tray notifications, MPRIS media controls, or screensaver/power management).
 There's also a `code-shell` sandbox: a network-enabled, headless zsh environment scoped to `~/Code` for running untrusted project tooling without full home-directory access.
 
-AppArmor is enabled system-wide on top of bubblewrap.
-
 Defined in `home/sandbox.nix`, wrapper and proxy logic in `lib/mkSandbox.nix`.
 
 Adding a new sandboxed app takes ~5 lines:
@@ -100,7 +98,7 @@ modules/nixos/
   desktop/                 fonts, portals, thunar, hyprland
   networking.nix           quad9 dot, firewall, no bluetooth default
   apps.nix                 zsh, git, localsend, throne (vpn), gaming (gamescope+lact), docker, vm (libvirt, opt-in)
-  sandbox.nix              apparmor + bwrap
+  sandbox.nix              bwrap
 home/
   default.nix              imports themes, settings and home modules
   themes/                  one file per palette + mkTheme, exposed via _module.args
