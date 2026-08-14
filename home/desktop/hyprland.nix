@@ -228,7 +228,23 @@ in
         (mkBindP "SUPER + q" "hl.dsp.window.close()")
         (mkBindP "SUPER + d" "hl.dsp.window.fullscreen({ mode = 'maximized', action = 'toggle' })")
         (mkBindP "SUPER + f" "hl.dsp.window.fullscreen({ mode = 'fullscreen', action = 'toggle' })")
-        (mkBindP "SUPER + c" "hl.dsp.window.float({ action = 'toggle' })")
+        (mkBindP "SUPER + c" ''
+          function()
+            local win = hl.get_active_window()
+            if not win then return end
+            local was_floating = win.floating
+            hl.dispatch(hl.dsp.window.float({ action = "toggle" }))
+            if was_floating then return end
+            local mon = win.monitor or hl.get_active_monitor()
+            if not mon then return end
+            hl.dispatch(hl.dsp.window.resize({
+              x = math.floor(mon.width / mon.scale * 0.6),
+              y = math.floor(mon.height / mon.scale * 0.6),
+              relative = false,
+            }))
+            hl.dispatch(hl.dsp.window.center())
+          end
+        '')
         (mkBindP "SUPER + p" "hl.dsp.window.pin()")
         (mkBindP "SUPER + CTRL + c" "hl.dsp.window.center()")
         (mkBindP "SUPER + n" "hl.dsp.window.move({ workspace = 'special:scratch', follow = false })")
