@@ -32,6 +32,9 @@ My NixOS dotfiles. Two machines (desktop + laptop), single user.
 Some apps run inside bubblewrap sandboxes: `vesktop`, `telegram-desktop`, `qbittorrent`, and (when gaming is enabled) `steam`.
 
 Each sandbox isolates the application with a tmpfs `$HOME`, strict file permissions, and **`xdg-dbus-proxy` filtering**. DBus session and system buses are proxy-filtered so applications can only interact with explicitly whitelisted interfaces (e.g., status tray notifications, MPRIS media controls, or screensaver/power management). GUI sandboxes get a portal-backed `xdg-open`/`xdg-email` on their `PATH` (`portalOpen`).
+
+GUI sandboxes get their own Wayland socket through the security-context protocol, so Hyprland withholds screen capture, clipboard snooping, input injection, window enumeration and global shortcuts from them. Steam is the exception: it binds `/tmp/.X11-unix`, and X11 has no equivalent.
+
 There's also a `code-shell` sandbox: a network-enabled, headless zsh environment scoped to `~/Code` for running untrusted project tooling without full home-directory access.
 
 Defined in `home/sandbox.nix`, wrapper and proxy logic in `lib/mkSandbox.nix`.
@@ -88,6 +91,7 @@ flake.nix                  two inputs: nixpkgs, home-manager
 lib/
   default.nix              mkHost factory
   mkSandbox.nix            bwrap wrapper + xdg-dbus-proxy setup
+  wl-security-context.c    per-sandbox restricted Wayland socket
 hosts/
   common/                  shared: doas, locale, nix settings, user
   desktop/                 amd, gaming, relaxed hardening
