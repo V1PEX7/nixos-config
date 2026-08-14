@@ -113,6 +113,25 @@ let
     ];
   };
 
+  claude = mkSandbox {
+    name = "claude";
+    package = pkgs.claude-code;
+    preset = "cli";
+    network = true;
+    bindCwd = true;
+    newSession = false;
+    rwPaths = [ "${home}/.claude" ];
+    roPaths = [
+      "${home}/.gitconfig"
+      "/etc/nix"
+      "/etc/profiles"
+    ];
+    extraArgs = [
+      ''--bind-try "$HOME/.claude.json" "$HOME/.claude.json"''
+      "--setenv PATH ${pkgs.nodejs}/bin:/etc/profiles/per-user/${config.home.username}/bin:/run/current-system/sw/bin"
+    ];
+  };
+
   codeShell = mkSandbox {
     name = "code-shell";
     package = pkgs.zsh;
@@ -136,6 +155,7 @@ in
     vesktop
     telegram
     qbittorrent
+    claude
     codeShell
   ]
   ++ lib.optional gamingEnabled steam;

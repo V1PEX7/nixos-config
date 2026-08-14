@@ -12,6 +12,8 @@
     "steam-unwrapped"
     "steam-run"
     "steam-sandboxed"
+    "claude-code"
+    "claude-sandboxed"
   ];
 
   boot.loader.systemd-boot.enable = true;
