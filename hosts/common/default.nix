@@ -47,6 +47,9 @@
   programs.command-not-found.enable = false;
   systemd.oomd.enable = false;
 
+  documentation.nixos.enable = false;
+  documentation.info.enable = false;
+
   systemd.settings.Manager = {
     DefaultTimeoutStopSec = "10s";
     DefaultTimeoutStartSec = "15s";
