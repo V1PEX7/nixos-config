@@ -1,7 +1,8 @@
 { pkgs, ... }:
 let
+  # a drop-in theme for home/themes/; derived keys are omitted
   template = pkgs.writeText "matugen-theme.nix" ''
-    generated = {
+    {
       bg = "{{colors.surface.default.hex}}";
       surface = "{{colors.surface_container.default.hex}}";
       fg = "{{colors.on_surface.default.hex}}";
@@ -10,25 +11,11 @@ let
       red = "{{colors.error.default.hex}}";
       green = "{{colors.green.default.hex}}";
       yellow = "{{colors.yellow.default.hex}}";
-      contrast = "#000000";
-      shadow = "{{colors.shadow.default.hex}}";
-      dim = "0.35";
-      calMonth = "{{colors.on_surface.default.hex}}";
-      calWeekdays = "{{colors.yellow.default.hex}}";
-      calToday = "{{colors.primary.default.hex}}";
 
-      hypr = {
-        active_border = "rgba({{colors.primary.default.hex_stripped}}ff)";
-        inactive_border = "rgba({{colors.surface_container_highest.default.hex_stripped}}aa)";
-        shadow = "rgba(00000077)";
-      };
+      shadow = "{{colors.shadow.default.hex}}";
 
       term = {
-        bg = "{{colors.surface.default.hex}}";
-        fg = "{{colors.on_surface.default.hex}}";
-        selText = "{{colors.on_surface.default.hex}}";
         selBg = "{{colors.surface_container_high.default.hex}}";
-        curText = "{{colors.surface.default.hex}}";
         curCursor = "{{colors.primary.default.hex}}";
 
         black = "{{colors.surface_container.default.hex}}";
@@ -41,25 +28,12 @@ let
         white = "{{colors.on_surface_variant.default.hex}}";
 
         brBlack = "{{colors.outline.default.hex}}";
-        brRed = "{{colors.error.default.hex}}";
-        brGreen = "{{colors.green.default.hex}}";
-        brYellow = "{{colors.yellow.default.hex}}";
         brBlue = "{{colors.primary_fixed.default.hex}}";
         brMagenta = "{{colors.tertiary_fixed.default.hex}}";
         brCyan = "{{colors.secondary_fixed.default.hex}}";
         brWhite = "{{colors.on_surface.default.hex}}";
       };
-
-      fuzzel = {
-        bg = "{{colors.surface.default.hex_stripped}}ee";
-        text = "{{colors.on_surface.default.hex_stripped}}ff";
-        match = "{{colors.primary.default.hex_stripped}}ff";
-        selection = "{{colors.surface_container_high.default.hex_stripped}}ff";
-        selText = "{{colors.on_surface.default.hex_stripped}}ff";
-        selMatch = "{{colors.primary.default.hex_stripped}}ff";
-        border = "{{colors.primary.default.hex_stripped}}ff";
-      };
-    };
+    }
   '';
 
   matugenConfig = pkgs.writeText "matugen-config.toml" ''
