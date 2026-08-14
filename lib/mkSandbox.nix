@@ -21,6 +21,7 @@
 
   bindCwd ? false,
   newSession ? true,
+  waylandSecurityContext ? true,
 
   # Per-capability overrides. null inherits the preset
   network ? null,
@@ -67,6 +68,7 @@
 let
   bwrap = "${pkgs.bubblewrap}/bin/bwrap";
   xdgDbusProxy = "${pkgs.xdg-dbus-proxy}/bin/xdg-dbus-proxy";
+  wlSecurityContext = "${import ./wl-security-context.nix { inherit pkgs; }}/bin/wl-security-context";
 
   guiCaps = {
     wayland = true;
@@ -142,6 +144,7 @@ let
 
   dbusSystemFlagsStr = lib.escapeShellArgs dbusSystemFlags;
   useDbusSystemProxy = caps.dbusSystem && dbusSystemProxy;
+  useWlSecurityContext = caps.wayland && waylandSecurityContext;
 
   baseArgs = [
     "--unshare-all"
@@ -206,9 +209,13 @@ let
   roArgs = map bindRo roPaths;
 
   runtimeArgs =
-    lib.optionals caps.wayland [
+    lib.optionals (caps.wayland && !useWlSecurityContext) [
       ''--bind-try "$XDG_RUNTIME_DIR/wayland-0" "$XDG_RUNTIME_DIR/wayland-0"''
       ''--bind-try "$XDG_RUNTIME_DIR/wayland-1" "$XDG_RUNTIME_DIR/wayland-1"''
+    ]
+    ++ lib.optionals useWlSecurityContext [
+      ''--bind-try "$WL_CTX_SOCK" "$XDG_RUNTIME_DIR/wayland-0"''
+      "--setenv WAYLAND_DISPLAY wayland-0"
     ]
     ++ lib.optionals caps.pipewire [
       ''--bind-try "$XDG_RUNTIME_DIR/pipewire-0" "$XDG_RUNTIME_DIR/pipewire-0"''
@@ -289,15 +296,18 @@ let
       esac
     ''}
 
-    ${lib.optionalString (useDbusProxy || useDbusSystemProxy) waitForSocketFn}
+    ${lib.optionalString (useDbusProxy || useDbusSystemProxy || useWlSecurityContext) waitForSocketFn}
 
     # bwrap --bind-try fails on empty strings. Dummy absolute paths ensure safe fallback
     PROXY_BUS="/run/sandbox-no-session-bus-$$"
     PROXY_SYS_BUS="/run/sandbox-no-system-bus-$$"
+    WL_CTX_SOCK="/run/sandbox-no-wayland-$$"
     SESSION_PROXY_DIR=""
     SYSTEM_PROXY_DIR=""
+    WL_CTX_DIR=""
     SESSION_PROXY_PID=""
     SYSTEM_PROXY_PID=""
+    WL_CTX_PID=""
     BWRAP_PID=""
 
     cleanup() {
@@ -310,10 +320,12 @@ let
 
       [ -n "$SESSION_PROXY_PID" ] && kill -TERM "$SESSION_PROXY_PID" 2>/dev/null || true
       [ -n "$SYSTEM_PROXY_PID" ] && kill -TERM "$SYSTEM_PROXY_PID" 2>/dev/null || true
+      [ -n "$WL_CTX_PID" ] && kill -TERM "$WL_CTX_PID" 2>/dev/null || true
       wait 2>/dev/null || true
 
       [ -n "$SESSION_PROXY_DIR" ] && [ -d "$SESSION_PROXY_DIR" ] && ${pkgs.coreutils}/bin/rm -rf "$SESSION_PROXY_DIR"
       [ -n "$SYSTEM_PROXY_DIR" ] && [ -d "$SYSTEM_PROXY_DIR" ] && ${pkgs.coreutils}/bin/rm -rf "$SYSTEM_PROXY_DIR"
+      [ -n "$WL_CTX_DIR" ] && [ -d "$WL_CTX_DIR" ] && ${pkgs.coreutils}/bin/rm -rf "$WL_CTX_DIR"
 
       return 0
     }
@@ -343,6 +355,16 @@ let
 
         wait_for_socket "$PROXY_SYS_BUS" "system bus" "$SYSTEM_PROXY_PID" || true
       fi
+    ''}
+
+    ${lib.optionalString useWlSecurityContext ''
+      WL_CTX_DIR="$(${pkgs.coreutils}/bin/mktemp -d -t sandbox-wayland-XXXXXX)"
+      WL_CTX_SOCK="$WL_CTX_DIR/wayland-0"
+
+      ${wlSecurityContext} "$WL_CTX_SOCK" "${name}" &
+      WL_CTX_PID=$!
+
+      wait_for_socket "$WL_CTX_SOCK" "wayland security context" "$WL_CTX_PID"
     ''}
 
     exec 3<&0

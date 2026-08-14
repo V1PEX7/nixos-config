@@ -10,6 +10,7 @@
     ./desktop/hyprland.nix
     ./desktop/hyprlock.nix
     ./desktop/hypridle.nix
+    ./desktop/wayland-restricted.nix
     ./apps/foot.nix
     ./apps/waybar.nix
     ./apps/fastfetch.nix
