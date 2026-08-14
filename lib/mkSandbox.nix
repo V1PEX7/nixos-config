@@ -20,6 +20,8 @@
   extraArgs ? [ ],
 
   workdirArg ? null,
+  bindCwd ? false,
+  newSession ? true,
 
   # Per-capability overrides. null inherits the preset
   network ? null,
@@ -132,7 +134,9 @@ let
   baseArgs = [
     "--unshare-all"
     "--die-with-parent"
-    "--new-session"
+  ]
+  ++ lib.optional newSession "--new-session"
+  ++ [
     "--symlink /run /var/run" # Allows legacy DBus system socket lookups
   ]
   ++ lib.optional caps.network "--share-net"
@@ -167,7 +171,7 @@ let
     ''--tmpfs "$HOME"''
     ''--tmpfs "$XDG_RUNTIME_DIR"''
   ]
-  ++ lib.optional (workdirArg == null) ''--chdir "$HOME"'';
+  ++ lib.optional (workdirArg == null && !bindCwd) ''--chdir "$HOME"'';
 
   themeArgs = lib.optionals caps.theme [
     "--ro-bind-try /etc/profiles /etc/profiles"
@@ -220,7 +224,7 @@ let
 
   unsetArgs = map (v: "--unsetenv ${v}") unsetVars;
 
-  workdirArgs = lib.optionals (workdirArg != null) [
+  workdirArgs = lib.optionals (workdirArg != null || bindCwd) [
     ''--bind-try "$WORKDIR" "$WORKDIR"''
     ''--chdir "$WORKDIR"''
   ];
@@ -271,6 +275,13 @@ let
       [ "$#" -gt 0 ] && shift || true
       WORKDIR="$(${pkgs.coreutils}/bin/realpath -m "$WORKDIR")"
       ${pkgs.coreutils}/bin/mkdir -p "$WORKDIR"
+    ''}
+
+    ${lib.optionalString bindCwd ''
+      WORKDIR="$(${pkgs.coreutils}/bin/realpath -m "$PWD")"
+      case "$WORKDIR" in
+        "$HOME"|"$HOME"/) echo "${name}: run from a project directory under $HOME" >&2; exit 1 ;;
+      esac
     ''}
 
     ${lib.optionalString (useDbusProxy || useDbusSystemProxy) waitForSocketFn}
