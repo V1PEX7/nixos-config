@@ -10,7 +10,7 @@
 
   # Capability preset. Deny-by-default: a preset grants a bundle of capabilities
   # cli       - no display/audio/bus (headless)
-  # gui       - wayland + gpu + theme + session bus
+  # gui       - wayland + gpu + theme + session bus + portal xdg-open
   # gui-audio - gui + pulse
   # gui-av    - gui + pulse + pipewire (calls, screen-share media)
   preset ? "gui",
@@ -31,6 +31,7 @@
   dbusSession ? null,
   dbusSystem ? null,
   theme ? null,
+  portalOpen ? null,
 
   dbusProxy ? true,
   defaultDbusTalk ? [
@@ -72,6 +73,7 @@ let
     gpu = true;
     theme = true;
     dbusSession = true;
+    portalOpen = true;
   };
   presets = {
     cli = { };
@@ -94,6 +96,7 @@ let
     dbusSession = false;
     dbusSystem = false;
     theme = false;
+    portalOpen = false;
   };
 
   presetCaps = presets.${preset} or (throw ''mkSandbox: unknown preset "${preset}"'');
@@ -107,9 +110,19 @@ let
       dbusSession
       dbusSystem
       theme
+      portalOpen
       ;
   };
   caps = baseCaps // presetCaps // overrides;
+
+  portalOpenBin = pkgs.runCommand "sandbox-portal-open" { } ''
+    mkdir -p $out/bin
+    ln -s ${pkgs.flatpak-xdg-utils}/bin/xdg-open $out/bin/xdg-open
+    ln -s ${pkgs.flatpak-xdg-utils}/bin/xdg-email $out/bin/xdg-email
+  '';
+  usePortalOpen = caps.portalOpen && caps.dbusSession;
+  sandboxPath =
+    lib.optionalString usePortalOpen "${portalOpenBin}/bin:" + "/run/current-system/sw/bin";
 
   dbusFlags =
     (map (x: "--talk=${x}") dbusTalk)
@@ -263,7 +276,7 @@ let
     #!${pkgs.runtimeShell}
     set -eu
     : "''${XDG_RUNTIME_DIR:=/run/user/$(${pkgs.coreutils}/bin/id -u)}"
-    export PATH=/run/current-system/sw/bin
+    export PATH=${sandboxPath}
 
     for d in ${rwPathsBash}; do
       ${pkgs.coreutils}/bin/mkdir -p "$d"
