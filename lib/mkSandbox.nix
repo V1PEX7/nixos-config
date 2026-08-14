@@ -19,7 +19,6 @@
   roPaths ? [ ],
   extraArgs ? [ ],
 
-  workdirArg ? null,
   bindCwd ? false,
   newSession ? true,
 
@@ -171,7 +170,7 @@ let
     ''--tmpfs "$HOME"''
     ''--tmpfs "$XDG_RUNTIME_DIR"''
   ]
-  ++ lib.optional (workdirArg == null && !bindCwd) ''--chdir "$HOME"'';
+  ++ lib.optional (!bindCwd) ''--chdir "$HOME"'';
 
   themeArgs = lib.optionals caps.theme [
     "--ro-bind-try /etc/profiles /etc/profiles"
@@ -224,7 +223,7 @@ let
 
   unsetArgs = map (v: "--unsetenv ${v}") unsetVars;
 
-  workdirArgs = lib.optionals (workdirArg != null || bindCwd) [
+  workdirArgs = lib.optionals bindCwd [
     ''--bind-try "$WORKDIR" "$WORKDIR"''
     ''--chdir "$WORKDIR"''
   ];
@@ -269,13 +268,6 @@ let
     for d in ${rwPathsBash}; do
       ${pkgs.coreutils}/bin/mkdir -p "$d"
     done
-
-    ${lib.optionalString (workdirArg != null) ''
-      WORKDIR="''${1:-${workdirArg}}"
-      [ "$#" -gt 0 ] && shift || true
-      WORKDIR="$(${pkgs.coreutils}/bin/realpath -m "$WORKDIR")"
-      ${pkgs.coreutils}/bin/mkdir -p "$WORKDIR"
-    ''}
 
     ${lib.optionalString bindCwd ''
       WORKDIR="$(${pkgs.coreutils}/bin/realpath -m "$PWD")"
