@@ -19,6 +19,7 @@
     ncdu
     btop
     nix-tree
+    fd
 
     pavucontrol
 
