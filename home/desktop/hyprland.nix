@@ -9,10 +9,8 @@
 let
   t = theme;
   s = settings;
-  isDesktop = osConfig.networking.hostName == "desktop";
+  inherit (osConfig.modules.desktop.hyprland) monitors;
 
-  # Helper functions to keep our declarative bindings completely concise
-  # Home Manager natively translates `_args` lists into multi-argument Lua function calls.
   mkBind = key: action: {
     _args = [
       key
@@ -137,66 +135,15 @@ in
         }
       ];
 
-      monitor = [
-        {
-          output = "DP-1";
-          mode = "2560x1440@180";
-          position = "0x0";
-          scale = "1";
-          vrr = 1;
-        }
-        {
-          output = "DP-2";
-          mode = "1920x1080@240";
-          position = "-1920x360";
-          scale = "1";
-        }
-        {
-          output = "eDP-1";
-          mode = "2160x1440@60";
-          position = "auto";
-          scale = "1";
-        }
-      ];
+      monitor = map (m: removeAttrs m [ "workspaces" ]) monitors;
 
-      workspace_rule = lib.optionals isDesktop [
-        {
-          workspace = "1";
-          monitor = "DP-1";
-        }
-        {
-          workspace = "2";
-          monitor = "DP-1";
-        }
-        {
-          workspace = "3";
-          monitor = "DP-1";
-        }
-        {
-          workspace = "4";
-          monitor = "DP-1";
-        }
-        {
-          workspace = "5";
-          monitor = "DP-1";
-        }
-        {
-          workspace = "6";
-          monitor = "DP-1";
-        }
-        {
-          workspace = "7";
-          monitor = "DP-2";
-        }
-        {
-          workspace = "8";
-          monitor = "DP-2";
-        }
-        {
-          workspace = "9";
-          monitor = "DP-2";
-        }
-      ];
+      workspace_rule = lib.concatMap (
+        m:
+        map (ws: {
+          workspace = toString ws;
+          monitor = m.output;
+        }) m.workspaces
+      ) monitors;
 
       env = [
         (mkEnv "XCURSOR_THEME" "Bibata-Modern-Classic")

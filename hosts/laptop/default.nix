@@ -15,9 +15,19 @@
     hardware.intel.enable = true;
     desktop.enable = true;
     desktop.hyprland.enable = true;
+    desktop.hyprland.monitors = [
+      {
+        output = "eDP-1";
+        mode = "2160x1440@60";
+        position = "auto";
+        scale = "1";
+      }
+    ];
     networking.enable = true;
     apps.enable = true;
     apps.vm.enable = true;
+
+    apps.gaming.enable = true;
 
     hardening = {
       kernel.basic.enable = true;
