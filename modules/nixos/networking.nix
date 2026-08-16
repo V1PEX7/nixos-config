@@ -11,6 +11,8 @@ in
     networking.networkmanager = {
       enable = true;
       dns = "systemd-resolved";
+      wifi.macAddrezs = "random";
+      ethernet.macAddress = "random";
     };
 
     systemd.services.NetworkManager-wait-online.enable = false;

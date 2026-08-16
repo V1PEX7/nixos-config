@@ -100,7 +100,7 @@ modules/nixos/
   hardening/               kernel.basic, kernel.strict, network, modules
   hardware/                amd, intel, nvidia, audio
   desktop/                 fonts, portals, thunar, hyprland
-  networking.nix           quad9 dot, firewall, no bluetooth default
+  networking.nix           quad9 dot, firewall, mac randomization, no bluetooth default
   apps.nix                 zsh, git, localsend, throne (vpn), gaming (gamescope+lact), docker, vm (libvirt, opt-in)
 home/
   default.nix              imports themes, settings and home modules
