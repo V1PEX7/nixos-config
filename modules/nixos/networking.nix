@@ -11,7 +11,7 @@ in
     networking.networkmanager = {
       enable = true;
       dns = "systemd-resolved";
-      wifi.macAddrezs = "random";
+      wifi.macAddress = "random";
       ethernet.macAddress = "random";
     };
 
