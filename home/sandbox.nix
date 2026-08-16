@@ -48,7 +48,6 @@ let
     preset = "gui-av";
     network = true;
     dbusSystem = true;
-    waylandSecurityContext = false;
     dbusSystemTalk = [
       "org.freedesktop.UDisks2"
     ];
