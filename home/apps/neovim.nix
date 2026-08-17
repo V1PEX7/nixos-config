@@ -214,8 +214,6 @@ in
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-unwrapped;
-    viAlias = true;
-    vimAlias = true;
     withPython3 = false;
     withRuby = false;
 
