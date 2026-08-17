@@ -33,12 +33,6 @@ let
       }
     ];
   };
-  mkEnv = k: v: {
-    _args = [
-      k
-      v
-    ];
-  };
 in
 {
   wayland.windowManager.hyprland = {
@@ -144,18 +138,6 @@ in
           monitor = m.output;
         }) m.workspaces
       ) monitors;
-
-      env = [
-        (mkEnv "XCURSOR_THEME" "Bibata-Modern-Classic")
-        (mkEnv "XCURSOR_SIZE" "20")
-        (mkEnv "QT_AUTO_SCREEN_SCALE_FACTOR" "1")
-        (mkEnv "QT_QPA_PLATFORMTHEME" "gtk3")
-        (mkEnv "QT_QPA_PLATFORM" "wayland")
-        (mkEnv "GDK_BACKEND" "wayland")
-        (mkEnv "XDG_THEME_DESKTOP_SCHEME" "prefer-dark")
-        (mkEnv "XDG_CURRENT_DESKTOP" "Hyprland")
-        (mkEnv "NIXOS_OZONE_WL" "1")
-      ];
 
       bind = [
         # App Launchers

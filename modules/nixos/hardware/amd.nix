@@ -12,7 +12,7 @@ in
     hardware.amdgpu.overdrive.enable = true;
 
     services.xserver.videoDrivers = [ "amdgpu" ];
-    environment.variables.AMD_VULKAN_ICD = "RADV";
+    environment.sessionVariables.AMD_VULKAN_ICD = "RADV";
 
     hardware.graphics.enable = true;
   };

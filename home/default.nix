@@ -4,6 +4,7 @@
     ./themes
     ./settings.nix
     ./common.nix
+    ./env.nix
     ./packages.nix
     ./scripts.nix
     ./sandbox.nix

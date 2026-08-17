@@ -38,8 +38,6 @@ in
       ];
     };
 
-    qt.style = "adwaita-dark";
-
     fonts.packages = with pkgs; [
       nerd-fonts.jetbrains-mono
       dejavu_fonts
@@ -47,17 +45,6 @@ in
       noto-fonts-cjk-sans
       inter
     ];
-
-    environment.sessionVariables = {
-      XCURSOR_PATH = [
-        "$HOME/.icons"
-        "$HOME/.local/share/icons"
-        "/run/current-system/sw/share/icons"
-      ];
-      XCURSOR_THEME = "Bibata-Modern-Classic";
-      XCURSOR_SIZE = "20";
-      NIXOS_OZONE_WL = "1";
-    };
 
     xdg.portal = {
       enable = true;
