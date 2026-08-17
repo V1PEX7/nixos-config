@@ -3,6 +3,7 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    defaultKeymap = "emacs";
 
     autosuggestion = {
       enable = true;
@@ -50,12 +51,16 @@
       fi
       PROMPT="''${_shell_tag}%F{green}➜ %F{cyan}%~%f "
 
-      bindkey ';5C' forward-word
-      bindkey ';5D' backward-word
+      bindkey '^[[1;5C' forward-word
+      bindkey '^[[1;5D' backward-word
+      bindkey '^[[1;2C' forward-word
+      bindkey '^[[1;2D' backward-word
       bindkey '^H' backward-kill-word
       bindkey '^[[3;5~' kill-word
       bindkey '^[[H' beginning-of-line
+      bindkey '^[OH' beginning-of-line
       bindkey '^[[F' end-of-line
+      bindkey '^[OF' end-of-line
       bindkey '^Z' undo
       bindkey '^[.' insert-last-word
     '';
