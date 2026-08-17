@@ -11,7 +11,6 @@
       ]
     ))
     uv
-    neovim
 
     ffmpeg
     yt-dlp

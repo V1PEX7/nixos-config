@@ -21,6 +21,7 @@
     ./apps/matugen.nix
     ./apps/rofi.nix
     ./apps/mime.nix
+    ./apps/neovim.nix
   ];
 
   home.username = username;
