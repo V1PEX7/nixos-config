@@ -5,11 +5,17 @@
   ...
 }:
 let
+  cur = config.home.pointerCursor;
+
   # Preloaded by uwsm into the graphical session
   graphical = {
     GTK_THEME = config.gtk.theme.name;
     XDG_DATA_DIRS = "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}:$XDG_DATA_DIRS";
     XCURSOR_PATH = "$HOME/.icons:$HOME/.local/share/icons:/run/current-system/sw/share/icons";
+    XCURSOR_THEME = cur.name;
+    XCURSOR_SIZE = toString cur.size;
+    HYPRCURSOR_THEME = cur.name;
+    HYPRCURSOR_SIZE = toString cur.size;
 
     TERMINAL = "foot";
 
