@@ -55,7 +55,7 @@ in
       "hyprland/workspaces" = {
         format = "{id}";
         on-click = "activate";
-        persistent-workspaces."*" = 9;
+        persistent-workspaces."*" = s.workspaces;
       };
 
       "hyprland/window" = {
