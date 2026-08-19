@@ -2,6 +2,7 @@
 {
   imports = [
     ./themes
+    ./options.nix
     ./settings.nix
     ./common.nix
     ./env.nix
