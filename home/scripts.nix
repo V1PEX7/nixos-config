@@ -53,7 +53,7 @@
 
       ${pkgs.procps}/bin/pkill swaybg || true
       ln -sf "$WALL_DIR/$PICK" "$HOME/.config/wallpaper"
-      ${pkgs.swaybg}/bin/swaybg -i "$HOME/.config/wallpaper" -m fill &
+      uwsm app -- ${pkgs.swaybg}/bin/swaybg -i "$HOME/.config/wallpaper" -m fill &
       disown
     '')
 
