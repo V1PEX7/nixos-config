@@ -28,52 +28,63 @@ let
     let
       need = k: throw "theme '${name}': missing ${k}";
 
-      top =
-        resolve name ""
-          {
-            bg = need "bg";
-            surface = need "surface";
-            fg = need "fg";
-            accent = need "accent";
-            hover = need "hover";
-            red = need "red";
-            green = need "green";
-            yellow = need "yellow";
+      givenTop = removeAttrs raw [
+        "term"
+        "hypr"
+      ];
 
-            contrast = "#000000";
-            shadow = top.bg;
-            dim = "0.35";
-            calMonth = top.fg;
-            calWeekdays = top.yellow;
-            calToday = top.accent;
-          }
-          (
-            removeAttrs raw [
-              "term"
-              "hypr"
-            ]
-          );
+      topBase = {
+        bg = need "bg";
+        surface = need "surface";
+        fg = need "fg";
+        accent = need "accent";
+        hover = need "hover";
+        red = need "red";
+        green = need "green";
+        yellow = need "yellow";
 
-      term = resolve name "term " (
-        {
-          black = need "term.black";
-          red = need "term.red";
-          green = need "term.green";
-          yellow = need "term.yellow";
-          blue = need "term.blue";
-          magenta = need "term.magenta";
-          cyan = need "term.cyan";
-          white = need "term.white";
-          selBg = need "term.selBg";
-          curCursor = need "term.curCursor";
+        contrast = "#000000";
+        dim = "0.35";
+      };
 
-          bg = top.bg;
-          fg = top.fg;
-          selText = term.fg;
-          curText = term.bg;
-        }
-        // lib.mapAttrs (_: src: term.${src}) brightOf
-      ) (raw.term or { });
+      topSeed = topBase // builtins.intersectAttrs topBase givenTop;
+
+      topDerived = {
+        shadow = topSeed.bg;
+        calMonth = topSeed.fg;
+        calWeekdays = topSeed.yellow;
+        calToday = topSeed.accent;
+      };
+
+      top = resolve name "" (topBase // topDerived) givenTop;
+
+      givenTerm = raw.term or { };
+
+      termBase = {
+        black = need "term.black";
+        red = need "term.red";
+        green = need "term.green";
+        yellow = need "term.yellow";
+        blue = need "term.blue";
+        magenta = need "term.magenta";
+        cyan = need "term.cyan";
+        white = need "term.white";
+        selBg = need "term.selBg";
+        curCursor = need "term.curCursor";
+
+        bg = top.bg;
+        fg = top.fg;
+      };
+
+      termSeed = termBase // builtins.intersectAttrs termBase givenTerm;
+
+      termDerived = {
+        selText = termSeed.fg;
+        curText = termSeed.bg;
+      }
+      // lib.mapAttrs (_: src: termSeed.${src}) brightOf;
+
+      term = resolve name "term " (termBase // termDerived) givenTerm;
 
       hypr = resolve name "hypr " {
         active_border = rgba "ff" top.accent;
