@@ -25,6 +25,21 @@
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.tmp.cleanOnBoot = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  modules = {
+    hardware.audio.enable = true;
+    desktop.enable = true;
+    desktop.hyprland.enable = true;
+    networking.enable = true;
+    apps.enable = true;
+
+    hardening = {
+      kernel.basic.enable = true;
+      network.enable = true;
+      modules.enable = true;
+    };
+  };
 
   services.printing.enable = false;
   services.speechd.enable = lib.mkForce false;
@@ -66,4 +81,6 @@
       "video"
     ];
   };
+
+  system.stateVersion = "26.11";
 }

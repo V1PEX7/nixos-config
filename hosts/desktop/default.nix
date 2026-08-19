@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 {
   imports = [
     ./hardware-configuration.nix
@@ -6,13 +6,8 @@
 
   networking.hostName = "desktop";
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   modules = {
     hardware.amd.enable = true;
-    hardware.audio.enable = true;
-    desktop.enable = true;
-    desktop.hyprland.enable = true;
     desktop.hyprland.monitors = [
       {
         output = "DP-1";
@@ -41,18 +36,9 @@
         ];
       }
     ];
-    networking.enable = true;
-    apps.enable = true;
     apps.gaming.enable = true;
     apps.docker.enable = false;
 
-    hardening = {
-      kernel.basic.enable = true;
-      kernel.strict.enable = false;
-      network.enable = true;
-      modules.enable = true;
-    };
+    hardening.kernel.strict.enable = false;
   };
-
-  system.stateVersion = "26.11";
 }
