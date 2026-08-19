@@ -149,7 +149,7 @@ in
 
       bind = [
         # App Launchers
-        (mkBind "SUPER + t" "hl.dsp.exec_cmd('uwsm app -- foot')")
+        (mkBind "SUPER + t" "hl.dsp.exec_cmd('uwsm app -- ${s.terminal}')")
         (mkBind "SUPER + e" "hl.dsp.exec_cmd('uwsm app -- thunar')")
         (mkBind "SUPER + w" "hl.dsp.exec_cmd('uwsm app -- firefox')")
         (mkBind "SUPER + space" "hl.dsp.exec_cmd('uwsm app -- rofi -show drun')")
@@ -469,8 +469,8 @@ in
 
   xdg.configFile."hypr/autostart.sh".source = pkgs.writeShellScript "hypr-autostart" ''
 
-    if [ -f "$HOME/.config/wallpaper" ]; then
-      uwsm app -- swaybg -i "$HOME/.config/wallpaper" -m fill &
+    if [ -f "${s.wallpaper}" ]; then
+      uwsm app -- swaybg -i "${s.wallpaper}" -m fill &
     fi
 
     uwsm app -- wl-clip-persist --clipboard regular --reconnect-tries 0 &

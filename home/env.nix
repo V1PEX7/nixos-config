@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  settings,
   ...
 }:
 let
@@ -17,7 +18,7 @@ let
     HYPRCURSOR_THEME = cur.name;
     HYPRCURSOR_SIZE = toString cur.size;
 
-    TERMINAL = "foot";
+    TERMINAL = settings.terminal;
 
     GDK_BACKEND = "wayland";
     QT_QPA_PLATFORM = "wayland;xcb";

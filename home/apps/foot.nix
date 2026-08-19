@@ -15,10 +15,10 @@ in
     package = pkgs.foot;
     settings = {
       main = {
-        font = "JetBrains Mono Nerd Font:size=12";
+        font = "${s.font.family}:size=${toString s.font.size}";
         shell = "zsh";
         term = "foot";
-        pad = "25x25";
+        pad = "${toString s.terminalPadding}x${toString s.terminalPadding}";
       };
 
       cursor = {
@@ -37,7 +37,7 @@ in
       };
 
       "colors-dark" = {
-        alpha = "0.95";
+        alpha = s.terminalOpacity;
         blur = if s.blur then "yes" else "no";
         background = strip t.term.bg;
         foreground = strip t.term.fg;

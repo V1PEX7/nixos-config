@@ -39,12 +39,12 @@ in
     enable = true;
     package = pkgs.rofi;
     plugins = [ pkgs.rofi-calc ];
-    terminal = "foot";
+    terminal = s.terminal;
 
     extraConfig = {
       modi = "drun,calc,window:${hyprlandWindowMode}";
       show-icons = true;
-      icon-theme = "Papirus-Dark";
+      icon-theme = s.iconTheme.name;
       drun-display-format = "{name}";
       disable-history = false;
 
@@ -54,7 +54,7 @@ in
 
     theme = {
       "*" = {
-        font = "JetBrains Mono Nerd Font 12";
+        font = "${s.font.family} ${toString s.font.size}";
 
         bg0 = mkLiteral t.bg;
         bg1 = mkLiteral t.surface;

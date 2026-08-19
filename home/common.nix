@@ -1,46 +1,39 @@
 {
   config,
   lib,
-  pkgs,
-  theme,
   settings,
   repoPath,
   ...
 }:
 let
-  t = theme;
   s = settings;
 
   dotfilesPath = "${repoPath}/dotfiles";
-  localDotfilesPath = ../dotfiles;
-  dirContents =
-    if builtins.pathExists localDotfilesPath then builtins.readDir localDotfilesPath else { };
+  dirContents = builtins.readDir ../dotfiles;
   mkMutableEntry = name: _: {
     source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${name}";
   };
 
-  GTK_THEME_NAME = "adw-gtk3-dark";
-  GTK_CURSOR_NAME = "Bibata-Modern-Classic";
 in
 {
   home.pointerCursor = {
     enable = true;
-    name = GTK_CURSOR_NAME;
+    name = s.cursor.name;
     gtk.enable = true;
-    package = pkgs.bibata-cursors;
-    size = 20;
+    package = s.cursor.package;
+    size = s.cursor.size;
     x11.enable = true;
   };
 
   gtk = {
     enable = true;
     theme = {
-      name = GTK_THEME_NAME;
-      package = pkgs.adw-gtk3;
+      name = s.gtkTheme.name;
+      package = s.gtkTheme.package;
     };
     gtk4.theme = {
-      name = GTK_THEME_NAME;
-      package = pkgs.adw-gtk3;
+      name = s.gtkTheme.name;
+      package = s.gtkTheme.package;
     };
     gtk3.extraConfig = {
       gtk-enable-animations = s.animations;
@@ -54,18 +47,18 @@ in
       gtk-hint-font-metrics = true;
     };
     iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
+      name = s.iconTheme.name;
+      package = s.iconTheme.package;
     };
   };
 
   dconf.settings = {
     "org/gnome/desktop/interface" = {
-      gtk-theme = GTK_THEME_NAME;
+      gtk-theme = s.gtkTheme.name;
       color-scheme = "prefer-dark";
-      cursor-theme = GTK_CURSOR_NAME;
-      cursor-size = 20;
-      icon-theme = "Papirus-Dark";
+      cursor-theme = s.cursor.name;
+      cursor-size = s.cursor.size;
+      icon-theme = s.iconTheme.name;
     };
   };
 

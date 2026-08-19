@@ -1,11 +1,12 @@
 {
-  config,
   theme,
+  settings,
   strip,
   ...
 }:
 let
   t = theme;
+  s = settings;
 in
 {
   programs.hyprlock = {
@@ -22,7 +23,7 @@ in
       background = [
         {
           monitor = "";
-          path = "${config.home.homeDirectory}/.config/wallpaper";
+          path = s.wallpaper;
           blur_passes = 4;
           blur_size = 8;
 
@@ -57,7 +58,7 @@ in
           text = "$TIME";
           color = "rgb(${strip t.fg})";
           font_size = 64;
-          font_family = "JetBrains Mono Nerd Font";
+          font_family = s.font.family;
           position = "0, 80";
           halign = "center";
           valign = "center";
@@ -68,7 +69,7 @@ in
           text = "$LAYOUT";
           color = "rgb(${strip t.fg})";
           font_size = 12;
-          font_family = "JetBrains Mono Nerd Font";
+          font_family = s.font.family;
           position = "0, -85";
           halign = "center";
           valign = "center";

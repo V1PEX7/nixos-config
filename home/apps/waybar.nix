@@ -106,7 +106,7 @@ in
         tooltip-format-disconnected = "Disconnected";
         interval = 3;
         spacing = 1;
-        on-click = "foot -e nmtui";
+        on-click = "${s.terminal} -e nmtui";
       };
 
       tray = {
@@ -161,13 +161,13 @@ in
       memory = {
         interval = 2;
         format = " {used:0.1f}GB";
-        on-click = "foot -e btop";
+        on-click = "${s.terminal} -e btop";
       };
 
       cpu = {
         interval = 2;
         format = "{usage:02}% 󰍛";
-        on-click = "foot -e btop";
+        on-click = "${s.terminal} -e btop";
         states = {
           warning = 60;
           critical = 90;
@@ -223,7 +223,7 @@ in
 
     style = ''
       * {
-        font-family: "JetBrainsMono Nerd Font Propo";
+        font-family: "${s.font.familyPropo}";
         font-size: 12px;
         font-weight: bold;
         border-radius: ${toString s.rounding}px;

@@ -1,4 +1,7 @@
-{ pkgs, ... }:
+{ pkgs, settings, ... }:
+let
+  s = settings;
+in
 {
   home.packages = [
     (pkgs.writeShellScriptBin "freeze-screenshot-satty" ''
@@ -52,8 +55,8 @@
       [ -z "$PICK" ] && exit 0
 
       ${pkgs.procps}/bin/pkill swaybg || true
-      ln -sf "$WALL_DIR/$PICK" "$HOME/.config/wallpaper"
-      uwsm app -- ${pkgs.swaybg}/bin/swaybg -i "$HOME/.config/wallpaper" -m fill &
+      ln -sf "$WALL_DIR/$PICK" "${s.wallpaper}"
+      uwsm app -- ${pkgs.swaybg}/bin/swaybg -i "${s.wallpaper}" -m fill &
       disown
     '')
 

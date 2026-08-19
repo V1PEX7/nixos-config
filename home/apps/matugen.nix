@@ -1,5 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, settings, ... }:
 let
+  s = settings;
   # a drop-in theme for home/themes/; derived keys are omitted
   template = pkgs.writeText "matugen-theme.nix" ''
     {
@@ -56,7 +57,7 @@ in
   home.packages = [
     (pkgs.writeShellScriptBin "mktheme" ''
       set -euo pipefail
-      RAW="''${1:-$HOME/.config/wallpaper}"
+      RAW="''${1:-${s.wallpaper}}"
 
       if [[ "$RAW" =~ ^# ]]; then
         exec ${pkgs.matugen}/bin/matugen color hex "$RAW" -m dark -c ${matugenConfig}
