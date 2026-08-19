@@ -29,13 +29,13 @@ My NixOS dotfiles. Two machines (desktop + laptop), single user.
 
 ## Sandboxing
 
-Some apps run inside bubblewrap sandboxes: `vesktop`, `telegram-desktop`, `qbittorrent`, and (when gaming is enabled) `steam`.
+Some apps run inside bubblewrap sandboxes: `vesktop`, `telegram-desktop`, `qbittorrent`, `claude`, and (when gaming is enabled) `steam`.
 
 Each sandbox isolates the application with a tmpfs `$HOME`, strict file permissions, and **`xdg-dbus-proxy` filtering**. DBus session and system buses are proxy-filtered so applications can only interact with explicitly whitelisted interfaces (e.g., status tray notifications, MPRIS media controls, or screensaver/power management). GUI sandboxes get a portal-backed `xdg-open`/`xdg-email` on their `PATH` (`portalOpen`).
 
 GUI sandboxes get their own Wayland socket through the security-context protocol, so Hyprland withholds screen capture, clipboard snooping, input injection, window enumeration and global shortcuts from them. Steam is the exception: it binds `/tmp/.X11-unix`, and X11 has no equivalent.
 
-There's also a `code-shell` sandbox: a network-enabled, headless zsh environment scoped to `~/Code` for running untrusted project tooling without full home-directory access.
+There's also a `code-shell` sandbox: a network-enabled, headless zsh environment scoped to the project directory it is run from, for running untrusted project tooling without full home-directory access.
 
 Defined in `home/sandbox.nix`, wrapper and proxy logic in `lib/mkSandbox.nix`.
 
@@ -69,7 +69,7 @@ Palettes live in `home/themes/`, one file per theme, selected with `theme` in `h
 
 ## Gaming
 
-Gaming is opt-in per host (`modules.apps.gaming.enable`). Includes Steam (sandboxed), `gamescope`, `lact` (AMD GPU tuning), and 32-bit graphics support. `kernel.strict` is kept off on gaming hosts so anti-cheats don't complain, and `allow_tearing` is enabled in Hyprland.
+Gaming is opt-in per host (`modules.apps.gaming.enable`). Includes Steam (sandboxed), `gamescope`, `lact` (AMD GPU tuning), and 32-bit graphics support. Enabled on both hosts. `kernel.strict` is kept off on desktop so anti-cheats don't complain, and `allow_tearing` is enabled in Hyprland.
 
 ## Virtualization (opt-in)
 
@@ -80,7 +80,7 @@ A `modules.apps.vm.enable` toggle exists for a full libvirt/virt-manager stack (
 Two host configs under `hosts/`:
 
 - **desktop** - AMD GPU (`RADV`), dual monitor setup (2560x1440@180 + 1920x1080@240), gaming enabled, relaxed kernel hardening
-- **laptop** - Intel GPU (`i915` + `iHD` media driver), power-profiles-daemon, strict kernel hardening, speaker fix script, VM enabled
+- **laptop** - Intel GPU (`i915` + `iHD` media driver), power-profiles-daemon, strict kernel hardening, speaker fix script, gaming and VM enabled
 
 GPU modules for AMD, Intel, and NVIDIA exist separately under `modules/nixos/hardware/`. Audio is driven by PipeWire (ALSA 32-bit disabled, 48kHz clock rate base with dynamic rate switching).
 
