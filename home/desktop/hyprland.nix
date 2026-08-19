@@ -33,6 +33,14 @@ let
       }
     ];
   };
+  mkBindLocked =
+    key: action:
+    mkBindOpt key action {
+      locked = true;
+      dont_inhibit = true;
+    };
+
+  workspaces = lib.range 1 s.workspaces;
 in
 {
   wayland.windowManager.hyprland = {
@@ -232,35 +240,16 @@ in
         (mkBindP "SUPER + SHIFT + period" "hl.dsp.window.move({ monitor = 'r' })")
 
         # Workspaces
-        (mkBindP "SUPER + 1" "hl.dsp.focus({ workspace = 1 })")
-        (mkBindP "SUPER + 2" "hl.dsp.focus({ workspace = 2 })")
-        (mkBindP "SUPER + 3" "hl.dsp.focus({ workspace = 3 })")
-        (mkBindP "SUPER + 4" "hl.dsp.focus({ workspace = 4 })")
-        (mkBindP "SUPER + 5" "hl.dsp.focus({ workspace = 5 })")
-        (mkBindP "SUPER + 6" "hl.dsp.focus({ workspace = 6 })")
-        (mkBindP "SUPER + 7" "hl.dsp.focus({ workspace = 7 })")
-        (mkBindP "SUPER + 8" "hl.dsp.focus({ workspace = 8 })")
-        (mkBindP "SUPER + 9" "hl.dsp.focus({ workspace = 9 })")
-
-        (mkBindP "SUPER + ALT + 1" "hl.dsp.window.move({ workspace = 1 })")
-        (mkBindP "SUPER + ALT + 2" "hl.dsp.window.move({ workspace = 2 })")
-        (mkBindP "SUPER + ALT + 3" "hl.dsp.window.move({ workspace = 3 })")
-        (mkBindP "SUPER + ALT + 4" "hl.dsp.window.move({ workspace = 4 })")
-        (mkBindP "SUPER + ALT + 5" "hl.dsp.window.move({ workspace = 5 })")
-        (mkBindP "SUPER + ALT + 6" "hl.dsp.window.move({ workspace = 6 })")
-        (mkBindP "SUPER + ALT + 7" "hl.dsp.window.move({ workspace = 7 })")
-        (mkBindP "SUPER + ALT + 8" "hl.dsp.window.move({ workspace = 8 })")
-        (mkBindP "SUPER + ALT + 9" "hl.dsp.window.move({ workspace = 9 })")
-
-        (mkBindP "SUPER + SHIFT + 1" "hl.dsp.window.move({ workspace = 1, follow = false })")
-        (mkBindP "SUPER + SHIFT + 2" "hl.dsp.window.move({ workspace = 2, follow = false })")
-        (mkBindP "SUPER + SHIFT + 3" "hl.dsp.window.move({ workspace = 3, follow = false })")
-        (mkBindP "SUPER + SHIFT + 4" "hl.dsp.window.move({ workspace = 4, follow = false })")
-        (mkBindP "SUPER + SHIFT + 5" "hl.dsp.window.move({ workspace = 5, follow = false })")
-        (mkBindP "SUPER + SHIFT + 6" "hl.dsp.window.move({ workspace = 6, follow = false })")
-        (mkBindP "SUPER + SHIFT + 7" "hl.dsp.window.move({ workspace = 7, follow = false })")
-        (mkBindP "SUPER + SHIFT + 8" "hl.dsp.window.move({ workspace = 8, follow = false })")
-        (mkBindP "SUPER + SHIFT + 9" "hl.dsp.window.move({ workspace = 9, follow = false })")
+      ]
+      ++ map (n: mkBindP "SUPER + ${toString n}" "hl.dsp.focus({ workspace = ${toString n} })") workspaces
+      ++ map (
+        n: mkBindP "SUPER + ALT + ${toString n}" "hl.dsp.window.move({ workspace = ${toString n} })"
+      ) workspaces
+      ++ map (
+        n:
+        mkBindP "SUPER + SHIFT + ${toString n}" "hl.dsp.window.move({ workspace = ${toString n}, follow = false })"
+      ) workspaces
+      ++ [
 
         (mkBindP "SUPER + Page_Up" "hl.dsp.focus({ workspace = 'e-1' })")
         (mkBindP "SUPER + Page_Down" "hl.dsp.focus({ workspace = 'e+1' })")
@@ -283,49 +272,16 @@ in
         (mkBindP "SUPER + ALT + l" "hl.dsp.exec_cmd('loginctl lock-session')")
 
         # Media keys
-        (mkBindOpt "XF86AudioRaiseVolume"
-          "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0')"
-          {
-            locked = true;
-            dont_inhibit = true;
-          }
-        )
-        (mkBindOpt "XF86AudioLowerVolume" "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-')" {
-          locked = true;
-          dont_inhibit = true;
-        })
-        (mkBindOpt "XF86AudioMute" "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle')" {
-          locked = true;
-          dont_inhibit = true;
-        })
-        (mkBindOpt "XF86AudioMicMute" "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle')" {
-          locked = true;
-          dont_inhibit = true;
-        })
-        (mkBindOpt "XF86AudioPlay" "hl.dsp.exec_cmd('playerctl play-pause')" {
-          locked = true;
-          dont_inhibit = true;
-        })
-        (mkBindOpt "XF86AudioStop" "hl.dsp.exec_cmd('playerctl stop')" {
-          locked = true;
-          dont_inhibit = true;
-        })
-        (mkBindOpt "XF86AudioPrev" "hl.dsp.exec_cmd('playerctl previous')" {
-          locked = true;
-          dont_inhibit = true;
-        })
-        (mkBindOpt "XF86AudioNext" "hl.dsp.exec_cmd('playerctl next')" {
-          locked = true;
-          dont_inhibit = true;
-        })
-        (mkBindOpt "XF86MonBrightnessUp" "hl.dsp.exec_cmd('brightnessctl --class=backlight set +10%')" {
-          locked = true;
-          dont_inhibit = true;
-        })
-        (mkBindOpt "XF86MonBrightnessDown" "hl.dsp.exec_cmd('brightnessctl --class=backlight set 10%-')" {
-          locked = true;
-          dont_inhibit = true;
-        })
+        (mkBindLocked "XF86AudioRaiseVolume" "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0')")
+        (mkBindLocked "XF86AudioLowerVolume" "hl.dsp.exec_cmd('wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-')")
+        (mkBindLocked "XF86AudioMute" "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle')")
+        (mkBindLocked "XF86AudioMicMute" "hl.dsp.exec_cmd('wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle')")
+        (mkBindLocked "XF86AudioPlay" "hl.dsp.exec_cmd('playerctl play-pause')")
+        (mkBindLocked "XF86AudioStop" "hl.dsp.exec_cmd('playerctl stop')")
+        (mkBindLocked "XF86AudioPrev" "hl.dsp.exec_cmd('playerctl previous')")
+        (mkBindLocked "XF86AudioNext" "hl.dsp.exec_cmd('playerctl next')")
+        (mkBindLocked "XF86MonBrightnessUp" "hl.dsp.exec_cmd('brightnessctl --class=backlight set +10%')")
+        (mkBindLocked "XF86MonBrightnessDown" "hl.dsp.exec_cmd('brightnessctl --class=backlight set 10%-')")
 
         # Mouse Move and Resize
         (mkBindOpt "SUPER + mouse:272" "hl.dsp.window.drag()" { mouse = true; })
