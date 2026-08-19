@@ -12,9 +12,12 @@
         exit 0
       fi
 
-      ${pkgs.grim}/bin/grim -g "$GEOM" -t ppm /tmp/frozen-screenshot.ppm
+      SHOT=$(${pkgs.coreutils}/bin/mktemp --suffix=.ppm)
+      trap '${pkgs.coreutils}/bin/rm -f "$SHOT"' EXIT
+
+      ${pkgs.grim}/bin/grim -g "$GEOM" -t ppm "$SHOT"
       kill $WF_PID
-      ${pkgs.satty}/bin/satty -f /tmp/frozen-screenshot.ppm &
+      ${pkgs.satty}/bin/satty -f "$SHOT"
     '')
 
     (pkgs.writeShellScriptBin "freeze-screenshot" ''
@@ -56,7 +59,7 @@
 
     (pkgs.writeShellScriptBin "hypr-zoom" ''
       set -euo pipefail
-      exec 200>/tmp/hypr-zoom.lock
+      exec 200>"''${XDG_RUNTIME_DIR:-/tmp}/hypr-zoom.lock"
       flock 200
 
       step="0.5"; min="1"; max="10"
