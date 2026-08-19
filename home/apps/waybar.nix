@@ -226,7 +226,7 @@ in
         font-family: "JetBrainsMono Nerd Font Propo";
         font-size: 12px;
         font-weight: bold;
-        border-radius: 5px;
+        border-radius: ${toString s.rounding}px;
         min-height: 20px;
       }
 
@@ -244,7 +244,7 @@ in
         font-size: 15px;
         margin: 3px 4px;
         padding: 0 8px;
-        border-radius: 5px;
+        border-radius: ${toString s.rounding}px;
         background-color: ${t.surface};
       }
 
@@ -260,7 +260,7 @@ in
         padding: 0 4px;
         background-color: transparent;
         color: ${t.fg};
-        border-radius: 5px;
+        border-radius: ${toString s.rounding}px;
         transition: 0.15s ease-in-out;
       }
 
