@@ -23,9 +23,7 @@ in
       spacing = 0;
 
       modules-left = [
-        "custom/nix"
         "hyprland/workspaces"
-        #"mpris"
         "hyprland/window"
       ];
 
@@ -46,11 +44,6 @@ in
         "hyprland/language"
         "battery"
       ];
-
-      "custom/nix" = {
-        format = "";
-        tooltip-format = "NixOS";
-      };
 
       "hyprland/workspaces" = {
         format = "{id}";
@@ -240,19 +233,11 @@ in
         border-radius: 0;
       }
 
-      #custom-nix {
-        font-size: 15px;
-        margin: 3px 4px;
-        padding: 0 8px;
-        border-radius: ${toString s.rounding}px;
-        background-color: ${t.surface};
-      }
-
       #workspaces {
         margin: 3px 2px;
+        margin-left: ${toString s.gaps_out}px;
         padding: 0 1px;
         background-color: ${t.surface};
-        margin-left: 0px;
       }
 
       #workspaces button {
@@ -288,7 +273,6 @@ in
       #battery,
       #cpu,
       #memory,
-      #mpris,
       #network,
       #pulseaudio,
       #power-profiles-daemon,
@@ -319,6 +303,7 @@ in
       #battery {
         background-color: ${t.surface};
         color: ${t.fg};
+        margin-right: ${toString s.gaps_out}px;
       }
 
       #battery.charging,
@@ -384,11 +369,6 @@ in
         animation-direction: alternate;
       }
 
-      #mpris {
-        background-color: ${t.surface};
-        color: ${t.fg};
-      }
-
       #network {
         background-color: ${t.surface};
       }
@@ -421,11 +401,6 @@ in
         to {
           color: @background;
         }
-      }
-
-      #mpris {
-        font-size: 13px;
-        margin: 3px 2px;
       }
 
       #privacy {
