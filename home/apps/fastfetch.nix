@@ -20,18 +20,39 @@
         format = "───────────────────────────────";
         outputColor = "90";
       }
-      { type = "os"; key = "OS"; }
-      { type = "kernel"; key = "Kernel"; }
-      { type = "uptime"; key = "Uptime"; }
-      { type = "packages"; key = "Pkgs"; }
+      {
+        type = "os";
+        key = "OS";
+      }
+      {
+        type = "kernel";
+        key = "Kernel";
+      }
+      {
+        type = "uptime";
+        key = "Uptime";
+      }
+      {
+        type = "packages";
+        key = "Pkgs";
+      }
       {
         type = "custom";
         format = "───────────────────────────────";
         outputColor = "90";
       }
-      { type = "shell"; key = "Shell"; }
-      { type = "wm"; key = "WM"; }
-      { type = "terminal"; key = "Term"; }
+      {
+        type = "shell";
+        key = "Shell";
+      }
+      {
+        type = "wm";
+        key = "WM";
+      }
+      {
+        type = "terminal";
+        key = "Term";
+      }
       {
         type = "custom";
         format = "───────────────────────────────";
@@ -47,7 +68,10 @@
         key = "GPU";
         hideType = "integrated";
       }
-      { type = "memory"; key = "RAM"; }
+      {
+        type = "memory";
+        key = "RAM";
+      }
       {
         type = "custom";
         format = "───────────────────────────────";

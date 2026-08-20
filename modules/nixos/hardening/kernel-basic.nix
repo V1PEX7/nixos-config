@@ -3,7 +3,8 @@ let
   cfg = config.modules.hardening.kernel.basic;
 in
 {
-  options.modules.hardening.kernel.basic.enable = lib.mkEnableOption "basic kernel hardening (safe for games)";
+  options.modules.hardening.kernel.basic.enable =
+    lib.mkEnableOption "basic kernel hardening (safe for games)";
 
   config = lib.mkIf cfg.enable {
     boot.kernel.sysctl = {
