@@ -1,4 +1,3 @@
-# File: ./home/desktop/hypridle.nix
 { ... }:
 {
   services.hypridle = {

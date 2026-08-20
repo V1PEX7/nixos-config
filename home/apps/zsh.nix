@@ -39,8 +39,6 @@
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
     '';
 
-    shellAliases = { };
-
     initContent = ''
       if [[ -n "$IN_CODE_SHELL" ]]; then
         _shell_tag='%F{red}(code-shell)%f '

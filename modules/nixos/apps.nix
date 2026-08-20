@@ -45,11 +45,6 @@ in
 
         services.lact.enable = true;
 
-        environment.systemPackages = with pkgs; [
-          # mangohud
-          # goverlay
-        ];
-
         hardware.graphics.enable32Bit = true;
       })
 

@@ -36,7 +36,6 @@ in
         "tray"
         "network"
         "backlight"
-        #"bluetooth"
         "pulseaudio"
         "power-profiles-daemon"
         "memory"
@@ -117,13 +116,6 @@ in
           "🌖"
           "🌕"
         ];
-      };
-
-      bluetooth = {
-        format = " {status}";
-        format-disabled = "󰂲";
-        format-connected = "";
-        tooltip-format = "Devices connected: {num_connections}";
       };
 
       pulseaudio = {
@@ -223,10 +215,6 @@ in
         min-height: 20px;
       }
 
-      tooltip {
-        opacity: 1;
-      }
-
       window#waybar {
         background-color: ${t.bg};
         color: ${t.fg};
@@ -277,7 +265,6 @@ in
       #pulseaudio,
       #power-profiles-daemon,
       #tray,
-      #bluetooth,
       #backlight,
       #language {
         padding: 0 8px;
@@ -378,15 +365,6 @@ in
         color: ${t.contrast};
       }
 
-      #bluetooth {
-        background-color: ${t.surface};
-      }
-
-      #bluetooth.disabled {
-        background-color: ${t.accent};
-        color: ${t.contrast};
-      }
-
       #pulseaudio {
         background-color: ${t.surface};
         color: ${t.fg};
@@ -395,12 +373,6 @@ in
       #pulseaudio.muted {
         background-color: ${t.accent};
         color: ${t.contrast};
-      }
-
-      @keyframes blink-inhibitor {
-        to {
-          color: @background;
-        }
       }
 
       #privacy {
@@ -418,6 +390,7 @@ in
       }
 
       tooltip {
+        opacity: 1;
         padding: 4px;
         background: ${t.surface};
         border: 1px solid alpha(${t.fg}, 0.8);

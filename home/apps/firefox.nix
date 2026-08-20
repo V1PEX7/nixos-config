@@ -119,7 +119,6 @@
         "signon.rememberSignons" = false;
         "signon.autofillForms" = false;
 
-        #"dom.event.clipboardevents.enabled" = false;
         "dom.push.enabled" = false;
         "dom.webnotifications.enabled" = false;
 
@@ -154,8 +153,6 @@
 
         "browser.nova.enabled" = true;
       };
-
-      userChrome = "";
     };
   };
 }
