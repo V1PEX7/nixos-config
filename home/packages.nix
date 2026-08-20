@@ -18,6 +18,8 @@
     ncdu
     btop
     nix-tree
+
+    ripgrep
     fd
 
     pavucontrol
