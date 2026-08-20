@@ -47,6 +47,7 @@ let
     };
     preset = "gui-av";
     network = true;
+    xwayland = true;
     dbusSystem = true;
     dbusSystemTalk = [
       "org.freedesktop.UDisks2"
@@ -73,7 +74,6 @@ let
     extraArgs = [
       "--dev-bind /dev/input /dev/input"
       "--ro-bind-try /run/udev /run/udev"
-      "--ro-bind-try /tmp/.X11-unix /tmp/.X11-unix"
       "--ro-bind-try /run/systemd/resolve /run/systemd/resolve"
     ];
   };

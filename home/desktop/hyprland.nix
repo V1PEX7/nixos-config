@@ -445,6 +445,8 @@ in
         };
         xwayland = {
           enabled = true;
+          # Would be reachable through a sandbox's shared netns
+          create_abstract_socket = false;
         };
         ecosystem = {
           enforce_permissions = true;

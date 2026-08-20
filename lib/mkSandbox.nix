@@ -27,6 +27,8 @@
   network ? null,
   gpu ? null,
   wayland ? null,
+  # Nested Xwayland (xwayland-satellite) inside the sandbox
+  xwayland ? null,
   pipewire ? null,
   pulse ? null,
   dbusSession ? null,
@@ -58,6 +60,7 @@
   dbusSystemCall ? [ ],
 
   unsetVars ? [
+    "DISPLAY"
     "WAYLAND_SOCKET"
     "SSH_AUTH_SOCK"
     "SSH_AGENT_PID"
@@ -95,6 +98,7 @@ let
     network = false;
     gpu = false;
     wayland = false;
+    xwayland = false;
     pipewire = false;
     pulse = false;
     dbusSession = false;
@@ -110,6 +114,7 @@ let
       network
       gpu
       wayland
+      xwayland
       pipewire
       pulse
       dbusSession
@@ -119,7 +124,13 @@ let
       nix
       ;
   };
-  caps = baseCaps // presetCaps // overrides;
+  caps =
+    let
+      merged = baseCaps // presetCaps // overrides;
+    in
+    lib.throwIf (
+      merged.xwayland && !merged.wayland
+    ) ''mkSandbox: "${name}" enables xwayland without wayland'' merged;
 
   portalOpenBin = pkgs.runCommand "sandbox-portal-open" { } ''
     mkdir -p $out/bin
@@ -274,20 +285,61 @@ let
   argsLines = lib.concatStringsSep " \\\n  " allArgs;
   rwPathsBash = lib.concatMapStringsSep " " (p: ''"${p}"'') rwPaths;
 
+  appBin = "${package}/${binPath}";
+
+  # High enough to stay clear of real sessions
+  xDisplayMin = 90;
+  xDisplayMax = 120;
+
+  # Private X server on the sandbox's own restricted Wayland socket
+  xwaylandLauncher = pkgs.writeShellScript "${name}-xwayland" ''
+    set -eu
+
+    ${waitForSocketFn}
+
+    ${pkgs.coreutils}/bin/mkdir -p /tmp/.X11-unix
+
+    # Abstract sockets are shared via --share-net, so check the host's too
+    num=${toString xDisplayMin}
+    while [ "$num" -lt ${toString xDisplayMax} ]; do
+      if ! ${pkgs.gnugrep}/bin/grep -qE " @?/tmp/\.X11-unix/X$num\$" /proc/net/unix && [ ! -e "/tmp/.X11-unix/X$num" ]; then
+        break
+      fi
+      num=$((num + 1))
+    done
+
+    if [ "$num" -ge ${toString xDisplayMax} ]; then
+      echo "${name}: no free X display in :${toString xDisplayMin}-:${toString (xDisplayMax - 1)}" >&2
+      exit 1
+    fi
+
+    ${pkgs.xwayland-satellite}/bin/xwayland-satellite ":$num" &
+    sat_pid=$!
+
+    wait_for_socket "/tmp/.X11-unix/X$num" "${name} xwayland-satellite" "$sat_pid" 500 || exit 1
+
+    # exec makes the app pid 1, so satellite dies with the sandbox
+    export DISPLAY=":$num"
+    exec ${appBin} "$@"
+  '';
+
+  entrypoint = if caps.xwayland then xwaylandLauncher else appBin;
+
   waitForSocketFn = ''
     wait_for_socket() {
       local socket_path="$1"
-      local bus_name="$2"
-      local proxy_pid="$3"
-      for i in $(${pkgs.coreutils}/bin/seq 1 200); do
+      local label="$2"
+      local helper_pid="$3"
+      local ticks="''${4:-200}"
+      for _ in $(${pkgs.coreutils}/bin/seq 1 "$ticks"); do
         [ -S "$socket_path" ] && return 0
-        if [ -n "$proxy_pid" ] && ! kill -0 "$proxy_pid" 2>/dev/null; then
-          echo "error: $bus_name proxy process ($proxy_pid) exited prematurely" >&2
+        if [ -n "$helper_pid" ] && ! kill -0 "$helper_pid" 2>/dev/null; then
+          echo "error: $label ($helper_pid) exited prematurely" >&2
           return 1
         fi
-        sleep 0.01
+        ${pkgs.coreutils}/bin/sleep 0.01
       done
-      echo "warning: $bus_name proxy socket missing after 2s ($socket_path)" >&2
+      echo "error: $label socket missing after $((ticks / 100))s ($socket_path)" >&2
       return 1
     }
   '';
@@ -354,7 +406,7 @@ let
         ${xdgDbusProxy} "$SESSION_BUS" "$PROXY_BUS" --filter ${dbusFlagsStr} &
         SESSION_PROXY_PID=$!
 
-        wait_for_socket "$PROXY_BUS" "session bus" "$SESSION_PROXY_PID" || true
+        wait_for_socket "$PROXY_BUS" "session bus proxy" "$SESSION_PROXY_PID" || true
       fi
     ''}
 
@@ -366,7 +418,7 @@ let
         ${xdgDbusProxy} "unix:path=/run/dbus/system_bus_socket" "$PROXY_SYS_BUS" --filter ${dbusSystemFlagsStr} &
         SYSTEM_PROXY_PID=$!
 
-        wait_for_socket "$PROXY_SYS_BUS" "system bus" "$SYSTEM_PROXY_PID" || true
+        wait_for_socket "$PROXY_SYS_BUS" "system bus proxy" "$SYSTEM_PROXY_PID" || true
       fi
     ''}
 
@@ -383,7 +435,7 @@ let
     exec 3<&0
     ${bwrap} \
       ${argsLines} \
-      -- ${package}/${binPath} "$@" <&3 3<&- &
+      -- ${entrypoint} "$@" <&3 3<&- &
     BWRAP_PID=$!
 
     status=0
