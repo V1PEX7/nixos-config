@@ -95,6 +95,39 @@ let
     ];
   };
 
+  firefoxRu =
+    let
+      stateDir = "${home}/.local/state/sandboxes/firefox-ru";
+    in
+    mkSandbox {
+      name = "firefox-ru";
+      package = import ./apps/firefox-ru { inherit pkgs lib; };
+      binPath = "bin/firefox";
+      preset = "gui-audio";
+      network = true;
+      rwPaths = [
+        "${stateDir}/config"
+        "${stateDir}/cache"
+        "${home}/Downloads"
+      ];
+      extraDbusTalk = commonGuiDbusTalk;
+      extraDbusOwn = commonGuiDbusOwn ++ [
+        "org.mozilla.*"
+      ];
+      extraArgs = [
+        ''--dir "$HOME/.config"''
+        ''--dir "$HOME/.cache"''
+
+        ''--bind "${stateDir}/config" "$HOME/.config/mozilla"''
+        ''--bind "${stateDir}/cache" "$HOME/.cache/mozilla"''
+
+        "--setenv MOZ_ENABLE_WAYLAND 1"
+        "--setenv MOZ_APP_REMOTINGNAME firefox-ru"
+        "--setenv MOZ_LEGACY_PROFILES 1"
+        "--setenv MOZ_NO_REMOTE 1"
+      ];
+    };
+
   qbittorrent = mkSandbox {
     name = "qbittorrent";
     package = pkgs.qbittorrent;
@@ -155,6 +188,7 @@ in
   home.packages = [
     vesktop
     telegram
+    firefoxRu
     qbittorrent
     claude
     codeShell
