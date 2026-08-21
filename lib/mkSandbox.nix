@@ -468,15 +468,17 @@ pkgs.runCommand "${name}-sandboxed-${package.version or "0"}"
         fi
       done
 
+      # Renamed after the sandbox so it cannot collide with an unsandboxed install
       if [ -d ${package}/share/applications ]; then
         mkdir -p $out/share/applications
         for desktop in ${package}/share/applications/*.desktop; do
-          bn=$(${pkgs.coreutils}/bin/basename "$desktop")
+          [ -e "$desktop" ] || continue
           ${pkgs.gnused}/bin/sed -E \
             -e "s|^Exec=[^ ]*|Exec=$out/bin/${name}|" \
             -e "s|^TryExec=.*|TryExec=$out/bin/${name}|" \
+            -e "s|^Name=(.*)|Name=\\1 (${name})|" \
             -e "/^DBusActivatable=/d" \
-            "$desktop" > $out/share/applications/$bn
+            "$desktop" > $out/share/applications/${name}.desktop
         done
       fi
 
