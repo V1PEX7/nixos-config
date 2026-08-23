@@ -116,9 +116,6 @@ in
 
       telescope.enable = true;
 
-      autocomplete.nvim-cmp.enable = true;
-      snippets.luasnip.enable = true;
-
       git = {
         gitsigns.enable = true;
         neogit.enable = true;
