@@ -159,6 +159,8 @@ in
           format.type = [ "nixfmt" ];
         };
         python.enable = true;
+        go.enable = true;
+        rust.enable = true;
         markdown.enable = true;
         bash.enable = true;
       };

@@ -8,6 +8,12 @@
     ))
     uv
 
+    go
+
+    rustc
+    cargo
+    rustfmt
+
     ffmpeg
     yt-dlp
 
