@@ -1,19 +1,9 @@
 {
-  config,
-  lib,
   settings,
-  repoPath,
   ...
 }:
 let
   s = settings;
-
-  dotfilesPath = "${repoPath}/dotfiles";
-  dirContents = builtins.readDir ../dotfiles;
-  mkMutableEntry = name: _: {
-    source = config.lib.file.mkOutOfStoreSymlink "${dotfilesPath}/${name}";
-  };
-
 in
 {
   home.pointerCursor = {
@@ -61,6 +51,4 @@ in
       icon-theme = s.iconTheme.name;
     };
   };
-
-  xdg.configFile = lib.mapAttrs mkMutableEntry dirContents;
 }

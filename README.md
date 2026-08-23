@@ -15,7 +15,7 @@ My NixOS dotfiles. Two machines (desktop + laptop), single user.
 - **browser:** firefox (with Firefox Containers & `resistFingerprinting`)
 - **shell:** zsh (with carapace completions)
 - **file manager:** thunar, yazi
-- **editor:** zed
+- **editor:** neovim (nvf)
 - **music:** mpd + rmpc
 - **video:** mpv
 - **screenshots:** grim + slurp + satty + wayfreeze, OCR via tesseract
@@ -108,7 +108,7 @@ home/
   default.nix              imports themes, settings and home modules
   themes/                  one file per palette + mkTheme, exposed via _module.args
   settings.nix             ui settings (rounding, gaps, blur, animations)
-  common.nix               gtk theme (adw-gtk3), cursor, icons, dotfile linking
+  common.nix               gtk theme (adw-gtk3), cursor, icons
   packages.nix             unsandboxed apps
   sandbox.nix              bwrap-wrapped apps (vesktop, telegram, qbittorrent, steam, code-shell)
   scripts.nix              screenshot helpers, wallpicker (rofi grid), hypr-zoom
@@ -116,8 +116,7 @@ home/
     hyprland.nix           compositor config (lua) + autostart
     hyprlock.nix           lock screen configuration
     hypridle.nix           idle/power management
-  apps/                    foot, fastfetch, firefox, rmpc, rofi, waybar, yazi, zsh, matugen, mime
-dotfiles/                  mutable configs (zed, etc)
+  apps/                    foot, fastfetch, firefox, neovim, rmpc, rofi, waybar, yazi, zsh, matugen, mime
 ```
 
 ## Fair warning

@@ -1,10 +1,6 @@
 { pkgs, ... }:
 {
   home.packages = with pkgs; [
-    zed-editor
-    nixd
-    nixfmt
-
     (python3.withPackages (
       ps: with ps; [
         pyyaml

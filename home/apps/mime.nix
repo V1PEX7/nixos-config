@@ -5,7 +5,7 @@ let
   imageViewer = "swayimg.desktop";
   mediaPlayer = "mpv.desktop";
   archiveManager = "xarchiver.desktop";
-  textEditor = "zed.desktop";
+  textEditor = "nvim.desktop";
 in
 {
   xdg.mimeApps = {
