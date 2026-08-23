@@ -1,10 +1,10 @@
 { pkgs, ... }:
 {
   settings = {
-    theme = "vesper"; # a file in ./themes
+    theme = "rosepine"; # a file in ./themes
 
     terminal = "foot";
-    terminalOpacity = "0.95";
+    terminalOpacity = "0.9";
     terminalPadding = 25;
     gtkTheme = {
       name = "adw-gtk3-dark";
