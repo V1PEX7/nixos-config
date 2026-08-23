@@ -2,10 +2,16 @@
   theme,
   settings,
   inputs,
+  pkgs,
+  hostname,
+  repoPath,
   ...
 }:
 let
   t = theme;
+
+  flake = ''(builtins.getFlake "${repoPath}")'';
+  host = "${flake}.nixosConfigurations.${hostname}";
 in
 {
   imports = [ inputs.nvf.homeManagerModules.default ];
@@ -113,7 +119,10 @@ in
       autocomplete.nvim-cmp.enable = true;
       snippets.luasnip.enable = true;
 
-      git.neogit.enable = true;
+      git = {
+        gitsigns.enable = true;
+        neogit.enable = true;
+      };
 
       binds.whichKey.enable = true;
 
@@ -128,6 +137,14 @@ in
       lsp = {
         enable = true;
         formatOnSave = true;
+
+        servers.nixd.settings.nixd = {
+          nixpkgs.expr = "${flake}.inputs.nixpkgs.legacyPackages.${pkgs.stdenv.hostPlatform.system}";
+          options = {
+            nixos.expr = "${host}.options";
+            home-manager.expr = "${host}.options.home-manager.users.type.getSubOptions [ ]";
+          };
+        };
       };
 
       treesitter = {
@@ -141,6 +158,7 @@ in
 
         nix = {
           enable = true;
+          lsp.servers = [ "nixd" ];
           format.type = [ "nixfmt" ];
         };
         python.enable = true;

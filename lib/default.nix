@@ -10,7 +10,12 @@
     inputs.nixpkgs.lib.nixosSystem {
       inherit system;
       specialArgs = {
-        inherit inputs username repoPath;
+        inherit
+          inputs
+          username
+          repoPath
+          hostname
+          ;
         outputs = inputs.self;
       };
       modules = [
@@ -24,7 +29,12 @@
           home-manager.backupFileExtension = "backup";
           home-manager.overwriteBackup = true;
           home-manager.extraSpecialArgs = {
-            inherit inputs username repoPath;
+            inherit
+              inputs
+              username
+              repoPath
+              hostname
+              ;
             outputs = inputs.self;
           };
           home-manager.users.${username} = {
