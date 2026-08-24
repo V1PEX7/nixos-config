@@ -288,8 +288,7 @@ let
   appBin = "${package}/${binPath}";
 
   # High enough to stay clear of real sessions
-  xDisplayMin = 90;
-  xDisplayMax = 120;
+  xDisplay = 90;
 
   # Private X server on the sandbox's own restricted Wayland socket
   xwaylandLauncher = pkgs.writeShellScript "${name}-xwayland" ''
@@ -299,27 +298,15 @@ let
 
     ${pkgs.coreutils}/bin/mkdir -p /tmp/.X11-unix
 
-    # Abstract sockets are shared via --share-net, so check the host's too
-    num=${toString xDisplayMin}
-    while [ "$num" -lt ${toString xDisplayMax} ]; do
-      if ! ${pkgs.gnugrep}/bin/grep -qE " @?/tmp/\.X11-unix/X$num\$" /proc/net/unix && [ ! -e "/tmp/.X11-unix/X$num" ]; then
-        break
-      fi
-      num=$((num + 1))
-    done
-
-    if [ "$num" -ge ${toString xDisplayMax} ]; then
-      echo "${name}: no free X display in :${toString xDisplayMin}-:${toString (xDisplayMax - 1)}" >&2
-      exit 1
-    fi
-
-    ${pkgs.xwayland-satellite}/bin/xwayland-satellite ":$num" &
+    # -nolisten local drops the abstract socket, leaving only the one under this
+    # sandbox's private /tmp - so the display number collides with nothing
+    ${pkgs.xwayland-satellite}/bin/xwayland-satellite ":${toString xDisplay}" -nolisten local &
     sat_pid=$!
 
-    wait_for_socket "/tmp/.X11-unix/X$num" "${name} xwayland-satellite" "$sat_pid" 500 || exit 1
+    wait_for_socket "/tmp/.X11-unix/X${toString xDisplay}" "${name} xwayland-satellite" "$sat_pid" 500 || exit 1
 
     # exec makes the app pid 1, so satellite dies with the sandbox
-    export DISPLAY=":$num"
+    export DISPLAY=":${toString xDisplay}"
     exec ${appBin} "$@"
   '';
 
