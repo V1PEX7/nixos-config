@@ -70,6 +70,11 @@
     enableZshIntegration = true;
   };
 
+  programs.zoxide = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   programs.carapace = {
     enable = true;
     enableZshIntegration = true;
