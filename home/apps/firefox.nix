@@ -82,7 +82,10 @@
 
       settings = {
         "browser.startup.homepage" = "about:blank";
+        "browser.startup.page" = 0;
+        "browser.startup.homepage_override.mstone" = "ignore";
         "browser.newtabpage.enabled" = false;
+        "browser.newtabpage.activity-stream.default.sites" = "";
         "browser.tabs.inTitlebar" = 1;
 
         "privacy.userContext.enabled" = true;
@@ -93,6 +96,13 @@
         "privacy.trackingprotection.socialtracking.enabled" = true;
 
         "dom.security.https_only_mode" = true;
+        "dom.security.https_only_mode_send_http_background_request" = false;
+
+        "security.ssl.require_safe_negotiation" = true;
+        "security.ssl.treat_unsafe_negotiation_as_broken" = true;
+        "security.tls.enable_0rtt_data" = false;
+        "security.cert_pinning.enforcement_level" = 2;
+        "browser.xul.error_pages.expert_bad_cert" = true;
 
         "network.trr.mode" = 2;
         "network.trr.uri" = "https://dns.quad9.net/dns-query";
@@ -103,6 +113,8 @@
 
         "network.http.speculative-parallel-limit" = 0;
         "network.dns.disablePrefetch" = true;
+        "network.dns.disablePrefetchFromHTTPS" = true;
+        "browser.places.speculativeConnect.enabled" = false;
         "network.prefetch-next" = false;
         "network.predictor.enabled" = false;
         "network.captive-portal-service.enabled" = false;
@@ -118,14 +130,21 @@
 
         "signon.rememberSignons" = false;
         "signon.autofillForms" = false;
+        "signon.formlessCapture.enabled" = false;
+        "network.auth.subresource-http-auth-allow" = 1;
 
         "dom.push.enabled" = false;
         "dom.webnotifications.enabled" = false;
 
         "geo.enabled" = false;
+        "geo.provider.use_geoclue" = false;
 
         "privacy.resistFingerprinting" = true;
-        "privacy.resistFingerprinting.letterboxing" = false;
+        "privacy.resistFingerprinting.letterboxing" = true;
+        "privacy.resistFingerprinting.block_mozAddonManager" = true;
+        "privacy.spoof_english" = 1;
+        "browser.link.open_newwindow" = 3;
+        "browser.link.open_newwindow.restriction" = 0;
 
         "browser.newtabpage.activity-stream.hideLogo" = true;
         "browser.newtabpage.activity-stream.logowordmark.alwaysVisible" = false;
@@ -133,23 +152,50 @@
         "browser.newtabpage.activity-stream.showSponsored" = false;
         "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
         "browser.newtabpage.activity-stream.system.showSponsored" = false;
+        "browser.newtabpage.activity-stream.showSponsoredCheckboxes" = false;
         "browser.newtabpage.activity-stream.feeds.topstories" = false;
         "browser.newtabpage.activity-stream.feeds.snippets" = false;
+        "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+        "browser.newtabpage.activity-stream.telemetry" = false;
+        "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
+        "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
 
+        "browser.urlbar.quicksuggest.enabled" = false;
         "browser.urlbar.suggest.quicksuggest.sponsored" = false;
         "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+        "browser.urlbar.showSearchTerms.enabled" = false;
         "browser.urlbar.trending.featureGate" = false;
         "browser.urlbar.addons.featureGate" = false;
         "browser.urlbar.pocket.featureGate" = false;
         "browser.urlbar.weather.featureGate" = false;
+        "browser.urlbar.amp.featureGate" = false;
+        "browser.urlbar.yelp.featureGate" = false;
+        "browser.urlbar.yelpRealtime.featureGate" = false;
+        "browser.urlbar.mdn.featureGate" = false;
+        "browser.urlbar.wikipedia.featureGate" = false;
+        "browser.urlbar.market.featureGate" = false;
+        "browser.urlbar.importantDates.featureGate" = false;
 
         "datareporting.policy.dataSubmissionPolicyBypassNotification" = true;
 
         "privacy.userContext.newTabContainerOnLeftClick.enabled" = true;
         "browser.discovery.enabled" = false;
+        "browser.uitour.enabled" = false;
+        "extensions.getAddons.showPane" = false;
+        "extensions.htmlaboutaddons.recommendations.enabled" = false;
         "app.normandy.enabled" = false;
+        "app.normandy.api_url" = "";
+        "app.shield.optoutstudies.enabled" = false;
         "breakpad.reportURL" = "";
         "browser.tabs.crashReporting.sendReport" = false;
+        "captivedetect.canonicalURL" = "";
+
+        "network.IDN_show_punycode" = true;
+        "pdfjs.enableScripting" = false;
+        "security.csp.reporting.enabled" = false;
+        "privacy.antitracking.isolateContentScriptResources" = true;
+        "browser.sessionstore.privacy_level" = 2;
+        "browser.helperApps.deleteTempFileOnExit" = true;
 
         "browser.nova.enabled" = true;
       };
