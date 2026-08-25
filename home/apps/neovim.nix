@@ -110,6 +110,7 @@ in
           window = {
             position = "left";
             width = 30;
+            mappings."<space>" = "none";
           };
         };
       };
