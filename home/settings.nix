@@ -28,13 +28,13 @@
 
     workspaces = 9;
 
-    rounding = 5;
+    rounding = 8;
     border_size = 2;
     blur = true;
     shadow = true;
     animations = true;
 
-    gaps_in = 2;
-    gaps_out = 4;
+    gaps_in = 3;
+    gaps_out = 6;
   };
 }
