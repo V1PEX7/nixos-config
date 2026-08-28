@@ -31,6 +31,7 @@
     rounding = 5;
     border_size = 2;
     blur = true;
+    shadow = true;
     animations = true;
 
     gaps_in = 2;

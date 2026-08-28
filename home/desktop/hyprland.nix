@@ -399,7 +399,7 @@ in
             ignore_opacity = true;
           };
           shadow = {
-            enabled = true;
+            enabled = s.shadow;
             range = 10;
             render_power = 3;
             color = t.hypr.shadow;

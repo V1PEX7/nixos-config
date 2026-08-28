@@ -34,6 +34,7 @@ in
     rounding = mkOption { type = types.ints.unsigned; };
     border_size = mkOption { type = types.ints.unsigned; };
     blur = mkOption { type = types.bool; };
+    shadow = mkOption { type = types.bool; };
     animations = mkOption { type = types.bool; };
     gaps_in = mkOption { type = types.ints.unsigned; };
     gaps_out = mkOption { type = types.ints.unsigned; };
