@@ -14,6 +14,7 @@ in
     gaming.enable = lib.mkEnableOption "Gaming (Steam + gamescope)";
     docker.enable = lib.mkEnableOption "Rootless Docker";
     vm.enable = lib.mkEnableOption "VM stack (libvirt + virt-manager)";
+    llm.enable = lib.mkEnableOption "LLM stack (llama.cpp + ROCm)";
   };
 
   config = lib.mkIf cfg.enable (
@@ -89,6 +90,28 @@ in
           ${pkgs.iproute2}/bin/ip rule del to 192.168.122.0/24 lookup main priority 10 2>/dev/null || true
           ${pkgs.iproute2}/bin/ip rule add to 192.168.122.0/24 lookup main priority 10
         '';
+      })
+
+      (lib.mkIf cfg.llm.enable {
+        hardware.graphics = {
+          enable = true;
+          enable32Bit = true;
+        };
+
+        users.users.${username}.extraGroups = [
+          "video"
+          "render"
+        ];
+
+        environment.sessionVariables = {
+          HSA_OVERRIDE_GFX_VERSION = "12.0.1";
+        };
+
+        environment.systemPackages = with pkgs; [
+          (llama-cpp.override { rocmSupport = true; })
+          radeontop
+          rocmPackages.rocm-smi
+        ];
       })
     ]
   );

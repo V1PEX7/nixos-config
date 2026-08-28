@@ -38,6 +38,7 @@
     ];
     apps.gaming.enable = true;
     apps.docker.enable = false;
+    apps.llm.enable = true;
 
     hardening.kernel.strict.enable = false;
   };
