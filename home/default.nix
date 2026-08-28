@@ -21,6 +21,7 @@
     ./apps/yazi.nix
     ./apps/matugen.nix
     ./apps/rofi.nix
+    ./apps/mako.nix
     ./apps/mime.nix
     ./apps/neovim.nix
   ];
