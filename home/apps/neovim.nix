@@ -147,7 +147,6 @@ in
 
       treesitter = {
         enable = true;
-        context.enable = true;
       };
 
       languages = {
