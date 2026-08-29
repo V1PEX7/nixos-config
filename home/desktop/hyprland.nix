@@ -369,6 +369,13 @@ in
           };
           no_anim = true;
         }
+        {
+          name = "mako-noscreenshare";
+          match = {
+            namespace = "^(notifications)$";
+          };
+          no_screen_share = true;
+        }
       ];
 
       config = {
